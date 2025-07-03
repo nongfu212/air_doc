@@ -28,17 +28,17 @@ AirSim 中的汽车
 
 ### Windows
 [![Build Status](https://github.com/microsoft/AirSim/actions/workflows/test_windows.yml/badge.svg)](https://github.com/microsoft/AirSim/actions/workflows/test_windows.yml)
-* [Download binaries](https://github.com/Microsoft/AirSim/releases)
-* [Build it](https://microsoft.github.io/AirSim/build_windows)
+* [下载二进制文件](https://github.com/Microsoft/AirSim/releases)
+* [构建它](https://microsoft.github.io/AirSim/build_windows)
 
 ### Linux
 [![Build Status](https://github.com/microsoft/AirSim/actions/workflows/test_ubuntu.yml/badge.svg)](https://github.com/microsoft/AirSim/actions/workflows/test_ubuntu.yml)
-* [Download binaries](https://github.com/Microsoft/AirSim/releases)
-* [Build it](https://microsoft.github.io/AirSim/build_linux)
+* [下载二进制文件](https://github.com/Microsoft/AirSim/releases)
+* [构建它](https://microsoft.github.io/AirSim/build_linux)
 
 ### macOS
-[![Build Status](https://github.com/microsoft/AirSim/actions/workflows/test_macos.yml/badge.svg)](https://github.com/microsoft/AirSim/actions/workflows/test_macos.yml)
-* [Build it](https://microsoft.github.io/AirSim/build_macos)
+[![构建状态](https://github.com/microsoft/AirSim/actions/workflows/test_macos.yml/badge.svg)](https://github.com/microsoft/AirSim/actions/workflows/test_macos.yml)
+* [构建它](https://microsoft.github.io/AirSim/build_macos)
 
 有关更多详细信息，请参阅 [使用预编译二进制文件](docs/use_precompiled.md) 文档。
 
