@@ -8,7 +8,7 @@
     <a href="https://github.com/OpenHUTB/air/releases">
         <img src="https://img.shields.io/github/v/release/OpenHUTB/air" alt="Releases Badge">
     </a>
-    <a href="https://github.com/OpenHUTB/doc/blob/master/LICENSE">
+    <a href="https://github.com/OpenHUTB/air/blob/master/LICENSE.txt">
         <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License Badge">
     </a>
     <a href="https://github.com/OpenHUTB/air">
