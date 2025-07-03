@@ -1,5 +1,21 @@
 ## AirSim 低空项目
 
+<!-- Badges (flat): https://github.com/pudding0503/github-badge-collection -->
+<p align=center>
+    <a href="https://github.com/OpenHUTB/air/actions">
+        <img src="https://raw.githubusercontent.com/OpenHUTB/doc/refs/heads/master/docs/img/badge.svg" alt="Continuous Integration Badge">
+    </a>
+    <a href="https://github.com/OpenHUTB/air/releases">
+        <img src="https://img.shields.io/github/v/release/OpenHUTB/air" alt="Releases Badge">
+    </a>
+    <a href="https://github.com/OpenHUTB/doc/blob/master/LICENSE">
+        <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License Badge">
+    </a>
+    <a href="https://github.com/OpenHUTB/air">
+        <img src="https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-lightgrey" alt="Supported Platforms Badge">
+    </a>
+</p>
+
 2017年，微软研究院创建了AirSim，作为人工智能研究和实验的模拟平台。五年来，这个研究项目已实现其目标，并取得了长足进展——成为共享研究代码和测试空中人工智能开发与模拟新想法的常用方式。此外，时间也推动了我们将技术应用于现实世界的方式不断进步，尤其是在空中机动和自主系统方面。例如，无人机送货不再是科幻故事，而是商业现实，这意味着新的需求需要满足。我们在此过程中收获颇丰，并感谢社区成员一直以来的积极参与。
 
 本着不断发展的精神，我们将在明年发布一个全新的模拟平台，并随后存档原版 2017 年 AirSim。此后，用户仍然可以访问原版 AirSim 代码，但不会立即进行任何更新。我们将专注于开发一款名为 Microsoft Project AirSim 的新产品，以满足航空航天业日益增长的需求。Project AirSim 将提供一个端到端平台，用于通过模拟安全地开发和测试自主飞行技术。用户将受益于商业产品独有的安全、代码审查、测试、高级模拟和人工智能功能。随着 Project AirSim 发布的临近，我们将提供学习工具和功能，帮助您迁移到新平台并指导您使用产品。如需了解更多关于使用全新 Project AirSim 构建自主飞行技术的信息，请访问 [https://aka.ms/projectairsim](https://aka.ms/projectairsim) 。
