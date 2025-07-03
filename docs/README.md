@@ -75,7 +75,7 @@ AirSim 提供 API，方便您在模拟中以编程方式与飞行器进行交互
 
 您可以通过两种方式从 AirSim 生成用于深度学习的训练数据。最简单的方法是直接按下右下角的“录制”按钮。这将开始记录每一帧的姿势和图像。数据记录代码非常简单，您可以根据自己的喜好进行修改。
 
-![record screenshot](docs/images/record_data.png)
+![record screenshot](images/record_data.png)
 
 按照您所需的方式生成训练数据的更好方法是访问 API。这使您可以完全控制记录数据的方式、内容、位置和时间。
 
@@ -89,7 +89,7 @@ AirSim 的另一种使用方式是所谓的“计算机视觉”模式。在此�
 
 按 F10 查看各种可用的天气效果选项。您还可以使用 [APIs](https://microsoft.github.io/AirSim/apis#weather-apis) 控制天气。按 F1 查看其他可用选项。
 
-![record screenshot](docs/images/weather_menu.png)
+![record screenshot](images/weather_menu.png)
 
 ## 教程
 
