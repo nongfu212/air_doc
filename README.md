@@ -1,8 +1,14 @@
-低空模拟器
+# 低空模拟器
 
-问题
+该项目主要介绍飞行汽车、四旋翼无人机等低空飞行器，为 [人车模拟器文档](https://openhutb.github.io) 的一部分。
 
-ERROR: No matching distribution found for pymdownx
+## 部署
 
-解决：
-pip install pymdown-extensions --force
+详细部署方案请参考 [人车模拟器仓库](https://github.com/OpenHUTB/doc) 。
+
+## 问题
+
+##### Codespace运行报错：ERROR: No matching distribution found for pymdownx
+
+> 解决：
+> `pip install pymdown-extensions --force`
