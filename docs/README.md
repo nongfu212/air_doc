@@ -1,4 +1,4 @@
-## AirSim 低空项目
+## 低空模拟器
 
 <!-- Badges (flat): https://github.com/pudding0503/github-badge-collection -->
 <p align=center>
@@ -119,7 +119,7 @@ AirSim 的另一种使用方式是所谓的“计算机视觉”模式。在此�
 
 ## 参加
 
-### Paper
+### 论文
 
 更多技术细节请参阅 [AirSim 论文（FSR 2017 会议）)](https://arxiv.org/abs/1705.05065) 。请引用：
 
