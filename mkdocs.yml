@@ -83,55 +83,55 @@ nav:
     - "飞行控制器": 'flight_controller.md'
     - "简单飞行": 'simple_flight.md'
     - "Hello Drone": 'hello_drone.md'
-  - "External Flight Controllers":
-    - "MavLink and PX4":
-      - "PX4 Setup for AirSim": 'px4_setup.md'
-      - "PX4 in SITL": 'px4_sitl.md'
-      - "PX4 SITL with WSL 2": 'px4_sitl_wsl2.md'
+  - "外部飞行控制器":
+    - "MavLink 和 PX4":
+      - "AirSim 的 PX4 设置": 'px4_setup.md'
+      - "软件在环中的 PX4": 'px4_sitl.md'
+      - "带有 WSL 2 的 PX4 SITL": 'px4_sitl_wsl2.md'
       - "PX4 Lockstep": 'px4_lockstep.md'
-      - "PX4 Multi-vehicle in SITL": 'px4_multi_vehicle.md'
-      - "AirSim with Pixhawk": 'https://youtu.be/1oY8Qu5maQQ'
-      - "PX4 Setup with AirSim": 'https://youtu.be/HNWdYrtw3f0'
-      - "Debugging Attitude Estimation": 'https://www.youtube.com/watch?v=d_FyjKDWQfc&feature=youtu.be'
-      - "Intercepting MavLink Messages": 'https://github.com/Microsoft/AirSim/wiki/Intercepting-MavLink-messages'
-      - "Rapid Descent on PX4 Drones": 'https://github.com/Microsoft/AirSim/wiki/Rapid-Descent-on-PX4-drones'
-      - "Building PX4": "px4_build.md"
-      - "PX4/MavLink Logging": 'px4_logging.md'
-      - "MavLink LogViewer": "log_viewer.md"
+      - "软件在环中的 PX4 多车辆": 'px4_multi_vehicle.md'
+      - "AirSim 与 Pixhawk": 'https://youtu.be/1oY8Qu5maQQ'
+      - "使用 AirSim 设置 PX4": 'https://youtu.be/HNWdYrtw3f0'
+      - "调试姿态估计": 'https://www.youtube.com/watch?v=d_FyjKDWQfc&feature=youtu.be'
+      - "拦截 MavLink 消息": 'https://github.com/Microsoft/AirSim/wiki/Intercepting-MavLink-messages'
+      - "PX4 无人机快速下降": 'https://github.com/Microsoft/AirSim/wiki/Rapid-Descent-on-PX4-drones'
+      - "构建 PX4": "px4_build.md"
+      - "PX4/MavLink 日志记录": 'px4_logging.md'
+      - "MavLink 日志查看器": "log_viewer.md"
       - "MavLinkCom": 'mavlinkcom.md'
       - "MavLink MoCap": 'mavlinkcom_mocap.md'
     - "ArduPilot":
-      - "ArduPilot SITL Setup": "https://ardupilot.org/dev/docs/building-the-code.html"
+      - "ArduPilot 软件在环设置": "https://ardupilot.org/dev/docs/building-the-code.html"
       - "AirSim & ArduPilot": "https://ardupilot.org/dev/docs/sitl-with-airsim.html"
   - "升级":
-    - "Upgrading Unreal": 'unreal_upgrade.md'
-    - "Upgrading APIs": 'upgrade_apis.md'
-    - "Upgrading Settings": 'upgrade_settings.md'
-  - "Contributed Tutorials":
-    - "Reinforcement Learning": 'reinforcement_learning.md'
-    - "Using Environments from Marketplace": 'https://www.youtube.com/watch?v=y09VbdQWvQY'
-    - "Simple Collision Avoidance": 'https://github.com/simondlevy/AirSimTensorFlow'
-    - "Autonomous Driving on Azure": 'https://aka.ms/AutonomousDrivingCookbook'
-    - "Building Hexacopter": 'https://github.com/Microsoft/AirSim/wiki/hexacopter'
-    - "Moving on Path Demo": 'https://github.com/Microsoft/AirSim/wiki/moveOnPath-demo'
-    - "Building Point Clouds": 'point_clouds.md'
-    - "Surveying Using Drone": 'drone_survey.md'
-    - "Orbit Trajectory": "orbit.md"
-    - "Importing a custom multirotor mesh": 'https://youtu.be/Bp86WiLUC80'
+    - "升级虚幻引擎": 'unreal_upgrade.md'
+    - "升级 APIs": 'upgrade_apis.md'
+    - "升级设置": 'upgrade_settings.md'
+  - "贡献教程":
+    - "强化学习": 'reinforcement_learning.md'
+    - "使用 Marketplace 中的环境": 'https://www.youtube.com/watch?v=y09VbdQWvQY'
+    - "简单的防撞": 'https://github.com/simondlevy/AirSimTensorFlow'
+    - "Azure 上的自动驾驶": 'https://aka.ms/AutonomousDrivingCookbook'
+    - "建造六旋翼直升机": 'https://github.com/Microsoft/AirSim/wiki/hexacopter'
+    - "移动路径演示": 'https://github.com/Microsoft/AirSim/wiki/moveOnPath-demo'
+    - "构建点云": 'point_clouds.md'
+    - "使用无人机进行测量": 'drone_survey.md'
+    - "轨道轨迹": "orbit.md"
+    - "导入自定义多旋翼网格": 'https://youtu.be/Bp86WiLUC80'
     - "Object Detection": "object_detection.md"
-    - "AirSim with MAVROS and PX4": 'https://youtu.be/ZonkdMcwXH4'
-  - "Misc":
-    - "AirSim on Real Drones": 'custom_drone.md'
-    - "Installing cmake on Linux": 'cmake_linux.md'
-    - "Tips for Busy HDD": 'hard_drive.md'
-    - "pfm format": 'pfm.md'
-    - "Setting up Unreal Environment": 'unreal_proj.md'
-    - "Blocks Environment": 'unreal_blocks.md'
-    - "Who is Using AirSim": 'who_is_using.md'
-    - "Working with UE Plugin Contents": 'working_with_plugin_contents.md'
-    - "Formula Student Technion Self-drive": 'https://github.com/Microsoft/AirSim/wiki/technion'
-  - "Support":
+    - "带有 MAVROS 和 PX4 的 AirSim": 'https://youtu.be/ZonkdMcwXH4'
+  - "杂项":
+    - "真实无人机上的 AirSim": 'custom_drone.md'
+    - "在 Linux 上安装 cmake": 'cmake_linux.md'
+    - "硬盘繁忙时的提示": 'hard_drive.md'
+    - "pfm 格式": 'pfm.md'
+    - "设置虚幻引擎环境": 'unreal_proj.md'
+    - "Blocks 环境": 'unreal_blocks.md'
+    - "谁在使用 AirSim": 'who_is_using.md'
+    - "使用 UE 插件内容": 'working_with_plugin_contents.md'
+    - "大学生方程式赛车以色列理工学院自驾赛": 'https://github.com/Microsoft/AirSim/wiki/technion'
+  - "支持":
     - "FAQ": 'faq.md'
-    - "Support": 'SUPPORT.md'
-    - "Create Issue": 'create_issue.md'
-    - "Contribute": 'CONTRIBUTING.md'
+    - "支持": 'SUPPORT.md'
+    - "创建问题": 'create_issue.md'
+    - "贡献": 'CONTRIBUTING.md'
