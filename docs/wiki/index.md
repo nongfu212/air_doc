@@ -10,11 +10,11 @@
 * 使用虚幻 PixelStreamer 捕捉视频
 * 使用 AirSim 训练 Formula Student Technion 赛车
 * [建造六旋翼飞行器](hexacopter.md)
-* MoveOnPath 演示
+* [无人机沿着路径移动(moveOnPath)演示](moveOnPath-demo.md)
 * 构建点云
 * 调试姿态估计
 * 拦截 Mavlink 消息
-* 实施无人机调查脚本
+* [实施无人机调查脚本](Implementing-a-Drone-Survey-script.md)
 * PX4 无人机快速下降
 
 

@@ -124,7 +124,7 @@ static void initializeRotorHexX(vector<RotorPose>& rotor_poses /* the result we 
 <!--
 mp4 转 gif: https://convertio.co/zh/mp4-gif/
 -->
-现在您只需让它飞起来即可！是的，它成功了 :-) [点击此处观看演示视频](https://github.com/Microsoft/AirSim/wiki/images/Hex.mp4)。
+现在您只需让它飞起来即可！是的，它成功了 :-) 
 
 ![](../images/wiki/Hex.gif)
 

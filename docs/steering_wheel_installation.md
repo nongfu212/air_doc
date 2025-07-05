@@ -1,10 +1,10 @@
-# Logitech G920 Steering Wheel Installation
+# 罗技 G920 方向盘安装
 
-To use Logitech G920 steering wheel with AirSim follow these steps:
+要将 Logitech G920 方向盘与 AirSim 配合使用，请按照以下步骤操作：
 
-1. Connect the steering wheel to the computer and wait until drivers installation complete.
+1. 将方向盘连接到计算机并等待驱动程序安装完成。
 
-2. Install Logitech Gaming Software from [here](http://support.logitech.com/en_us/software/lgs)
+2. 从 [这里](http://support.logitech.com/en_us/software/lgs) 安装 Logitech 游戏软件
 
 3. Before debug, you’ll have to normalize the values in AirSim code. Perform this changes in CarPawn.cpp (according to the current update in the git):  
   In line 382, change “Val” to “1 – Val”. (the complementary value in the range [0.0,1.0]).  
