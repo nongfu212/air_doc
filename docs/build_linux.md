@@ -1,25 +1,25 @@
-# Build AirSim on Linux
+# 在 Linux 上构建 AirSim
 
-The current recommended and tested environment is **Ubuntu 18.04 LTS**. Theoretically, you can build on other distros as well, but we haven't tested it.
+目前推荐并测试的环境是 **Ubuntu 18.04 LTS**。理论上，你也可以在其他发行版上进行构建，但我们尚未测试。
 
-We've two options - you can either build inside docker containers or your host machine.
+我们有两个选择 - 您可以在 docker 容器或主机内构建。
 
 ## Docker
 
-Please see instructions [here](docker_ubuntu.md)
+请参阅 [此处](docker_ubuntu.md) 的说明
 
-## Host machine
+## 主机
 
-### Pre-build Setup
+### 预构建设置
 
-#### Build Unreal Engine
+#### 构建虚幻引擎
 
-- Make sure you are [registered with Epic Games](https://docs.unrealengine.com/en-US/SharingAndReleasing/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/index.html). This is required to get source code access for Unreal Engine.
+- 确保你已 [在 Epic Games 注册](https://docs.unrealengine.com/en-US/SharingAndReleasing/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/index.html) 。这是获取虚幻引擎源代码访问权限的必要条件。
 
-- Clone Unreal in your favorite folder and build it (this may take a while!). **Note**: We only support Unreal >= 4.27 at present. We recommend using 4.27.
+- 将虚幻引擎克隆到您常用的文件夹中并构建（这可能需要一些时间！）。**注意**：我们目前仅支持虚幻引擎 4.27 及以上版本。建议使用 4.27 版本。
 
 ```bash
-# go to the folder where you clone GitHub projects
+# 前往克隆 GitHub 项目的文件夹
 git clone -b 4.27 git@github.com:EpicGames/UnrealEngine.git
 cd UnrealEngine
 ./Setup.sh
@@ -27,45 +27,47 @@ cd UnrealEngine
 make
 ```
 
-### Build AirSim
+### 构建 AirSim
 
-- Clone AirSim and build it:
+- 克隆 AirSim 并构建它：
 
 ```bash
-# go to the folder where you clone GitHub projects
+# 前往克隆 GitHub 项目的文件夹
 git clone https://github.com/Microsoft/AirSim.git
 cd AirSim
 ```
 
-By default AirSim uses clang 8 to build for compatibility with UE 4.27. The setup script will install the right version of cmake, llvm, and eigen.
+默认情况下，AirSim 使用 clang 8 进行构建，以兼容 UE 4.27。安装脚本将安装正确版本的 cmake、llvm 和 eigen。
 
 ```bash
 ./setup.sh
 ./build.sh
-# use ./build.sh --debug to build in debug mode
+# 使用 ./build.sh --debug 以调试模式构建
 ```
 
-### Build Unreal Environment
+### 构建虚幻环境
 
-Finally, you will need an Unreal project that hosts the environment for your vehicles. AirSim comes with a built-in "Blocks Environment" which you can use, or you can create your own. Please see [setting up Unreal Environment](unreal_proj.md) if you'd like to setup your own environment.
+最后，您需要一个虚幻项目来托管您的车辆环境。AirSim 自带一个内置的“Blocks 环境”，您可以使用它，也可以创建自己的环境。如果您想设置自己的环境，请参阅 [设置虚幻环境](unreal_proj.md) 。
 
-## How to Use AirSim
 
-Once AirSim is setup:
+## 如何使用 AirSim
 
-- Go to `UnrealEngine` installation folder and start Unreal by running `./Engine/Binaries/Linux/UE4Editor`.
-- When Unreal Engine prompts for opening or creating project, select Browse and choose `AirSim/Unreal/Environments/Blocks` (or your [custom](unreal_custenv.md) Unreal project).
-- Alternatively, the project file can be passed as a commandline argument. For Blocks: `./Engine/Binaries/Linux/UE4Editor <AirSim_path>/Unreal/Environments/Blocks/Blocks.uproject`
-- If you get prompts to convert project, look for More Options or Convert-In-Place option. If you get prompted to build, choose Yes. If you get prompted to disable AirSim plugin, choose No.
-- After Unreal Editor loads, press Play button.
+一旦设置了 AirSim：
 
-See [Using APIs](apis.md) and [settings.json](settings.md) for various options available for AirSim usage.
+- 转到 `UnrealEngine` 安装文件夹并通过运行 `./Engine/Binaries/Linux/UE4Editor` 启动虚幻编辑器。
+- 当虚幻引擎提示打开或创建项目时，选择浏览并选择 `AirSim/Unreal/Environments/Blocks`（或您的 [自定义](unreal_custenv.md) 虚幻项目）。
+- 或者，可以将项目文件作为命令行参数传递。对于 Blocks：`./Engine/Binaries/Linux/UE4Editor <AirSim_path>/Unreal/Environments/Blocks/Blocks.uproject`
+- 如果系统提示您转换项目，请查找“更多选项”或“就地转换”选项。如果系统提示您构建，请选择“是”。如果系统提示您禁用 AirSim 插件，请选择“否”。
+- 虚幻编辑器加载后，按播放(Play)按钮。
 
-!!! tip
-Go to 'Edit->Editor Preferences', in the 'Search' box type 'CPU' and ensure that the 'Use Less CPU when in Background' is unchecked.
+请参阅 [使用 API](apis.md)  和 [settings.json](settings.md) 了解可用于 AirSim 的各种选项。
 
-### [Optional] Setup Remote Control (Multirotor Only)
+!!! 提示
+转到“编辑->编辑器首选项”，在“搜索”框中输入“CPU”，并确保未选中“在后台时使用较少的 CPU”(Use Less CPU when in Background)。 
 
-A remote control is required if you want to fly manually. See the [remote control setup](remote_control.md) for more details.
+### [可选] 设置遥控器（仅限多旋翼飞行器）
 
-Alternatively, you can use [APIs](apis.md) for programmatic control or use the so-called [Computer Vision mode](image_apis.md) to move around using the keyboard.
+如需手动飞行，则需要遥控器。更多详情，请参阅 [遥控器设置](remote_control.md) 。
+
+或者，您可以使用 [API](apis.md) 进行编程控制，或者使用所谓的 [计算机视觉模式](image_apis.md) 通过键盘移动。
+

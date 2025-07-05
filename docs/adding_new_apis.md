@@ -1,12 +1,13 @@
-# Adding New APIs to AirSim
+# 向 AirSim 添加新的 API
 
-Adding new APIs requires modifying the source code. Much of the changes are mechanical and required for various levels of abstractions that AirSim supports. The main files required to be modified are described below along with some commits and PRs for demonstration. Specific sections of the PRs or commits might be linked in some places, but it'll be helpful to have a look at the entire diff to get a better sense of the workflow. Also, don't hesitate in opening an issue or a draft PR also if unsure about how to go about making changes or to get feedback.
+添加新的 API 需要修改源代码。许多更改是机械的，并且是 AirSim 支持的各个抽象级别所必需的。下面列出了需要修改的主要文件，并附上了一些提交和 PR 以供演示。PR 或提交的特定部分可能在某些地方有链接，但查看完整的 diff 有助于更好地了解工作流程。此外，如果您不确定如何进行更改或需要获取反馈，请随时提交问题或 PR 草稿。
 
-## Implementing the API
 
-Before adding the wrapper code to call and handle the API, it needs to be implemented first. The exact files where this will occur varies depending on what it does. Few examples are given below which might help you in getting started.
+## 实现 API
 
-### Vehicle-based APIs
+在添加包装器代码来调用和处理 API 之前，需要先实现它。具体实现的文件取决于它的具体功能。下面给出了一些示例，希望能帮助您入门。
+
+### 基于车辆的 API
 
 `moveByVelocityBodyFrameAsync` API for velocity-based movement in the multirotor's X-Y frame.
 
@@ -14,7 +15,7 @@ The main implementation is done in [MultirotorBaseApi.cpp](https://github.com/mi
 
 In some cases, additional structures might be needed for storing data, [`getRotorStates` API](https://github.com/microsoft/AirSim/pull/3242) is a good example for this, here the `RotorStates` struct is defined in 2 places for conversion from RPC to internal code. It also requires modifications in AirLib as well as Unreal/Plugins for the implementation.
 
-### Environment-related APIs
+### 环境相关的 API
 
 These APIs need to interact with the simulation environment itself, hence it's likely that it'll be implemented inside the `Unreal/Plugins` folder.
 
@@ -22,11 +23,12 @@ These APIs need to interact with the simulation environment itself, hence it's l
 
 - `simAddVehicle` API to create vehicles at runtime - [SimMode*, WorldSimApi files](https://github.com/microsoft/AirSim/pull/2390/files#diff-fcc0aa1fbc74a924fccd12589295aceeea59074c94256eccba7df3ce85d3a26c)
 
-### Physics-related APIs
+### 物理相关的 API
 
-`simSetWind` API shows an example of modifying the physics behaviour and adding an API + settings field for the same. See [the PR](https://github.com/microsoft/AirSim/pull/2867) for details about the code.
+`simSetWind` API 展示了一个修改物理行为并为其添加 API + 设置字段的示例。有关代码的详细信息，请参阅 [PR](https://github.com/microsoft/AirSim/pull/2867)。
 
-## RPC Wrappers
+
+## RPC 包装器
 
 The APIs use [msgpack-rpc protocol](https://github.com/msgpack-rpc/msgpack-rpc) over TCP/IP through [rpclib](http://rpclib.net/) developed by [TamÃ¡s Szelei](https://github.com/sztomi) which allows you to use variety of programming languages including C++, C#, Python, Java etc. When AirSim starts, it opens port 41451 (this can be changed via [settings](settings.md)) and listens for incoming request. The Python or C++ client code connects to this port and sends RPC calls using [msgpack serialization format](https://msgpack.org).
 
@@ -38,16 +40,15 @@ To add the RPC code to call the new API, follow the steps below. Follow the impl
 
 3. Add the Python client API method in [client.py](https://github.com/microsoft/AirSim/blob/main/PythonClient/airsim/client.py). If needed, add or modify a structure definition in [types.py](https://github.com/microsoft/AirSim/blob/main/PythonClient/airsim/types.py)
 
-## Testing
+## 测试
 
-Testing is required to ensure that the API is working as expected. For this, as expected, you'll have to use the source-built AirSim and Blocks environment. Apart from this, if using the Python APIs, you'll have to use the `airsim` package from source rather than the PyPI package. Below are 2 ways described to go about using the package from source -
+需要进行测试以确保 API 能够按预期运行。为此，您必须使用源代码构建的 AirSim 和 Blocks 环境。此外，如果使用 Python API，则必须使用源代码中的 `airsim` 软件包，而不是 PyPI 软件包。以下介绍了 2 种使用源代码软件包的方法
 
-1. Use [setup_path.py](https://github.com/microsoft/AirSim/blob/main/PythonClient/multirotor/setup_path.py). It will setup the path such that the local airsim module is used instead of the pip installed package. This is the method used in many of the scripts since the user doesn't need to do anything other than run the script.
-    Place your example script in one of the folders inside `PythonClient` like `multirotor`, `car`, etc. You can also create one to keep things separate, and copy the `setup_path.py` file from another folder.
-    Add `import setup_path` before `import airsim` in your files. Now the latest main API (or any branch currently checked out) will be used.
+1. 使用 [setup_path.py](https://github.com/microsoft/AirSim/blob/main/PythonClient/multirotor/setup_path.py) 。它将设置路径，以便使用本地 airsim 模块而不是 pip 安装的软件包。许多脚本都使用这种方法，因为用户除了运行脚本之外无需执行任何其他操作。将示例脚本放在 `PythonClient` 中的某个文件夹中，例如 `multirotor`、`car` 等。您也可以创建一个单独的文件夹，然后从其他文件夹复制 `setup_path.py` 文件。在文件中的 `import airsim` 之前添加 `import setup_path`。现在将使用最新的主 API（或当前检出的任何分支）。 
 
-2. Use a [local project pip install](https://pip.pypa.io/en/stable/cli/pip_install/#local-project-installs). Regular install would create a copy of the current source and use it, whereas Editable install (`pip install -e .` from inside the `PythonClient` folder) would change the package whenever the Python API files are changed. Editable install has the benefit when working on several branches or API is not finalized.
+2. 使用 [本地项目 pip install](https://pip.pypa.io/en/stable/cli/pip_install/#local-project-installs) 。常规安装会创建当前源的副本并使用它，而可编辑安装（在 `PythonClient` 文件夹中执行 `pip install -e .` ）则会在 Python API 文件发生更改时更改包。在处理多个分支或 API 尚未最终确定时，可编辑安装更具优势。
 
-It is recommended to use a virtual environment for dealing with Python packaging so as to not break any existing setup.
+建议使用虚拟环境来处理 Python 打包，以免破坏任何现有设置。
 
-When opening a PR, make sure to follow the [coding guidelines](coding_guidelines.md). Also add a docstring for the API in the Python files, and please include any example scripts and settings required in the script as well.
+提交 PR 时，请务必遵循 [编码指南](coding_guidelines.md) 。此外，请在 Python 文件中添加 API 的文档字符串，并包含脚本中所需的所有示例脚本和设置。
+

@@ -1,16 +1,16 @@
-# AirSim on Docker in Linux
-We've two options for docker. You can either build an image for running [airsim linux binaries](#binaries), or for compiling Unreal Engine + AirSim [from source](#source)
+# Linux 中 Docker 上的 AirSim
+我们有 2 种 Docker 选项。您可以构建镜像来运行 AirSim Linux 二进制文件，也可以 [从源代码](#source) 编译虚幻引擎 + AirSim。
 
-## Binaries
-#### Requirements:
-- Install [nvidia-docker2](https://github.com/NVIDIA/nvidia-docker#quickstart)
+## 二进制文件
+#### 要求：
+- 安装 [nvidia-docker2](https://github.com/NVIDIA/nvidia-docker#quickstart)
 
-#### Build the docker image
-- Below are the default arguments.
-  `--base_image`: This is image over which we'll install airsim. We've tested on Ubuntu 18.04 with CUDA 10.0.
-   You can specify any [NVIDIA cudagl](https://hub.docker.com/r/nvidia/cudagl/) at your own risk.
-   `--target_image` is the desired name of your docker image.
-   Defaults to `airsim_binary` with same tag as the base image
+#### 构建 docker 镜像
+- 以下是默认参数。
+
+  `--base_image`: 这是我们将安装 airsim 的镜像。我们已经在 Ubuntu 18.04 和 CUDA 10.0 上测试过。您可以自行承担风险，指定任何 [NVIDIA cudagl](https://hub.docker.com/r/nvidia/cudagl/) 版本。
+
+   `--target_image` 是你的 Docker 镜像的名称。默认为 `airsim_binary`，标签与基础镜像相同。
 
 ```bash
 $ cd Airsim/docker;
@@ -19,42 +19,38 @@ $ python build_airsim_image.py \
    --target_image=airsim_binary:10.0-devel-ubuntu18.04
 ```
 
-- Verify you have an image by:
+- 通过以下方式验证您是否有镜像：
  `$ docker images | grep airsim`
 
-#### Running an unreal binary inside a docker container
-- Get [a Linux binary](https://github.com/Microsoft/AirSim/releases) or package your own project in Ubuntu.
-Let's take the Blocks binary as an example.
-You can download it by running
+#### 在 Docker 容器内运行虚幻二进制文件
+- 获取 [Linux 二进制文件](https://github.com/Microsoft/AirSim/releases) 或在 Ubuntu 中打包你自己的项目。我们以 Blocks 二进制文件为例。你可以运行以下命令下载它：
 
 ```bash
    $ cd Airsim/docker;
    $ ./download_blocks_env_binary.sh
 ```
 
-Modify it to fetch the specific binary required.
+修改它以获取所需的特定二进制文件。
 
-- Running an unreal binary inside a docker container
-   The syntax is:
+- 在 Docker 容器内运行虚幻二进制文件。语法如下：
 
 ```bash
    $ ./run_airsim_image_binary.sh DOCKER_IMAGE_NAME UNREAL_BINARY_SHELL_SCRIPT UNREAL_BINARY_ARGUMENTS -- headless
 ```
 
-   For Blocks, you can do a `$ ./run_airsim_image_binary.sh airsim_binary:10.0-devel-ubuntu18.04 Blocks/Blocks.sh -windowed -ResX=1080 -ResY=720`
+   对于 Blocks，您可以执行 `$ ./run_airsim_image_binary.sh airsim_binary:10.0-devel-ubuntu18.04 Blocks/Blocks.sh -windowed -ResX=1080 -ResY=720`
 
-   * `DOCKER_IMAGE_NAME`: Same as `target_image` parameter in previous step. By default, enter `airsim_binary:10.0-devel-ubuntu18.04`
-   * `UNREAL_BINARY_SHELL_SCRIPT`: for Blocks enviroment, it will be `Blocks/Blocks.sh`
+   * `DOCKER_IMAGE_NAME`: 与上一步 `target_image` 参数相同，默认输入 `airsim_binary:10.0-devel-ubuntu18.04`
+   * `UNREAL_BINARY_SHELL_SCRIPT`: 对于 Blocks 环境，它将是 `Blocks/Blocks.sh`
    * [`UNREAL_BINARY_ARGUMENTS`](https://docs.unrealengine.com/en-us/Programming/Basics/CommandLineArguments):
-      For airsim, most relevant would be `-windowed`, `-ResX`, `-ResY`. Click on link to see all options.
+      对于 airsim 来说，最相关的选项是 `-windowed`, `-ResX`, `-ResY`。点击链接查看所有选项。
 
-  * Running in Headless mode:
-      Suffix `-- headless` at the end:
+  * 无头模式下运行：最后的后缀为 `-- headless`：
 ```bash
 $ ./run_airsim_image_binary.sh Blocks/Blocks.sh -- headless
 ```
 
-- [Specifying a `settings.json`](#specifying-settingsjson)
+- [指定 `settings.json`](#specifying-settingsjson)
 
 ## Source
 #### Requirements:

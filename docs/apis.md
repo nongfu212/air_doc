@@ -1,7 +1,9 @@
 ﻿# AirSim APIs
 
-## Introduction
-AirSim exposes APIs so you can interact with vehicle in the simulation programmatically. You can use these APIs to retrieve images, get state, control the vehicle and so on.
+## 介绍
+
+AirSim 提供 API，方便您以编程方式与模拟中的车辆进行交互。您可以使用这些 API 来检索图像、获取状态、控制车辆等等。
+
 
 ## Python Quickstart
 If you want to use Python to call AirSim APIs, we recommend using Anaconda with Python 3.5 or later versions however some code may also work with Python 2.7 ([help us](CONTRIBUTING.md) improve compatibility!).
@@ -81,7 +83,7 @@ while True:
 ```
 
 ## Hello Drone
-Here's how to use AirSim APIs using Python to control simulated quadrotor (see also [C++ example](apis_cpp.md#hello_drone)):
+下面介绍了如何使用 Python 的 AirSim API 来控制模拟四旋翼飞行器（另请参阅 [ C++ 示例](apis_cpp.md#hello_drone)）：
 
 ```python
 # ready to run example: PythonClient/multirotor/hello_drone.py
@@ -287,9 +289,9 @@ Generally speaking, APIs therefore shouldn't allow you to do something that cann
 
 The AirLib is self-contained library that you can put on an offboard computing module such as the Gigabyte barebone Mini PC. This module then can talk to the flight controllers such as PX4 using exact same code and flight controller protocol. The code you write for testing in the simulator remains unchanged. See [AirLib on custom drones](custom_drone.md).
 
-## Adding New APIs to AirSim
+## 向 AirSim 添加新的 API
 
-See the [Adding New APIs](adding_new_apis.md) page
+请参阅 [添加新 API](adding_new_apis.md)  页面
 
 ## References and Examples
 

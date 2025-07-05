@@ -1,35 +1,39 @@
-# Creating and Setting Up Unreal Environment
-This page contains the complete instructions start to finish for setting up Unreal environment with AirSim. The Unreal Marketplace has [several environment](https://www.unrealengine.com/marketplace/content-cat/assets/environments) available that you can start using in just few minutes. It is also possible to use environments available on websites such as [turbosquid.com](https://www.turbosquid.com/) or [cgitrader.com](https://www.cgtrader.com/) with bit more effort (here's [tutorial video](https://www.youtube.com/watch?v=y09VbdQWvQY&feature)). In addition there also several [free environments](https://github.com/Microsoft/AirSim/issues/424) available.
+# 创建和设置虚幻环境
 
-Below we will use a freely downloadable environment from Unreal Marketplace called Landscape Mountain but the steps are same for any other environments.
+本页包含使用 AirSim 设置虚幻环境的完整说明。虚幻商城 (Unreal Marketplace) 提供了 [多个环境](https://www.unrealengine.com/marketplace/content-cat/assets/environments) ，您只需几分钟即可开始使用。您也可以使用 [turbosquid.com](https://www.turbosquid.com/) 或 [cgitrader.com](https://www.cgtrader.com/) 等网站上提供的环境，但需要稍加努力（点击此处观看 [教程视频](https://www.youtube.com/watch?v=y09VbdQWvQY&feature) ）。此外，还有几个 [免费环境](https://github.com/Microsoft/AirSim/issues/424) 可供使用。
 
-## Note for Linux Users
-There is no `Epic Games Launcher` for Linux which means that if you need to create custom environment, you will need Windows machine to do that. Once you have Unreal project folder, just copy it over to your Linux machine.
 
-## Step by Step Instructions
+下面我们将使用虚幻市场中可免费下载的环境，名为 Landscape Mountain，但对于其他环境，步骤都是相同的。
 
-1. Make sure AirSim is built and Unreal 4.27 is installed as described in [build instructions](build_windows.md).
-1. In `Epic Games Launcher` click the Learn tab then scroll down and find `Landscape Mountains`. Click the `Create Project` and download this content (~2GB download).
+
+## Linux 用户须知
+
+Linux 上没有 `Epic Games Launcher`，这意味着如果您需要创建自定义环境，则需要 Windows 设备来执行此操作。获取 Unreal 项目文件夹后，只需将其复制到您的 Linux 设备上即可。
+
+## 分步说明
+
+1. 确保已构建 AirSim 并已安装 Unreal 4.27，如 [构建说明](build_windows.md) 中所述。
+2. 在 `Epic Games Launcher` 中，点击“Learn”选项卡，向下滚动找到`Landscape Mountains`。点击`Create Project`并下载此内容（下载量约 2GB）。 
 
     ![current version](images/landscape_mountains.png)
 
-1. Open `LandscapeMountains.uproject`, it should launch the Unreal Editor.
+3. 打开 `LandscapeMountains.uproject`，它应该启动虚幻编辑器。
 
     ![unreal editor](images/unreal_editor.png)
     
-    !!!note
+    !!!注意
 
-        The Landscape Mountains project is supported up to Unreal Engine version 4.24. If you do not have 4.24 installed, you should see a dialog titled `Select Unreal Engine Version` with a dropdown to select from installed versions. Select 4.27 or greater to migrate the project to a supported engine version. If you have 4.24 installed, you can manually migrate the project by navigating to the corresponding .uproject file in Windows Explorer, right-clicking it, and selecting the `Switch Unreal Engine version...` option. 
+        景观山脉(Landscape Mountains)项目最高支持虚幻引擎 4.24 版本。如果您尚未安装 4.24 版本，您将看到一个名为`Select Unreal Engine Version`(选择虚幻引擎版本)的对话框，其中包含一个下拉菜单，用于从已安装的版本中进行选择。选择 4.27 或更高版本，即可将项目迁移到支持的引擎版本。如果您已安装 4.24 版本，则可以手动迁移项目，方法是：在 Windows 资源管理器中导航到相应的 .uproject 文件，右键单击该文件，然后选择`Switch Unreal Engine version...`(切换虚幻引擎版本...)选项。
 
-1. From the `File menu` select `New C++ class`, leave default `None` on the type of class, click `Next`, leave default name `MyClass`, and click `Create Class`. We need to do this because Unreal requires at least one source file in project. It should trigger compile and open up Visual Studio solution `LandscapeMountains.sln`.
+4. 从`File`菜单中选择`New C++ class`，类类型保留默认`None`，点击`Next`，保留默认名称`MyClass`，然后点击`Create Class`。我们需要这样做是因为 Unreal 要求项目中至少有一个源文件。它会触发编译并打开 Visual Studio 解决方案 `LandscapeMountains.sln`。
 
-1. Go to your folder for AirSim repo and copy `Unreal\Plugins` folder in to your `LandscapeMountains` folder. This way now your own Unreal project has AirSim plugin.
+5. 前往你的 AirSim 仓库文件夹，将 `Unreal\Plugins` 文件夹复制到 `LandscapeMountains` 文件夹中。这样，你的 Unreal 项目就拥有了 AirSim 插件。
 
-    !!!note
+    !!!注意
 
-        If the AirSim installation is fresh, i.e, hasn't been built before, make sure that you run `build.cmd` from the root directory once before copying `Unreal\Plugins` folder so that `AirLib` files are also included. If you have made some changes in the Blocks environment, make sure to run `update_to_git.bat` from `Unreal\Environments\Blocks` to update the files in `Unreal\Plugins`.
+        如果 AirSim 安装是全新安装的，即之前从未构建过，请确保在复制 `Unreal\Plugins` 文件夹之前，先从根目录运行一次 `build.cmd`，以便 `AirLib` 文件也包含在内。如果您在 Blocks 环境中进行了某些更改，请确保从 `Unreal\Environments\Blocks` 运行 `update_to_git.bat` 来更新 `Unreal\Plugins` 中的文件。
 
-1. Edit the `LandscapeMountains.uproject` so that it looks like this
+6. 编辑 `LandscapeMountains.uproject`，使其看起来像这样
 
     ```json
     {
@@ -60,42 +64,45 @@ There is no `Epic Games Launcher` for Linux which means that if you need to crea
     }
     ```
     
-1. Edit the `Config\DefaultGame.ini` to add the following line at the end:
+7. 编辑 `Config\DefaultGame.ini` 并在末尾添加以下行：
 
     ```
     +MapsToCook=(FilePath="/AirSim/AirSimAssets")
     ```
     
-    Doing this forces Unreal to include all necessary AirSim content in packaged builds of your project.
+    这样做会强制虚幻引擎将所有必要的 AirSim 内容包含在项目的打包版本中。
 
-1. Close Visual Studio and the  `Unreal Editor` and right click the LandscapeMountains.uproject in Windows Explorer and select `Generate Visual Studio Project Files`.  This step detects all plugins and source files in your Unreal project and generates `.sln` file for Visual Studio.
+8. 关闭 Visual Studio 和`Unreal Editor`，然后在 Windows 资源管理器中右键单击 LandscapeMountains.u 项目，并选择`Generate Visual Studio Project Files`。此步骤将检测虚幻项目中的所有插件和源文件，并为 Visual Studio 生成 `.sln` 文件。
 
     ![regen](images/regen_sln.png)
 
-    !!!tip
+    !!!提示
 
-        If the `Generate Visual Studio Project Files` option is missing you may need to reboot your machine for the Unreal Shell extensions to take effect.  If it is still missing then open the LandscapeMountains.uproject in the Unreal Editor and select `Refresh Visual Studio Project` from the `File` menu.
+        如果缺少`Generate Visual Studio Project Files`选项，您可能需要重启计算机以使 Unreal Shell 扩展生效。如果仍然缺少此选项，请在虚幻编辑器中打开 LandscapeMountains.uproject，然后从`File`菜单中选择`Refresh Visual Studio Project`。 
 
-1. Reopen `LandscapeMountains.sln` in Visual Studio, and make sure "DebugGame Editor" and "Win64" build configuration is the active build configuration.
+9. 在 Visual Studio 中重新打开 `LandscapeMountains.sln`，并确保“DebugGame Editor”和“Win64”构建配置是活动构建配置。
 
     ![build config](images/vsbuild_config.png)
 
-1. Press `F5` to `run`. This will start the Unreal Editor. The Unreal Editor allows you to edit the environment, assets and other game related settings. First thing you want to do in your environment is set up `PlayerStart` object. In Landscape Mountains environment, `PlayerStart` object already exist and you can find it in the `World Outliner`. Make sure its location is setup as shown. This is where AirSim plugin will create and place the vehicle. If its too high up then vehicle will fall down as soon as you press play giving potentially random behavior
+10. 按 `F5` 来运行。这将启动虚幻编辑器。虚幻编辑器允许您编辑环境、资源和其他游戏相关设置。您首先需要在环境中设置 `PlayerStart` 对象。在 Landscape Mountains 环境中，PlayerStart 对象已经存在，您可以在 `World Outliner` 中找到它。确保其位置设置如图所示。AirSim 插件将在此处创建并放置车辆。如果位置过高，车辆会在您按下播放键时立即坠落，从而产生潜在的随机行为。
 
     ![lm_player_start_pos.png](images/lm_player_start_pos.png)
 
-1. In `Window/World Settings` as shown below, set the `GameMode Override` to `AirSimGameMode`:
+11. 在如下所示的 `Window/World Settings` 中，将 `GameMode Override` 设置为 `AirSimGameMode`：
 
     ![sim_game_mode.png](images/sim_game_mode.png)
 
-1. Go to 'Edit->Editor Preferences' in Unreal Editor, in the 'Search' box type 'CPU' and ensure that the 'Use Less CPU when in Background' is unchecked. If you don't do this then UE will be slowed down dramatically when UE window loses focus.
+12. 在虚幻编辑器中，前往“编辑->编辑器偏好设置”，在“搜索”框中输入“CPU”，并确保“在后台运行时使用较少 CPU”(Use Less CPU when in Background) 未勾选。如果不勾选，当虚幻引擎窗口失去焦点时，虚幻引擎的速度将显著下降。
 
-1. Be sure to `Save` these edits. Hit the Play button in the Unreal Editor. See [how to use AirSim](https://github.com/Microsoft/AirSim/#how-to-use-it).
+13. 请务必`保存`这些编辑。点击虚幻编辑器中的“播放”按钮。了解 [如何使用 AirSim](https://github.com/Microsoft/AirSim/#how-to-use-it) 。
 
-Congratulations! You are now running AirSim in your own Unreal environment.
+恭喜！您现在可以在自己的虚幻环境中运行 AirSim 了。
 
-## Choosing Your Vehicle: Car or Multirotor
-By default AirSim prompts user for which vehicle to use. You can easily change this by setting [SimMode](settings.md#SimMode). Please see [using car](using_car.md) guide.
+
+## 选择您的车辆：汽车或多旋翼飞行器
+
+默认情况下，AirSim 会提示用户选择要使用的车辆。您可以通过设置 [SimMode](settings.md#SimMode) 轻松更改此设置。请参阅 [使用车辆](using_car.md) 指南。
+
 
 ## Updating Your Environment to Latest Version of AirSim
 Once you have your environment using above instructions, you should frequently update your local AirSim code to latest version from GitHub. Below are the instructions to do this:

@@ -1,52 +1,53 @@
-# Build AirSim on Windows
+# 在 Windows 上构建 AirSim
 
-## Install Unreal Engine
+## 安装虚幻引擎
 
-1. [Download](https://www.unrealengine.com/download) the Epic Games Launcher. While the Unreal Engine is open source and free to download, registration is still required.
-2. Run the Epic Games Launcher, open the `Unreal Engine` tab on the left pane.
-Click on the `Install` button on the top right, which should show the option to download **Unreal Engine >= 4.27**. Chose the install location to suit your needs, as shown in the images below. If you have multiple versions of Unreal installed then **make sure the version you are using is set to `current`** by clicking down arrow next to the Launch button for the version.
+1. [下载](https://www.unrealengine.com/download) Epic Games 启动器。虽然虚幻引擎是开源的，可以免费下载，但仍然需要注册。 
+2. 运行 Epic Games 启动器，在左侧窗格中打开 `Unreal Engine` 选项卡。点击右上角的`Install`按钮，此时会显示下载**虚幻引擎 4.27 及以上版本的选项**。选择适合您需求的安装位置，如下图所示。如果您安装了多个版本的虚幻引擎，请确**保您使用的版本已设置为当前版本**，方法是点击相应版本的“启动”按钮旁边的向下箭头。
 
-   **Note**: If you have UE 4.16 or older projects, please see the [upgrade guide](unreal_upgrade.md) to upgrade your projects.
+   **注意**: 如果您有 UE 4.16 或更早版本的项目，请参阅 [升级指南](unreal_upgrade.md) 来升级您的项目。
 
 ![Unreal Engine Tab UI Screenshot](images/ue_install.png)
 
 ![Unreal Engine Install Location UI Screenshot](images/ue_install_location.png)
 
-## Build AirSim
-* Install Visual Studio 2022.
-**Make sure** to select **Desktop Development with C++** and **Windows 10 SDK 10.0.19041** (should be selected by default) and select the latest .NET Framework SDK under the 'Individual Components' tab while installing VS 2022.
-* Start `Developer Command Prompt for VS 2022`.
-* Clone the repo: `git clone https://github.com/Microsoft/AirSim.git`, and go the AirSim directory by `cd AirSim`.
+## 构建 AirSim
+* 安装 Visual Studio 2022。**确保**选择使用 **C++ 和 Windows 10 SDK 10.0.19041 进行桌面开发**（默认选择），并在安装 VS 2022 时在“单个组件”选项卡下选择最新的 .NET Framework SDK。 
+* 启动 `Developer Command Prompt for VS 2022`.
+* 克隆仓库：`git clone https://github.com/Microsoft/AirSim.git` ，然后通过 `cd AirSim` AirSim 目录。
 
-    **Note:** It's generally not a good idea to install AirSim in C drive. This can cause scripts to fail, and requires running VS in Admin mode. Instead clone in a different drive such as D or E.
+    **注意：** 通常不建议将 AirSim 安装在 C 盘。这会导致脚本运行失败，并且需要以管理员模式运行 VS。建议将其克隆到其他盘，例如 D 盘或 E 盘。 
 
-* Run `build.cmd` from the command line. This will create ready to use plugin bits in the `Unreal\Plugins` folder that can be dropped into any Unreal project.
+* 从命令行运行 `build.cmd` 。这将在 `Unreal\Plugins` 文件夹中创建可立即使用的插件，可将其放入任何虚幻引擎项目中。
 
-## Build Unreal Project
+## 构建虚幻引擎项目
 
-Finally, you will need an Unreal project that hosts the environment for your vehicles. Make sure to close and re-open the Unreal Engine and the Epic Games Launcher before building your first environment if you haven't done so already. After restarting the Epic Games Launcher it will ask you to associate project file extensions with Unreal Engine, click on 'fix now' to fix it. AirSim comes with a built-in "Blocks Environment" which you can use, or you can create your own. Please see [setting up Unreal Environment](unreal_proj.md).
+最后，您需要一个虚幻引擎项目来托管您的车辆环境。如果您尚未关闭虚幻引擎和 Epic Games 启动器，请务必在构建您的第一个环境之前将其关闭并重新打开。重新启动 Epic Games 启动器后，它会要求您将项目文件扩展名与虚幻引擎关联，点击“立即修复”即可修复。AirSim 自带内置的“Blocks 环境”，您可以使用它，也可以创建自己的环境。请参阅 [设置虚幻环境](unreal_proj.md) 。
 
-## Setup Remote Control (Multirotor only)
 
-A remote control is required if you want to fly manually. See the [remote control setup](remote_control.md) for more details.
+## 设置遥控器（仅限多旋翼飞行器）
 
-Alternatively, you can use [APIs](apis.md) for programmatic control or use the so-called [Computer Vision mode](image_apis.md) to move around using the keyboard.
+如需手动飞行，则需要遥控器。更多详情，请参阅 [遥控器设置](remote_control.md) 。
 
-## How to Use AirSim
+或者，您可以使用 [APIs](apis.md) 进行编程控制，或者使用所谓的 [计算机视觉模式](image_apis.md) 通过键盘移动。
 
-Once AirSim is set up by following above steps, you can,
 
-1. Double click on .sln file to load the Blocks project in `Unreal\Environments\Blocks` (or .sln file in your own [custom](unreal_custenv.md) Unreal project). If you don't see .sln file then you probably haven't completed steps in Build Unreal Project section above.
+## 如何使用 AirSim
 
-    **Note**: Unreal 4.27 will auto-generate the .sln file targetting Visual Studio 2019. Visual Studio 2022 will be able to load and run this .sln, but if you want full Visual Studio 2022 support, you will need to explicitly enable support by going to 'Edit->Editor Preferences->Source Code' and selecting 'Visual Studio 2022' for the 'Source Code Editor' setting.
+按照上述步骤设置 AirSim 后，您可以
 
-2. Select your Unreal project as Start Up project (for example, Blocks project) and make sure Build config is set to "Develop Editor" and x64.
-3. After Unreal Editor loads, press Play button. 
+1. 双击 .sln 文件以加载 `Unreal\Environments\Blocks` 中的 Blocks 项目（或您 [自定义](unreal_custenv.md) 的 Unreal 项目中的 .sln 文件）。如果您没有看到 .sln 文件，则可能是您尚未完成上面“构建 Unreal 项目”部分中的步骤。 
 
-!!! tip
-    Go to 'Edit->Editor Preferences', in the 'Search' box type 'CPU' and ensure that the 'Use Less CPU when in Background' is unchecked.
+    **注意**: Unreal 4.27 将自动生成针对 Visual Studio 2019 的 .sln 文件。Visual Studio 2022 将能够加载和运行此 .sln，但如果您想要完全支持 Visual Studio 2022，则需要通过转到“编辑->编辑器首选项->源代码”并为“源代码编辑器”设置选择“Visual Studio 2022”来明确启用支持。
 
-See [Using APIs](apis.md) and [settings.json](settings.md) for various options available.
+2. 选择您的虚幻项目作为启动项目（例如，Blocks 项目）并确保构建配置设置为“开发编辑器”和 x64。
+
+3. 虚幻编辑器加载后，按播放(Play)按钮。
+
+!!! 提示
+    转到“编辑->编辑器首选项”，在“搜索”框中输入“CPU”，并确保未选中“在后台时使用较少的 CPU”(Use Less CPU when in Background)。
+
+请参阅 [使用 API](apis.md)  和 [settings.json](settings.md)  了解各种可用选项。
 
 # AirSim on Unity (Experimental)
 [Unity](https://unity3d.com/) is another great game engine platform and we have an **experimental** integration of [AirSim with Unity](Unity.md). Please note that this is work in progress and all features may not work yet.

@@ -1,43 +1,47 @@
-# Download Binaries
+# 下载二进制文件
 
-You can simply download precompiled binaries and run to get started immediately. If you want to set up your own Unreal environment then please see [these instructions](https://github.com/Microsoft/AirSim/#how-to-get-it).
+您只需下载预编译的二进制文件并运行即可立即开始使用。如果您想设置自己的虚幻环境，请参阅 [这些说明](https://github.com/Microsoft/AirSim/#how-to-get-it) 。
 
-### Unreal Engine
+### 虚幻引擎
 
-**Windows, Linux**: Download the binaries for the environment of your choice from the [latest release](https://github.com/Microsoft/AirSim/releases).
+**Windows, Linux**: 从 [最新版本](https://github.com/Microsoft/AirSim/releases) 中下载适合您所选择的环境的二进制文件。
 
-Some pre-compiled environment binaries may include multiple files (i.e. City.zip.001, City.zip.002). Make sure to download both files before starting the environment.
-Use [7zip](https://www.7-zip.org/download.html) to unzip these files. On Linux, pass the first zip file name as argument and it should detect all the other parts as well - `7zz x TrapCamera.zip.001`
+一些预编译的环境二进制文件可能包含多个文件（例如 City.zip.001 和 City.zip.002）。请确保在启动环境之前下载这 2 个文件。使用 [7zip](https://www.7-zip.org/download.html) 解压这些文件。在 Linux 上，将第一个 zip 文件名作为参数传递，它应该也会检测所有其他部分 - `7zz x TrapCamera.zip.001`
 
-**macOS**:  You will need to [build it yourself](build_linux.md)
 
-### Unity (Experimental)
+**macOS**:  你需要 [自己构建它](build_linux.md) 
 
-A free environment called Windridge City is available at [Unity Asset Store](https://assetstore.unity.com/) as an experimental release of AirSim on Unity. **Note**: This is an old release, and many of the features and APIs might not work.
+### Unity (实验)
 
-## Controlling Vehicles
+[Unity Asset Store](https://assetstore.unity.com/) 现已提供一个名为 Windridge City 的免费环境，作为 AirSim 在 Unity 上的实验版本。
 
-Most of our users typically use [APIs](apis.md) to control the vehicles. However you can also control vehicles manually. You can drive the car using keyboard, gamepad or [steering wheel](steering_wheel_installation.md). To fly drone manually, you will need either XBox controller or a remote control (feel free to [contribute](CONTRIBUTING.md) keyboard support). Please see [remote control setup](remote_control.md) for more details. Alternatively you can use [APIs](apis.md) for programmatic control or use so-called [Computer Vision mode](image_apis.md) to move around in environment using the keyboard.
+**注意**：这是一个旧版本，许多功能和 API 可能无法使用。
 
-## Don't Have Good GPU?
 
-The AirSim binaries, like CityEnviron, requires a beefy GPU to run smoothly. You can run them in low resolution mode by editing the `run.bat` file (if it doesn't exist, create it with the following content) on Windows like this:
+## 控制车辆
+
+我们的大多数用户通常使用 [APIs](apis.md) 来控制车辆。当然，您也可以手动控制车辆。您可以使用键盘、游戏手柄或 [方向盘](steering_wheel_installation.md) 来驾驶车辆。要手动操控无人机，您需要 XBox 控制器或遥控器（欢迎 [贡献](CONTRIBUTING.md) 键盘支持）。更多详情，请参阅遥控器设置。或者，您可以使用 [APIs](apis.md) 进行编程控制，或使用所谓的 [计算机视觉模式](image_apis.md) ，通过键盘在环境中移动。
+
+## 没有好的 GPU？
+
+AirSim 二进制文件（例如 CityEnviron）需要强大的 GPU 才能流畅运行。您可以在 Windows 上编辑 `run.bat` 文件（如果该文件不存在，请创建并添加以下内容）以低分辨率模式运行它们，如下所示：
 
 ```batch
 start CityEnviron -ResX=640 -ResY=480 -windowed
 ```
 
-For Linux binaries, use the `Blocks.sh` or corresponding shell script as follows -
+对于 Linux 二进制文件，请使用`Blocks.sh`或相应的 shell 脚本，如下所示：
 
 ```shell
 ./Blocks.sh -ResX=640 -ResY=480 -windowed
 ```
 
-Check out all the other [command-line options](https://docs.unrealengine.com/en-US/ProductionPipelines/CommandLineArguments/index.html)
+查看所有其他 [命令行选项](https://docs.unrealengine.com/en-US/ProductionPipelines/CommandLineArguments/index.html) 
 
-UE 4.24 uses Vulkan drivers by default, but they can consume more GPU memory. If you get memory allocation errors, then you can try switching to OpenGL using `-opengl`
+UE 4.24 默认使用 Vulkan 驱动程序，但它们会消耗更多 GPU 内存。如果您遇到内存分配错误，可以尝试使用 `-opengl` 切换到 OpenGL。
 
-You can also limit the maximum FPS using the `simRunConsoleCommand()` API as follows-
+
+您还可以使用 `simRunConsoleCommand()` API 限制最大 FPS，如下所示：
 
 ```python
 >>> import airsim

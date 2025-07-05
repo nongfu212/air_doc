@@ -47,9 +47,6 @@ nav:
     - "Linux 上的 Docker": 'docker_ubuntu.md'
     - "Azure 上的 ArSim": 'azure.md'
     - "定制虚幻引擎环境": 'unreal_custenv.md'
-    - "带 Unity 的 AirSim": "Unity.md"
-    - "定制 Unity 环境": "custom_unity_environments.md"
-    - "Unity APIs": "unity_api_support.md"
     - "场景问题和回答": 'build_faq.md'
   - "使用 AirSim":
     - "核心 APIs": 'apis.md'
@@ -106,7 +103,7 @@ nav:
     - "ArduPilot":
       - "ArduPilot SITL Setup": "https://ardupilot.org/dev/docs/building-the-code.html"
       - "AirSim & ArduPilot": "https://ardupilot.org/dev/docs/sitl-with-airsim.html"
-  - "Upgrading":
+  - "升级":
     - "Upgrading Unreal": 'unreal_upgrade.md'
     - "Upgrading APIs": 'upgrade_apis.md'
     - "Upgrading Settings": 'upgrade_settings.md'

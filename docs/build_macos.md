@@ -1,64 +1,66 @@
-# Build AirSim on macOS
+# 在 macOS 上构建 AirSim
 
-Only macOS **Catalina (10.15)** has currently been tested. Theoretically, AirSim should work on higher macOS versions and Apple Silicon hardware, but this path is not offically supported.
+目前仅测试了 **Catalina (10.15)** 。理论上，AirSim 应该可以在更高版本的 macOS 和 Apple Silicon 硬件上运行，但此路径尚未得到官方支持。
 
-We've two options - you can either build inside docker containers or your host machine.
+我们有两个选择 - 您可以在 docker 容器或主机内构建。
 
 ## Docker
 
-Please see instructions [here](docker_ubuntu.md)
+请参阅 [此处](docker_ubuntu.md) 的说明
 
-## Host machine
 
-### Pre-build Setup
+## 主机
 
-#### Download Unreal Engine
+### 预构建设置
 
-1. [Download](https://www.unrealengine.com/download) the Epic Games Launcher. While the Unreal Engine is open source and free to download, registration is still required.
-2. Run the Epic Games Launcher, open the `Library` tab on the left pane.
-   Click on the `Add Versions` which should show the option to download **Unreal 4.27** as shown below. If you have multiple versions of Unreal installed then **make sure 4.27 is set to `current`** by clicking down arrow next to the Launch button for the version.
+#### 下载虚幻引擎
 
-   **Note**: AirSim also works with UE >= 4.24, however, we recommend 4.27.
-   **Note**: If you have UE 4.16 or older projects, please see the [upgrade guide](unreal_upgrade.md) to upgrade your projects.
+1. [下载](https://www.unrealengine.com/download) Epic Games 启动器。虽然虚幻引擎是开源的，可以免费下载，但仍然需要注册。
+2. 运行 Epic Games 启动器，打开左侧窗格中的`Library`选项卡。点击`Add Versions`，此时将显示下载**虚幻 4.27** 的选项，如下所示。如果您安装了多个版本的虚幻，请确保通过点击相应版本“启动”按钮旁边的向下箭头**将 4.27 设置为当前版本**。
 
-### Build AirSim
+   **注意**: AirSim 也适用于 UE 4.24 及以上版本，但我们推荐使用 4.27 版本。
 
-- Clone AirSim and build it:
+   **注意**: 如果您拥有 UE 4.16 或更早版本的项目，请参阅 [升级指南](unreal_upgrade.md) 来升级您的项目。
+
+### 构建 AirSim
+
+- 克隆 AirSim 并构建它：
 
 ```bash
-# go to the folder where you clone GitHub projects
+# 前往克隆 GitHub 项目的文件夹
 git clone https://github.com/Microsoft/AirSim.git
 cd AirSim
 ```
 
-By default AirSim uses clang 8 to build for compatibility with UE 4.25. The setup script will install the right version of cmake, llvm, and eigen.
+默认情况下，AirSim 使用 clang 8 进行构建，以兼容 UE 4.25。安装脚本将安装正确版本的 cmake、llvm 和 eigen。
 
 CMake 3.19.2 is required for building on Apple Silicon.
 
 ```bash
 ./setup.sh
 ./build.sh
-# use ./build.sh --debug to build in debug mode
+# 使用 ./build.sh --debug 在调试模式下构建
 ```
 
-### Build Unreal Environment
+### 构建虚幻环境
 
-Finally, you will need an Unreal project that hosts the environment for your vehicles. AirSim comes with a built-in "Blocks Environment" which you can use, or you can create your own. Please see [setting up Unreal Environment](unreal_proj.md) if you'd like to setup your own environment.
+最后，您需要一个虚幻项目来托管您的载具环境。AirSim 自带一个内置的“Blocks 环境”，您可以使用它，也可以创建自己的环境。如果您想设置自己的环境，请参阅 [设置虚幻环境](unreal_proj.md) 。
 
-## How to Use AirSim
+## 如何使用 AirSim
 
-- Browse to `AirSim/Unreal/Environments/Blocks`.
-- Run `./GenerateProjectFiles.sh <UE_PATH>` from the terminal, where `UE_PATH` is the path to the Unreal installation folder. (By default, this is `/Users/Shared/Epic\ Games/UE_4.27/`) The script creates an XCode workspace by the name Blocks.xcworkspace.
-- Open the XCode workspace, and press the Build and run button in the top left.
-- After Unreal Editor loads, press Play button.
+- 浏览到 `AirSim/Unreal/Environments/Blocks`.
+- 从终端运行 `./GenerateProjectFiles.sh <UE_PATH>` ，其中 `UE_PATH` 是虚幻引擎安装文件夹的路径。（默认情况下，该路径为 `/Users/Shared/Epic\ Games/UE_4.27/`）该脚本会创建一个名为 Blocks.xcworkspace 的 XCode 工作区。
+- 打开 XCode 工作区，然后按左上角的“构建并运行”按钮。
+- 虚幻编辑器加载后，按播放按钮。
 
-See [Using APIs](apis.md) and [settings.json](settings.md) for various options available for AirSim usage.
+请参阅 [使用 API](apis.md)  和 [settings.json](settings.md) 了解可用于 AirSim 的各种选项。
 
-!!! tip
-Go to 'Edit->Editor Preferences', in the 'Search' box type 'CPU' and ensure that the 'Use Less CPU when in Background' is unchecked.
+!!! 提示
+转到“编辑->编辑器首选项”，在“搜索”框中输入“CPU”，并确保未选中“在后台时使用较少的 CPU”(Use Less CPU when in Background)。
 
-### [Optional] Setup Remote Control (Multirotor Only)
+### [可选] 设置遥控器（仅限多旋翼飞行器） 
 
-A remote control is required if you want to fly manually. See the [remote control setup](remote_control.md) for more details.
+如需手动飞行，则需要遥控器。更多详情，请参阅 [遥控器设置](remote_control.md) 。
 
-Alternatively, you can use [APIs](apis.md) for programmatic control or use the so-called [Computer Vision mode](image_apis.md) to move around using the keyboard.
+或者，您可以使用 [APIs](apis.md) 进行编程控制，或者使用所谓的 [计算机视觉模式](image_apis.md) 通过键盘移动。
+
