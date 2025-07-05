@@ -112,7 +112,7 @@ nav:
     - "使用 Marketplace 中的环境": 'https://www.youtube.com/watch?v=y09VbdQWvQY'
     - "简单的防撞": 'https://github.com/simondlevy/AirSimTensorFlow'
     - "Azure 上的自动驾驶": 'https://aka.ms/AutonomousDrivingCookbook'
-    - "建造六旋翼直升机": 'https://github.com/Microsoft/AirSim/wiki/hexacopter'
+    - "构造六旋翼飞行器": 'https://github.com/Microsoft/AirSim/wiki/hexacopter'
     - "移动路径演示": 'https://github.com/Microsoft/AirSim/wiki/moveOnPath-demo'
     - "构建点云": 'point_clouds.md'
     - "使用无人机进行测量": 'drone_survey.md'
