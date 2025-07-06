@@ -146,11 +146,12 @@ Camera names are same as in multirotor.
 ### Backward compatibility for camera names
 Before AirSim v1.2, cameras were accessed using ID numbers instead of names. For backward compatibility you can still use following ID numbers for above camera names in same order as above: `"0"`, `"1"`, `"2"`, `"3"`, `"4"`. In addition, camera name `""` is also available to access the default camera which is generally the camera `"0"`.
 
-## "Computer Vision" Mode
+## "计算机视觉" 模式
 
-You can use AirSim in so-called "Computer Vision" mode. In this mode, physics engine is disabled and there is no vehicle, just cameras (If you want to have the vehicle but without its kinematics, you can use the Multirotor mode with the Physics Engine [ExternalPhysicsEngine](settings.md##physicsenginename)). You can move around using keyboard (use F1 to see help on keys). You can press Record button to continuously generate images. Or you can call APIs to move cameras around and take images.
+您可以在所谓的“计算机视觉”模式下使用 AirSim。在此模式下，物理引擎将被禁用，并且没有飞行器，只有摄像头（如果您想要飞行器但不包含其运动学特性，可以使用多旋翼模式和物理引擎 [ExternalPhysicsEngine](settings.md##physicsenginename) ）。您可以使用键盘移动（使用 F1 查看按键帮助）。您可以按下录制按钮来连续生成图像。或者，您可以调用 API 来移动摄像头并拍摄图像。
 
-To active this mode, edit [settings.json](settings.md) that you can find in your `Documents\AirSim` folder (or `~/Documents/AirSim` on Linux) and make sure following values exist at root level:
+
+要激活此模式，请编辑您可以在 Documents\AirSim 文件夹（或 Linux 上的 ~/Documents/AirSim）中找到的 [settings.json](settings.md)，并确保根级别存在以下值：
 
 ```json
 {
@@ -159,9 +160,10 @@ To active this mode, edit [settings.json](settings.md) that you can find in your
 }
 ```
 
-[Here's the Python code example](https://github.com/Microsoft/AirSim/tree/main/PythonClient//computer_vision/cv_mode.py) to move camera around and capture images.
+以下是移动摄像头并拍摄图像的 [Python 代码示例](https://github.com/Microsoft/AirSim/tree/main/PythonClient//computer_vision/cv_mode.py) 。
 
-This mode was inspired from [UnrealCV project](http://unrealcv.org/).
+此模式受到 [UnrealCV 项目](http://unrealcv.org/) 的启发。
+
 
 ### Setting Pose in Computer Vision Mode
 To move around the environment using APIs you can use `simSetVehiclePose` API. This API takes position and orientation and sets that on the invisible vehicle where the front-center camera is located. All rest of the cameras move along keeping the relative position. If you don't want to change position (or orientation) then just set components of position (or orientation) to floating point nan values. The `simGetVehiclePose` allows to retrieve the current pose. You can also use `simGetGroundTruthKinematics` to get the quantities kinematics quantities for the movement. Many other non-vehicle specific APIs are also available such as segmentation APIs, collision APIs and camera APIs.
