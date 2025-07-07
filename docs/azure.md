@@ -52,15 +52,20 @@ az vm deallocate --resource-group MyResourceGroup --name MyVMName
 
 ## 使用 Docker 运行
 
-Once both the AirSim environment and the Python application are ready, you can package everything as a Docker image. The sample project inside the `azure` directory is already prepared to run a prebuilt AirSim binary and Python code using Docker.
+一旦 AirSim 环境和 Python 应用程序准备就绪，您就可以将所有内容打包为 Docker 镜像。`azure` 目录中的示例项目已准备好使用 Docker 运行预构建的 AirSim 二进制文件和 Python 代码。
 
-This would be a perfect scenario when you want to run the simulation at scale. For instance, you could have several different configurations for the same simulation and execute them in a parallel, unattended way using a Docker image on Azure Container Services
 
-Since AirSim requires access to the host GPU, it is required to use a Docker runtime that supports it. For more information about running AirSim in Docker, click [here](docker_ubuntu.md).
+当你想要大规模运行模拟时，这将是一个完美的方案。例如，你可以为同一个模拟设置几种不同的配置，并使用 Azure 容器服务上的 Docker 镜像以并行、无人值守的方式执行它们。
 
-When using Azure Container Services to run this image, the only extra-requirement is to add GPU support to the Container Group where it will be deployed. 
 
-It can use either public docker images from DockerHub or images deployed to a private Azure Container Registry
+由于 AirSim 需要访问主机 GPU，因此需要使用支持该功能的 Docker 运行时。有关在 Docker 中运行 AirSim 的更多信息，请点击 [此处](docker_ubuntu.md) 。
+
+
+使用 Azure 容器服务运行此映像时，唯一的额外要求是向将要部署的容器组添加 GPU 支持。
+
+
+它可以使用来自 DockerHub 的公共 docker 镜像或部署到私有 Azure 容器注册表的镜像。
+
 
 ### 构建 docker 镜像
 
@@ -70,15 +75,18 @@ docker build -t <your-registry-url>/<your-image-name> -f ./docker/Dockerfile .`
 
 ## 使用不同的 AirSim 二进制文件
 
-To use a different AirSim binary, first check the official documentation on [How to Build AirSim on Windows](build_windows.md) and [How to Build AirSim on Linux](build_linux.md) if you also want to run it with Docker
+要使用不同的 AirSim 二进制文件，请首先查看官方文档：[如何在 Windows 上构建 AirSim](build_windows.md)  以及 [如何在 Linux 上构建 AirSim](build_linux.md) （如果您还想使用 Docker 运行它）
 
-Once you have a zip file with the new AirSim environment (or prefer to use one from the [Official Releases](https://github.com/microsoft/AirSim/releases)), you need to modify some of the scripts in the `azure` directory of the repository to point to the new environment:
-- In [`azure/azure-env-creation/configure-vm.ps1`](https://github.com/microsoft/AirSim/blob/main/azure/azure-env-creation/configure-vm.ps1), modify all the parameters starting with `$airSimBinary` with the new values
-- In [`azure/start-airsim.ps1`](https://github.com/microsoft/AirSim/blob/main/azure/start-airsim.ps1), modify `$airSimExecutable` and `$airSimProcessName` with the new values
 
-If you are using the docker image, you also need a linux binary zip file and modify the following Docker-related files:
-- In [`azure/docker/Dockerfile`](https://github.com/microsoft/AirSim/blob/main/azure/docker/Dockerfile), modify the `AIRSIM_BINARY_ZIP_URL` and `AIRSIM_BINARY_ZIP_FILENAME` ENV declarations with the new values
-- In [`azure/docker/docker-entrypoint.sh`](https://github.com/microsoft/AirSim/blob/main/azure/docker/docker-entrypoint.sh), modify `AIRSIM_EXECUTABLE` with the new value 
+一旦您拥有包含新 AirSim 环境的 zip 文件（或者更喜欢使用 [官方版本](https://github.com/microsoft/AirSim/releases) 中的文件），您需要修改存储库的 `azure` 目录中的某些脚本以指向新环境：
+- 在 [`azure/azure-env-creation/configure-vm.ps1`](https://github.com/microsoft/AirSim/blob/main/azure/azure-env-creation/configure-vm.ps1) 中，使用新值修改以 `$airSimBinary` 开头的所有参数
+- 在 [`azure/start-airsim.ps1`](https://github.com/microsoft/AirSim/blob/main/azure/start-airsim.ps1) 中，使用新值修改 `$airSimExecutable` 和 `$airSimProcessName`
+
+
+如果你使用的是docker镜像，你还需要一个linux二进制zip文件，并修改以下Docker相关的文件：
+- 在 [`azure/docker/Dockerfile`](https://github.com/microsoft/AirSim/blob/main/azure/docker/Dockerfile) 中，使用新值修改 `AIRSIM_BINARY_ZIP_URL` 和 `AIRSIM_BINARY_ZIP_FILENAME` ENV 声明
+- 在 [`azure/docker/docker-entrypoint.sh`](https://github.com/microsoft/AirSim/blob/main/azure/docker/docker-entrypoint.sh) 中，使用新值修改 `AIRSIM_EXECUTABLE`
+
 
 ## 维护此开发环境
 
