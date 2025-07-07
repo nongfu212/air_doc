@@ -1,7 +1,11 @@
-AirSim provides a Python-based event camera simulator, aimed at performance and ability to run in real-time along with the sim.
 
-#### Event cameras
-An event camera is a special vision sensor that measures changes in logarithmic brightness and only reports 'events'. Each event is a set of four values that gets generated every time the absolute change in the logarithmic brightness exceeds a certain threshold. An event contains the timestamp of the measurement, pixel location (x and y coordinates) and the polarity: which is either +1/-1 based on whether the logarithmic brightness has increased or decreased. Most event cameras have a temporal resolution of the order of microseconds, making them significantly faster than RGB sensors, and also demonstrate a high dynamic range and low motion blur. More details about event cameras can be found in [this tutorial from RPG-UZH](http://rpg.ifi.uzh.ch/docs/scaramuzza/Tutorial_on_Event_Cameras_Scaramuzza.pdf)
+AirSim 提供了一个基于 Python 的事件相机模拟器，旨在实现性能和与模拟一起实时运行的能力。
+
+
+#### 事件相机
+
+事件相机是一种特殊的视觉传感器，它测量对数亮度的变化，并仅报告“事件”。每个事件由一组四个值组成，每当对数亮度的绝对变化超过某个阈值时就会生成。事件包含测量的时间戳、像素位置（x 和 y 坐标）和极性：根据对数亮度是增加还是减少，极性为 +1/-1。大多数事件相机的时间分辨率为微秒级，这使其速度明显快于 RGB 传感器，并且还具有高动态范围和低运动模糊的特点。有关事件相机的更多详细信息，请参阅 [RPG-UZH 的本教程](http://rpg.ifi.uzh.ch/docs/scaramuzza/Tutorial_on_Event_Cameras_Scaramuzza.pdf) 。
+
 
 #### AirSim event simulator
 
