@@ -5,17 +5,17 @@
 ## Windows 构建
 
 * [如何强制 Unreal 使用 Visual Studio 2019？](#how-to-force-unreal-to-use-visual-studio-2019)
-* [I get error: 'where' is not recognized as an internal or external command](#i-get-error-where-is-not-recognized-as-an-internal-or-external-command)
-* [I'm getting error `<MyProject> could not be compiled. Try rebuilding from source manually`](#im-getting-error-myproject-could-not-be-compiled-try-rebuilding-from-source-manually)
-* [I get `error C100 : An internal error has occurred in the compiler` when running build.cmd](#i-get-error-c100--an-internal-error-has-occurred-in-the-compiler-when-running-buildcmd)
-* [I get error "'corecrt.h': No such file or directory" or "Windows SDK version 8.1 not found"](#i-get-error-corecrth-no-such-file-or-directory-or-windows-sdk-version-81-not-found)
-* [How do I use PX4 firmware with AirSim?](#how-do-i-use-px4-firmware-with-airsim)
-* [I made changes in Visual Studio but there is no effect](#i-made-changes-in-visual-studio-but-there-is-no-effect)
-* [Unreal still uses VS2015 or I'm getting some link error](#unreal-still-uses-vs2015-or-im-getting-some-link-error)
+* [报错: 'where' is not recognized as an internal or external command](#i-get-error-where-is-not-recognized-as-an-internal-or-external-command)
+* [报错：`<MyProject> could not be compiled. Try rebuilding from source manually`](#im-getting-error-myproject-could-not-be-compiled-try-rebuilding-from-source-manually)
+* [当运行 build.cmd 时报错：`error C100 : An internal error has occurred in the compiler`](#i-get-error-c100--an-internal-error-has-occurred-in-the-compiler-when-running-buildcmd)
+* [报错："'corecrt.h': No such file or directory" or "Windows SDK version 8.1 not found"](#i-get-error-corecrth-no-such-file-or-directory-or-windows-sdk-version-81-not-found)
+* [如何将 PX4 固件与 AirSim 一起使用？](#how-do-i-use-px4-firmware-with-airsim)
+* [在 Visual Studio 中做了更改，但没有效果](#i-made-changes-in-visual-studio-but-there-is-no-effect)
+* [Unreal 仍然使用 VS2015，否则我会收到一些链接错误](#unreal-still-uses-vs2015-or-im-getting-some-link-error)
 
 ---
 
-## Linux build
+## Linux 构建
 
 * [I'm getting error `<MyProject> could not be compiled. Try rebuilding from source manually`.](#im-getting-error-myproject-could-not-be-compiled-try-rebuilding-from-source-manually)
 * [Unreal crashed! How do I know what went wrong?](#unreal-crashed-how-do-i-know-what-went-wrong)
@@ -28,17 +28,17 @@
 
 ---
 
-## Other
+## 其他
 
-* [Packaging AirSim](#packaging-a-binary-including-the-airsim-plugin)
+* [打包 AirSim](#packaging-a-binary-including-the-airsim-plugin)
 
 ---
 
 <!-- ======================================================================= -->
-## Windows build
+## Windows 构建
 <!-- ======================================================================= -->
 
-###### How to force Unreal to use Visual Studio 2019?
+###### 如何强制 Unreal 使用 Visual Studio 2019？
 
 >If the default `update_from_git.bat` file results in VS 2017 project, then you may need to run the `C:\Program Files\Epic Games\UE_4.25\Engine\Binaries\DotNET\UnrealBuildTool.exe` tool manually, with the command line options `-projectfiles -project=<your.uproject>  -game -rocket -progress -2019`.
 >
@@ -71,19 +71,19 @@
 
 <!-- ======================================================================= -->
 
-###### I get error: 'where' is not recognized as an internal or external command
+###### 报错: 'where' is not recognized as an internal or external command
 
->You have to add `C:\WINDOWS\SYSTEM32` to your PATH enviroment variable.
+>您必须将 `C:\WINDOWS\SYSTEM32` 添加到您的 PATH 环境变量中。 
 
 <!-- ======================================================================= -->
 
-###### I'm getting error `<MyProject> could not be compiled. Try rebuilding from source manually`
+###### 报错 `<MyProject> could not be compiled. Try rebuilding from source manually`
 
->This will occur when there are compilation errors. Logs are stored in `<My-Project>\Saved\Logs` which can be used to figure out the problem.
+>当出现编译错误时，就会发生这种情况。日志存储在 `<My-Project>\Saved\Logs` 中，可用于查找问题。 
 >
->A common problem could be Visual Studio version conflict, AirSim uses VS 2019 while UE is using VS 2017, this can be found by searching for `2017` in the Log file. In that case, see the answer above.
+>一个常见问题可能是 Visual Studio 版本冲突，AirSim 使用的是 VS 2019，而 UE 使用的是 VS 2017，可以通过在日志文件中搜索`2017`来找到。在这种情况下，请参阅上面的答案。
 >
->If you have modified the AirSim plugin files, then you can right-click the `.uproject` file, select `Generate Visual Studio solution file` and then open the `.sln` file in VS to fix the errors and build again.
+>如果您修改了 AirSim 插件文件，那么您可以右键单击 `.uproject` 文件，选择`Generate Visual Studio solution file`，然后在 VS 中打开 `.sln` 文件以修复错误并再次构建。
 
 <!-- ======================================================================= -->
 
@@ -93,45 +93,45 @@
 
 <!-- ======================================================================= -->
 
-###### I get error "'corecrt.h': No such file or directory" or "Windows SDK version 8.1 not found"
+###### 报错："'corecrt.h': No such file or directory" or "Windows SDK version 8.1 not found"
 
 >Very likely you don't have [Windows SDK](https://developercommunity.visualstudio.com/content/problem/3754/cant-compile-c-program-because-of-sdk-81cant-add-a.html) installed with Visual Studio.
 
 <!-- ======================================================================= -->
 
-###### How do I use PX4 firmware with AirSim?
+###### 如何将 PX4 固件与 AirSim 一起使用？
 
->By default, AirSim uses its own built-in firmware called [simple_flight](simple_flight.md). There is no additional setup if you just want to go with it. If you want to switch to using PX4 instead then please see [this guide](px4_setup.md).
-
-<!-- ======================================================================= -->
-
-###### I made changes in Visual Studio but there is no effect
-
->Sometimes the Unreal + VS build system doesn't recompile if you make changes to only header files. To ensure a recompile, make some Unreal based cpp file "dirty" like AirSimGameMode.cpp.
+>默认情况下，AirSim 使用其内置固件 [simple_flight](simple_flight.md) 。如果您只想使用它，则无需进行其他设置。如果您想改用 PX4，请参阅 [本指南](px4_setup.md) 。 
 
 <!-- ======================================================================= -->
 
-###### Unreal still uses VS2015 or I'm getting some link error
+###### 在 Visual Studio 中做了更改，但没有效果
 
->Running several versions of VS can lead to issues when compiling UE projects. One problem that may arise is that UE will try to compile with an older version of VS which may or may not work. There are two settings in Unreal, one for for the engine and one for the project, to adjust the version of VS to be used.
+>有时，如果仅更改头文件，Unreal + VS 构建系统可能无法重新编译。为了确保重新编译，请将一些基于 Unreal 的 cpp 文件（例如 AirSimGameMode.cpp）设置为“dirty”。 
+
+<!-- ======================================================================= -->
+
+###### Unreal 仍然使用 VS2015，否则我会收到一些链接错误
+
+>运行多个版本的 VS 可能会导致编译 UE 项目时出现问题。其中一个问题是 UE 会尝试使用旧版本的 VS 进行编译，而旧版本的 VS 可能无法正常工作。虚幻引擎中有两个设置，一个用于引擎，一个用于项目，用于调整要使用的 VS 版本。 
 >
 >1. Edit -> Editor preferences -> General -> Source code -> Source Code Editor
 >2. Edit -> Project Settings -> Platforms -> Windows -> Toolchain ->CompilerVersion
 >
->In some cases, these settings will still not lead to the desired result and errors such as the following might be produced: LINK : fatal error LNK1181: cannot open input file 'ws2_32.lib'
+>在某些情况下，这些设置仍然不会产生预期的结果，并且可能会产生如下错误：LINK:致命错误 LNK1181:无法打开输入文件“ws2_32.lib” 
 >
->To resolve such issues the following procedure can be applied:
+>为了解决此类问题，可以采用以下步骤：
 >
->1. Uninstall all old versions of VS using the [VisualStudioUninstaller](https://github.com/Microsoft/VisualStudioUninstaller/releases)
+>1. 使用 [VisualStudioUninstaller](https://github.com/Microsoft/VisualStudioUninstaller/releases) 卸载所有旧版本的 VS
 >2. Repair/Install VS 2019
->3. Restart machine and install Epic launcher and desired version of the engine
+>3. 重启机器并安装 Epic 启动器和所需版本的引擎
 
 ---
 
-## Linux build
+## Linux 构建
 <!-- ======================================================================= -->
 
-###### I'm getting error `<MyProject> could not be compiled. Try rebuilding from source manually`.
+###### 报错：`<MyProject> could not be compiled. Try rebuilding from source manually`.
 
 >This could either happen because of compile error or the fact that your gch files are outdated. Look in to your console window. Do you see something like below?
 >
@@ -191,7 +191,7 @@
 
 ---
 
-## Other
+## 其他
 <!-- ======================================================================= -->
 
 ###### Packaging a binary including the AirSim plugin
