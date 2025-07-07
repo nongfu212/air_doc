@@ -9,19 +9,26 @@
 
 ### 基于车辆的 API
 
-`moveByVelocityBodyFrameAsync` API for velocity-based movement in the multirotor's X-Y frame.
+`moveByVelocityBodyFrameAsync` API 用于多旋翼飞行器 X-Y 框架中基于速度的运动。
 
-The main implementation is done in [MultirotorBaseApi.cpp](https://github.com/microsoft/AirSim/pull/3169/files#diff-29ac01a05077b6e8e1f09221a113f779c952a80dc8823725eb451a9fc5d7de5f), where most of the multirotor APIs are implemented.
 
-In some cases, additional structures might be needed for storing data, [`getRotorStates` API](https://github.com/microsoft/AirSim/pull/3242) is a good example for this, here the `RotorStates` struct is defined in 2 places for conversion from RPC to internal code. It also requires modifications in AirLib as well as Unreal/Plugins for the implementation.
+主要实现在 [MultirotorBaseApi.cpp](https://github.com/microsoft/AirSim/pull/3169/files#diff-29ac01a05077b6e8e1f09221a113f779c952a80dc8823725eb451a9fc5d7de5f) 中完成，其中实现了大多数多旋翼 API。
+
+
+在某些情况下，可能需要额外的结构来存储数据，[`getRotorStates` API](https://github.com/microsoft/AirSim/pull/3242) 就是一个很好的例子，这里 `RotorStates` 结构体在两处被定义，用于从 RPC 转换为内部代码。此外，它还需要在 AirLib 以及 Unreal/Plugins 中进行修改才能实现。
+
+
+
 
 ### 环境相关的 API
 
-These APIs need to interact with the simulation environment itself, hence it's likely that it'll be implemented inside the `Unreal/Plugins` folder.
+这些 API 需要与模拟环境本身交互，因此很可能在 `Unreal/Plugins` 文件夹中实现。
 
-- `simCreateVoxelGrid` API to generate and save a binvox-formatted grid of the environment - [WorldSimApi.cpp](https://github.com/microsoft/AirSim/pull/3209/files#diff-89d4ec9b62486b1322e5ba2dd9936b13962f9ed113ec5e35a0678846889c7e2d)
 
-- `simAddVehicle` API to create vehicles at runtime - [SimMode*, WorldSimApi files](https://github.com/microsoft/AirSim/pull/2390/files#diff-fcc0aa1fbc74a924fccd12589295aceeea59074c94256eccba7df3ce85d3a26c)
+- `simCreateVoxelGrid` API 用于生成并保存 binvox 格式的环境网格 - [WorldSimApi.cpp](https://github.com/microsoft/AirSim/pull/3209/files#diff-89d4ec9b62486b1322e5ba2dd9936b13962f9ed113ec5e35a0678846889c7e2d) 
+
+- `simAddVehicle` API 用于在运行时创建车辆 - [SimMode*, WorldSimApi 文件](https://github.com/microsoft/AirSim/pull/2390/files#diff-fcc0aa1fbc74a924fccd12589295aceeea59074c94256eccba7df3ce85d3a26c) 
+
 
 ### 物理相关的 API
 
@@ -30,15 +37,18 @@ These APIs need to interact with the simulation environment itself, hence it's l
 
 ## RPC 包装器
 
-The APIs use [msgpack-rpc protocol](https://github.com/msgpack-rpc/msgpack-rpc) over TCP/IP through [rpclib](http://rpclib.net/) developed by [TamÃ¡s Szelei](https://github.com/sztomi) which allows you to use variety of programming languages including C++, C#, Python, Java etc. When AirSim starts, it opens port 41451 (this can be changed via [settings](settings.md)) and listens for incoming request. The Python or C++ client code connects to this port and sends RPC calls using [msgpack serialization format](https://msgpack.org).
+这些 API 通过 [TamÃ¡s Szelei](https://github.com/sztomi) 开发的 [rpclib](http://rpclib.net/) 使用 TCP/IP 上的 [msgpack-rpc 协议](https://github.com/msgpack-rpc/msgpack-rpc) ，该库允许您使用多种编程语言，包括 C++、C#、Python、Java 等。AirSim 启动时，会打开 41451 端口（可通过 [设置](settings.md) 更改）并监听传入请求。Python 或 C++ 客户端代码连接到此端口，并使用 [msgpack 序列化格式](https://msgpack.org) 发送 RPC 调用。
 
-To add the RPC code to call the new API, follow the steps below. Follow the implementation of other APIs defined in the files.
 
-1. Add an RPC handler in the server which calls your implemented method in [RpcLibServerBase.cpp](https://github.com/microsoft/AirSim/blob/main/AirLib/src/api/RpcLibServerBase.cpp). Vehicle-specific APIs are in their respective vehicle subfolder.
+要添加 RPC 代码来调用新的 API，请按照以下步骤操作。其他 API 的实现请参见文件中定义的部分。
 
-2. Add the C++ client API method in [RpcClientBase.cpp](https://github.com/microsoft/AirSim/blob/main/AirLib/src/api/RpcLibClientBase.cpp)
 
-3. Add the Python client API method in [client.py](https://github.com/microsoft/AirSim/blob/main/PythonClient/airsim/client.py). If needed, add or modify a structure definition in [types.py](https://github.com/microsoft/AirSim/blob/main/PythonClient/airsim/types.py)
+1. 在服务器中添加一个 RPC 处理程序，该处理程序会调用您在 [RpcLibServerBase.cpp](https://github.com/microsoft/AirSim/blob/main/AirLib/src/api/RpcLibServerBase.cpp) 中实现的方法。特定于车辆的 API 位于其各自的 Vehicle 子文件夹中。 
+
+2. 在 [RpcClientBase.cpp](https://github.com/microsoft/AirSim/blob/main/AirLib/src/api/RpcLibClientBase.cpp) 中添加 C++ 客户端 API 方法
+
+3. 在 [client.py](https://github.com/microsoft/AirSim/blob/main/PythonClient/airsim/client.py) 中添加 Python 客户端 API 方法。如果需要，请在 [types.py](https://github.com/microsoft/AirSim/blob/main/PythonClient/airsim/types.py) 中添加或修改结构体定义。 
+
 
 ## 测试
 
