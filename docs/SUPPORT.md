@@ -1,7 +1,10 @@
-# Support
+# 支持
 
-We highly recommend to take a look at source code and contribute to the project. Due to large number of incoming feature request we may not be able to get to your request in your desired timeframe. So please [contribute](CONTRIBUTING.md) :).
+我们强烈建议您查看源代码并为项目做出贡献。
+由于收到的功能请求数量众多，我们可能无法在您期望的时间内完成您的请求。
+所以请 [贡献您的代码](CONTRIBUTING.md) :)。
 
-* [Ask in Discussions](https://github.com/microsoft/AirSim/discussions) 
-* [File GitHub Issue](https://github.com/Microsoft/AirSim/issues)
-* [Join AirSim Facebook Group](https://www.facebook.com/groups/1225832467530667/) 
+
+* [在讨论中提问](https://github.com/microsoft/AirSim/discussions) 
+* [GitHub Issue](https://github.com/Microsoft/AirSim/issues)
+* [加入 AirSim Facebook 组](https://www.facebook.com/groups/1225832467530667/) 
