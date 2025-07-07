@@ -1,21 +1,28 @@
-# Runtime Texture Swapping
+# 运行时纹理交换
 
-## How to Make An Actor Retexturable
+## 如何让参与者可重新纹理化
 
-To be made texture-swappable, an actor must derive from the parent class TextureShuffleActor.
-The parent class can be set via the settings tab in the actor's blueprint.
+
+要实现纹理可交换，Actor 必须从父类 TextureShuffleActor 派生。
+父类可以通过 Actor 蓝图中的“设置”选项卡进行设置。
+
 
 ![Parent Class](images/tex_shuffle_actor.png)
 
-After setting the parent class to TextureShuffActor, the object gains the member DynamicMaterial.
-DynamicMaterial needs to be set--on all actor instances in the scene--to TextureSwappableMaterial.
-Warning: Statically setting the Dynamic Material in the blueprint class may cause rendering errors. It seems to work better to set it on all the actor instances in the scene, using the details panel.
+将父类设置为 TextureShuffActor 后，该对象将获得动态材质(DynamicMaterial) 成员。
+场景中所有参与者实例的 DynamicMaterial 都需要设置为 TextureSwappableMaterial。
+
+
+!!! 警告
+    在蓝图类中静态设置动态材质可能会导致渲染错误。在蓝图类中的所有 Actor 实例上设置该属性似乎效果更好。
+
 
 ![TextureSwappableMaterial](images/tex_swap_material.png)
 
-## How to Define the Set(s) of Textures to Choose From
+## 如何定义可供选择的纹理集
 
-Typically, certain subsets of actors will share a set of texture options with each other. (e.g. walls that are part of the same building)
+通常，某些参与者子集会彼此共享一组纹理选项。（例如，属于同一建筑物的墙壁）
+
 
 It's easy to set up these groupings by using Unreal Engine's group editing functionality.
 Select all the instances that should have the same texture selection, and add the textures to all of them simultaneously via the Details panel.
