@@ -1,29 +1,34 @@
-# Reinforcement Learning in AirSim
+# AirSim 中的强化学习
 
-We below describe how we can implement DQN in AirSim using an OpenAI gym wrapper around AirSim API, and using stable baselines implementations of standard RL algorithms. We recommend installing stable-baselines3 in order to run these examples (please see https://github.com/DLR-RM/stable-baselines3)
+下面我们将介绍如何在 AirSim 中实现 DQN，具体方法是使用 OpenAI Gym 封装 AirSim API 的包装器，并使用标准强化学习算法的稳定基线实现。为了运行这些示例，我们建议安装 stable-baselines3（请参阅 https://github.com/DLR-RM/stable-baselines3）。
 
-#### Disclaimer
 
-This is still in active development. What we share below is a framework that can be extended and tweaked to obtain better performance.
+#### 免责声明
+
+这仍在积极开发中。下面我们分享的是一个可以扩展和调整以获得更佳性能的框架。
 
 #### Gym wrapper
 
-In order to use AirSim as a gym environment, we extend and reimplement the base methods such as `step`, `_get_obs`, `_compute_reward` and `reset` specific to AirSim and the task of interest. The sample environments used in these examples for car and drone can be seen in `PythonClient/reinforcement_learning/*_env.py`
+为了将 AirSim 用作训练环境，我们扩展并重新实现了 AirSim 及其相关任务所需的基础方法，例如 `step`、`_get_obs`、`_compute_reward` 和 `reset`。这些示例中用于汽车和无人机的示例环境位于 `PythonClient/reinforcement_learning/*_env.py` 中。
 
-## RL with Car
 
-[Source code](https://github.com/Microsoft/AirSim/tree/main/PythonClient/reinforcement_learning)
+## RL 与汽车
 
-This example works with AirSimNeighborhood environment available in [releases](https://github.com/Microsoft/AirSim/releases).
+[源代码](https://github.com/Microsoft/AirSim/tree/main/PythonClient/reinforcement_learning)
 
-First, we need to get the images from simulation and transform them appropriately. Below, we show how a depth image can be obtained from the ego camera and transformed to an 84X84 input to the network. (you can use other sensor modalities, and sensor inputs as well – of course you’ll have to modify the code accordingly).
+此示例适用于 [发行版](https://github.com/Microsoft/AirSim/releases) 中提供的 AirSimNeighborhood 环境。
+
+
+首先，我们需要从模拟中获取图像并对其进行适当的转换。下面，我们将展示如何从自我相机获取深度图像并将其转换为 84x84 的输入到网络。（您也可以使用其他传感器模态和传感器输入——当然，您需要相应地修改代码）。
+
 
 ```
 responses = client.simGetImages([ImageRequest(0, AirSimImageType.DepthPerspective, True, False)])
 current_state = transform_input(responses)
 ```
 
-We further define the six actions (brake, straight with throttle, full-left with throttle, full-right with throttle, half-left with throttle, half-right with throttle) that an agent can execute. This is done via the function `interpret_action`:
+我们进一步定义了代理可以执行的 6 个动作（刹车、直行带油门、左转带油门全开、右转带油门全开、左转半开带油门、右转半开带油门）。这通过函数`interpret_action`实现：
+
 
 ```
 def interpret_action(action):
@@ -45,7 +50,8 @@ def interpret_action(action):
     return car_controls
 ```
 
-We then define the reward function in `_compute_reward` as a convex combination of how fast the vehicle is travelling and how much it deviates from the center line. The agent gets a high reward when its moving fast and staying in the center of the lane.
+然后，我们在`_compute_reward`中将奖励函数定义为车辆行驶速度与偏离中心线距离的凸组合。当代理快速行驶并保持在车道中心时，代理将获得高奖励。
+
 
 ```
 def _compute_reward(car_state):
@@ -74,7 +80,7 @@ def _compute_reward(car_state):
     return reward
 ```
 
-The compute reward function also subsequently determines if the episode has terminated (e.g. due to collision). We look at the speed of the vehicle and if it is less than a threshold than the episode is considered to be terminated.
+计算奖励函数随后还会判断该场景是否已终止（例如，由于碰撞）。我们会观察车辆的速度，如果速度低于阈值，则认为该场景已终止。
 
 ```
 done = 0
