@@ -1,23 +1,30 @@
-# Development Workflow
+# 开发工作流程
 
-Below is the guide on how to perform different development activities while working with AirSim. If you are new to Unreal Engine based projects and want to contribute to AirSim or make your own forks for your custom requirements, this might save you some time.
+以下是如何在使用 AirSim 时执行各种开发活动的指南。如果您是虚幻引擎项目的新手，并且想要为 AirSim 做出贡献或根据自己的定制需求创建自己的分支，这可能会节省您的一些时间。
 
 ## Development Environment
-### OS
-We highly recommend Windows 10 and Visual Studio 2019 as your development environment. The support for other OSes and IDE is unfortunately not as mature on the Unreal Engine side and you may risk severe loss of productivity trying to do workarounds and jumping through the hoops.
+### 操作系统
+我们强烈推荐使用 Windows 10 和 Visual Studio 2019 作为您的开发环境。遗憾的是，虚幻引擎对其他操作系统和 IDE 的支持并不成熟，如果您尝试变通方法并跳过繁琐的步骤，可能会面临严重的生产力损失。
 
-### Hardware
-We recommend GPUs such as NVidia 1080 or NVidia Titan series with powerful desktop such as one with 64GB RAM, 6+ cores, SSDs and 2-3 displays (ideally 4K). We have found HP Z840 work quite well for our needs. The development experience on high-end laptops is generally sub-par compared to powerful desktops however they might be useful in a pinch. You generally want laptops with discrete NVidia GPU (at least M2000 or better) with 64GB RAM, SSDs and hopefully 4K display. We have found models such as Lenovo P50 work well for our needs. Laptops with only integrated graphics might not work well.
 
-## Updating and Changing AirSim Code
+### 硬件
 
-### Overview
-AirSim is designed as plugin. This means it can't run by itself, you need to put it in an Unreal project (we call it "environment"). So building and testing AirSim has two steps: (1) build the plugin (2) deploy plugin in Unreal project and run the project. 
+我们推荐使用 NVidia 1080 或 NVidia Titan 系列等 GPU，搭配性能强大的台式机，例如配备 64GB RAM、6 核及以上处理器、SSD 和 2-3 台显示器（最好是 4K 显示器）的台式机。我们发现 HP Z840 的性能足以满足我们的需求。高端笔记本电脑的开发体验通常不如性能强大的台式机，但在紧急情况下可能会派上用场。通常情况下，您需要配备独立 NVidia GPU（至少是 M2000 或更高版本）、64GB RAM、SSD 以及 4K 显示器的笔记本电脑。我们发现联想 P50 等型号的笔记本电脑能够很好地满足我们的需求。仅配备集成显卡的笔记本电脑可能无法满足我们的需求。
 
-The first step is accomplished by build.cmd available in AirSim root. This command will update everything you need for the plugin in the `Unreal\Plugins` folder. So to deploy the plugin, you just need to copy `Unreal\Plugins` folder in to your Unreal project folder. Next you should remove all  intermediate files in your Unreal project and then regenerate .sln file for your Unreal project. To do this, we have two handy .bat files in `Unreal\Environments\Blocks` folder: `clean.bat` and `GenerateProjectFiles.bat`. So just run these bat files in sequence from root of your Unreal project. Now you are ready to open new .sln in Visual Studio and press F5 to run it.
 
-### Steps
-Below are the steps we use to make changes in AirSim and test them out. The best way to do development in AirSim code is to use [Blocks project](unreal_blocks.md). This is the light weight project so compile time is relatively faster. Generally the workflow is,
+## 更新和更改 AirSim 代码
+
+### 概述
+AirSim 被设计为插件形式。这意味着它无法独立运行，需要将其放入 Unreal 项目中（我们称之为“环境”）。因此，构建和测试 AirSim 分为 2 个步骤：(1) 构建插件 (2) 在 Unreal 项目中部署插件并运行该项目。
+
+
+第一步是通过 AirSim 根目录下的 build.cmd 完成的。此命令将更新 `Unreal\Plugins` 文件夹中插件所需的所有内容。因此，要部署插件，您只需将 `Unreal\Plugins` 文件夹复制到 Unreal 项目文件夹中即可。接下来，您应该删除 Unreal 项目中的所有中间文件，然后为 Unreal 项目重新生成 .sln 文件。为此，我们在`Unreal\Environments\Blocks`文件夹中提供了两个方便的 .bat 文件：`clean.bat`和`GenerateProjectFiles.bat`。因此，只需从 Unreal 项目的根目录按顺序运行这两个 bat 文件即可。现在，您可以在 Visual Studio 中打开新的 .sln 文件并按 F5 运行它。
+
+
+### 步骤
+
+以下是我们在 AirSim 中进行更改并测试的步骤。在 AirSim 代码中进行开发的最佳方式是使用 [Blocks 项目](unreal_blocks.md)。这是一个轻量级项目，因此编译时间相对较快。通常的工作流程如下：
+
 
 ```
 REM //Use x64 Native Tools Command Prompt for VS 2019
@@ -30,9 +37,11 @@ update_from_git.bat
 start Blocks.sln
 ```
 
-Above commands first builds the AirSim plugin and then deploys it to Blocks project using handy `update_from_git.bat`. Now you can work inside Visual Studio solution, make changes to the code and just run F5 to build, run and test your changes. The debugging, break points etc should work as usual. 
+上述命令首先构建 AirSim 插件，然后使用便捷的`update_from_git.bat`将其部署到 Blocks 项目中。现在，您可以在 Visual Studio 解决方案中工作，修改代码，然后只需按 F5 即可构建、运行并测试更改。调试、断点等功能应该可以正常工作。
 
-After you are done with you code changes, you might want to push your changes back to AirSim repo or your own fork or you may deploy the new plugin to your custom Unreal project. To do this, go back to command prompt and first update the AirSim repo folder:
+
+完成代码更改后，您可能希望将更改推送回 AirSim 仓库或您自己的 fork，或者您可以将新插件部署到您的自定义 Unreal 项目中。为此，请返回命令提示符并首先更新 AirSim 仓库文件夹：
+
 
 
 ```
@@ -43,30 +52,44 @@ update_to_git.bat
 build.cmd
 ```
 
-Above command will transfer your code changes from Unreal project folder back to `Unreal\Plugins` folder. Now your changes are ready to be pushed to AirSim repo or your own fork. You can also copy `Unreal\Plugins` to your custom Unreal engine project and see if everything works in your custom project as well.
+上述命令会将您的代码更改从 Unreal 项目文件夹转移回`Unreal\Plugins`文件夹。现在，您的更改已准备好推送到 AirSim 代码库或您自己的分支。您也可以将`Unreal\Plugins`复制到您的自定义 Unreal 引擎项目中，并检查您的自定义项目是否一切正常。
+
 
 ### Take Away
- Once you understand how Unreal Build system and plugin model works as well as why we are doing above steps, you should feel quite comfortable in following this workflow. Don't be afraid of opening up .bat files to peek inside and see what its doing. They are quite minimal and straightforward (except, of course, build.cmd - don't look in to that one).
+
+一旦你理解了虚幻构建系统和插件模型的工作原理，以及我们为什么要执行上述步骤，你应该就能轻松地遵循这个工作流程了。不必害怕打开 .bat 文件来查看它的内部功能。这些文件非常简洁明了（当然，build.cmd 除外——不要深入研究它）。
+
 
 ## FAQ
 
-#### I made changes in code in Blocks project but its not working.
-When you press F5 or F6 in Visual Studio to start build, the Unreal Build system kicks in and it tries to find out if any files are dirty and what it needs to build. Unfortunately, it often fails to recognize dirty files that is not the code that uses Unreal headers and object hierarchy. So, the trick is to just make some file dirty that Unreal Build system always recognizes. My favorite one is AirSimGameMode.cpp. Just insert a line, delete it and save the file.
+#### 我对 Blocks 项目中的代码进行了更改，但它不起作用。
+当你在 Visual Studio 中按下 F5 或 F6 开始构建时，虚幻构建系统会启动，并尝试查找是否有任何文件是脏的以及需要构建哪些文件。遗憾的是，它经常无法识别那些不是使用虚幻头文件和对象层次结构的代码的脏文件。所以，诀窍是将某个虚幻构建系统始终能识别的文件设置为脏文件。我最喜欢的文件是 AirSimGameMode.cpp。只需插入一行，删除它并保存文件即可。
 
-#### I made changes in the code outside of Visual Studio but its not working.
-Don't do that! Unreal Build system *assumes* that you are using Visual Studio and it does bunch of things to integrate with Visual Studio. If you do insist on using other editors then look up how to do command line builds in Unreal projects OR see docs on your editor on how it can integrate with Unreal build system OR run `clean.bat` + `GenerateProjectFiles.bat` to make sure VS solution is in sync.
 
-#### I'm trying to add new file in the Unreal Project and its not working.
-It won't! While you are indeed using Visual Studio solution, remember that this solution was actually generated by Unreal Build system. If you want to add new files in your project, first shut down Visual Studio, add an empty file at desired location and then run `GenerateProjectFiles.bat` which will scan all files in your project and then re-create the .sln file. Now open this new .sln file and you are in business.
+#### 我在 Visual Studio 之外对代码进行了更改，但它不起作用。
 
-#### I copied Unreal\Plugins folder but nothing happens in Unreal Project.
-First make sure your project's .uproject file is referencing the plugin. Then make sure you have run `clean.bat` and then `GenerateProjectFiles.bat` as described in Overview above.
+别这么做！虚幻构建系统*假设*你正在使用 Visual Studio，并且它会执行一系列操作来与 Visual Studio 集成。如果你坚持使用其他编辑器，请查阅如何在虚幻项目中进行命令行构建，或者查看你的编辑器文档，了解如何将其与虚幻构建系统集成，或者运行 `clean.bat` + `GenerateProjectFiles.bat` 以确保 VS 解决方案同步。
 
-#### I have multiple Unreal projects with AirSim plugin. How do I update them easily?
-You are in luck! We have `build_all_ue_projects.bat` which exactly does that. Don't treat it as black box (at least not yet), open it up and see what it does.  It has 4 variables that are being set from command line args. If these args is not supplied they are set to default values in next set of statements. You might want to change default values for the paths. This batch file builds AirSim plugin, deploys it to all listed projects (see CALL statements later in the batch file), runs packaging for those projects and puts final binaries in specified folder - all in one step! This is what we use to create our own binary releases.
 
-#### How do I contribute back to AirSim?
-Before making any changes make sure you have created your feature branch. After you test your code changes in Blocks environment, follow the [usual steps](https://akrabat.com/the-beginners-guide-to-contributing-to-a-github-project/) to make contributions just like any other GitHub projects. Please use rebase and squash merge, for more information see [An introduction to Git merge and rebase: what they are, and how to use them](https://www.freecodecamp.org/news/an-introduction-to-git-merge-and-rebase-what-they-are-and-how-to-use-them-131b863785f/).
+#### 我正在尝试在虚幻项目中添加新文件，但没有成功。
+
+不会！虽然您确实在使用 Visual Studio 解决方案，但请记住，该解决方案实际上是由 Unreal Build 系统生成的。如果您想在项目中添加新文件，请先关闭 Visual Studio，在所需位置添加一个空文件，然后运行`GenerateProjectFiles.bat`，它将扫描项目中的所有文件，然后重新创建 .sln 文件。现在打开这个新的 .sln 文件，您就可以开始工作了。
+
+
+#### 我复制了 Unreal\Plugins 文件夹，但在 Unreal 项目中没有任何反应。
+
+首先确保项目的 .uproject 文件引用了该插件。然后确保已按照上文概述中所述运行 `clean.bat` 和 `GenerateProjectFiles.bat`。
+
+
+#### 我有多个使用 AirSim 插件的 Unreal 项目。如何轻松更新它们？
+
+你真走运！我们有个`build_all_ue_projects.bat`文件，它正好能完成这个任务。别把它当成黑盒子（至少现在还别），打开它看看它能做什么。它有 4 个变量，这些变量可以通过命令行参数设置。如果未提供这些参数，它们将在下一组语句中被设置为默认值。你可能需要更改路径的默认值。这个批处理文件会构建 AirSim 插件，将其部署到所有列出的项目（请参阅批处理文件后面的 CALL 语句），为这些项目运行打包，并将最终的二进制文件放入指定文件夹——所有操作只需一步！这就是我们用来创建自己的二进制版本的工具。
+
+
+#### 我如何回馈 AirSim？
+
+在进行任何更改之前，请确保您已创建功能分支。在 Blocks 环境中测试代码更改后，请按照 [常规步骤](https://akrabat.com/the-beginners-guide-to-contributing-to-a-github-project/) 进行贡献，就像其他 GitHub 项目一样。请使用 rebase 和 squash 合并，更多信息请参阅 [Git 合并和 rebase 简介：它们是什么，以及如何使用它们](https://www.freecodecamp.org/news/an-introduction-to-git-merge-and-rebase-what-they-are-and-how-to-use-them-131b863785f/) 。
+
 
 
 
