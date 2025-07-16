@@ -168,6 +168,7 @@ AirSim 的另一种使用方式是所谓的“计算机视觉”模式。在此�
 * [能够产生/销毁灯光并控制灯光参数](https://github.com/microsoft/AirSim/pull/3991)
 * [Unity 支持多架无人机](https://github.com/microsoft/AirSim/pull/3128)
 * [通过键盘控制手动相机速度](https://github.com/microsoft/AirSim/pulls?page=6&q=is%3Apr+is%3Aclosed+sort%3Aupdated-desc#:~:text=1-,Control%20manual%20camera%20speed%20through%20the%20keyboard,-%233221%20by%20saihv) 
+* [使用AirSim的项目](./third/used_by.md)
 
 如需查看完整的变更列表，请查看我们的 [变更日志](docs/CHANGELOG.md)
 
