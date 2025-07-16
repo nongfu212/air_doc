@@ -92,8 +92,8 @@ if car_controls.brake == 0:
 return done
 ```
 
-The main loop then sequences through obtaining the image, computing the action to take according to the current policy, getting a reward and so forth.
-If the episode terminates then we reset the vehicle to the original state via `reset()`:
+然后，主循环依次执行获取图像、根据当前策略计算要采取的行动、获得奖励等步骤。如果回合结束，我们会通过 `reset()` 将车辆重置为原始状态：
+
 
 ```
 client.reset()
@@ -104,7 +104,8 @@ client.setCarControls(car_control)
 time.sleep(1)
 ```
 
-Once the gym-styled environment wrapper is defined as in `car_env.py`, we then make use of stable-baselines3 to run a DQN training loop. The DQN training can be configured as follows, seen in `dqn_car.py`.
+一旦在`car_env.py`中定义了 gym 风格的环境包装器，我们就可以利用 stable-baselines3 运行 DQN 训练循环。DQN 训练的配置如下，详见`dqn_car.py`。
+
 
 ```
 model = DQN(
@@ -125,20 +126,25 @@ model = DQN(
 )
 ```
 
-A training environment and an evaluation envrionment (see `EvalCallback` in `dqn_car.py`) can be defined. The evaluation environoment can be different from training, with different termination conditions/scene configuration. A tensorboard log directory is also defined as part of the DQN parameters. Finally, `model.learn()` starts the DQN training loop. Similarly, implementations of PPO, A3C etc. can be used from stable-baselines3.
+可以定义训练环境和评估环境（参见 `dqn_car.py` 中的 `EvalCallback`）。评估环境可以与训练环境不同，具有不同的终止条件/场景配置。Tensorboard 日志目录也作为 DQN 参数的一部分定义。最后，`model.learn()` 启动 DQN 训练循环。同样，可以从 stable-baselines3 中使用 PPO、A3C 等实现。
 
-Note that the simulation needs to be up and running before you execute `dqn_car.py`. The video below shows first few episodes of DQN training.
+
+请注意，在执行`dqn_car.py`之前，需要启动并运行模拟。下方视频展示了 DQN 训练的前几轮。
+
 
 [![Reinforcement Learning - Car](images/dqn_car.png)](https://youtu.be/fv-oFPAqSZ4)
 
-## RL with Quadrotor
+## RL 与四旋翼飞行器
 
-[Source code](https://github.com/Microsoft/AirSim/tree/main/PythonClient/reinforcement_learning)
+[源代码](https://github.com/Microsoft/AirSim/tree/main/PythonClient/reinforcement_learning)
 
-This example works with AirSimMountainLandscape environment available in [releases](https://github.com/Microsoft/AirSim/releases).
 
-We can similarly apply RL for various autonomous flight scenarios with quadrotors. Below is an example on how RL could be used to train quadrotors to follow high tension power lines (e.g. application for energy infrastructure inspection).
-There are seven discrete actions here that correspond to different directions in which the quadrotor can move in (six directions + one hovering action).
+此示例适用于 [发行版](https://github.com/Microsoft/AirSim/releases) 中可用的 AirSimMountainLandscape 环境。
+
+
+类似地，我们可以将强化学习应用于四旋翼飞行器的各种自主飞行场景。以下示例展示了如何使用强化学习训练四旋翼飞行器沿高压电线飞行（例如，能源基础设施巡检应用）。
+这里有七个离散动作，分别对应四旋翼飞行器可以移动的不同方向（6 个方向 + 1 个悬停动作）。
+
 
 ```
 def interpret_action(self, action):
@@ -158,7 +164,8 @@ def interpret_action(self, action):
         quad_offset = (0, 0, 0)
 ```
 
-The reward again is a function how how fast the quad travels in conjunction with how far it gets from the known powerlines.
+奖励再次是一个函数，它决定了四轮车的行驶速度以及它与已知电力线的距离。
+
 
 ```
 def compute_reward(quad_state, quad_vel, collision_info):
@@ -185,9 +192,10 @@ def compute_reward(quad_state, quad_vel, collision_info):
             reward = reward_dist + reward_speed
 ```
 
-We consider an episode to terminate if it drifts too much away from the known power line coordinates, and then reset the drone to its starting point.
+如果事件偏离已知电力线坐标太远，我们会认为该事件终止，然后将无人机重置到其起点。
 
-Once the gym-styled environment wrapper is defined as in `drone_env.py`, we then make use of stable-baselines3 to run a DQN training loop. The DQN training can be configured as follows, seen in `dqn_drone.py`.
+
+一旦在`drone_env.py`中定义了 gym 风格的环境包装器，我们就可以利用 stable-baselines3 运行 DQN 训练循环。DQN 训练的配置如下，详见`dqn_drone.py`。
 
 ```
 model = DQN(
@@ -208,12 +216,14 @@ model = DQN(
 )
 ```
 
-A training environment and an evaluation envrionment (see `EvalCallback` in `dqn_drone.py`) can be defined. The evaluation environoment can be different from training, with different termination conditions/scene configuration. A tensorboard log directory is also defined as part of the DQN parameters. Finally, `model.learn()` starts the DQN training loop. Similarly, implementations of PPO, A3C etc. can be used from stable-baselines3.
+可以定义训练环境和评估环境（参见 `dqn_drone.py` 中的 `EvalCallback`）。评估环境可以与训练环境不同，具有不同的终止条件/场景配置。Tensorboard 日志目录也被定义为 DQN 参数的一部分。最后，`model.learn()` 启动 DQN 训练循环。同样，可以使用 stable-baselines3 中的 PPO、A3C 等实现。
 
-Here is the video of first few episodes during the training.
+
+以下是训练期间前几代的视频。
 
 [![Reinforcement Learning - Quadrotor](images/dqn_quadcopter.png)](https://youtu.be/uKm15Y3M1Nk)
 
-## Related
+## 相关内容
 
-Please also see [The Autonomous Driving Cookbook](https://aka.ms/AutonomousDrivingCookbook) by Microsoft Deep Learning and Robotics Garage Chapter.
+另请参阅 Microsoft 深度学习和机器人车库章节的 [自动驾驶手册](https://aka.ms/AutonomousDrivingCookbook)。
+
