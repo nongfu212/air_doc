@@ -1,19 +1,19 @@
-# AirSim Settings
+# AirSim 设置
 
-## Where are Settings Stored?
-AirSim is searching for the settings definition in the following order. The first match will be used:
+## 设置存储在哪里？
+AirSim 正在按以下顺序搜索设置定义。将使用第一个匹配项：
 
-1. Looking at the (absolute) path specified by the `-settings` command line argument.
-For example, in Windows: `AirSim.exe -settings="C:\path\to\settings.json"`
-In Linux `./Blocks.sh -settings="/home/$USER/path/to/settings.json"`
+1. 查看 `-settings` 命令行参数指定的（绝对）路径。
+例如，在 Windows 系统中：`AirSim.exe -settings="C:\path\to\settings.json"`
+在 Linux 系统中：`./Blocks.sh -settings="/home/$USER/path/to/settings.json"`  
 
-2. Looking for a json document passed as a command line argument by the `-settings` argument.
-For example, in Windows: `AirSim.exe -settings={"foo":"bar"}`
-In Linux `./Blocks.sh -settings={"foo":"bar"}`
+2. 查找通过 `-settings` 参数作为命令行参数传递的 JSON 文档。
+例如，在 Windows 系统中：`AirSim.exe -settings={"foo":"bar"}`
+在 Linux 系统中：`./Blocks.sh -settings={"foo":"bar"}` 
 
-3. Looking in the folder of the executable for a file called `settings.json`.
-This will be a deep location where the actual executable of the Editor or binary is stored.
-For e.g. with the Blocks binary, the location searched is `<path-of-binary>/LinuxNoEditor/Blocks/Binaries/Linux/settings.json`.
+3. 在可执行文件的文件夹中查找名为`settings.json`的文件。
+这将是编辑器或二进制文件实际可执行文件的深层位置。
+例如，对于 Blocks 二进制文件，搜索的位置是`<path-of-binary>/LinuxNoEditor/Blocks/Binaries/Linux/settings.json`。 
 
 4. Searching for `settings.json` in the folder from where the executable is launched
 

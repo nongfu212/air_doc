@@ -1,7 +1,7 @@
-# Sensors in AirSim
+# AirSim 中的传感器
 
-AirSim currently supports the following sensors.
-Each sensor is associated with a integer enum specifying its sensor type.
+AirSim 目前支持以下传感器。
+每个传感器都与一个指定其传感器类型的整数枚举相关联。
 
 * Camera
 * Barometer = 1
@@ -11,29 +11,31 @@ Each sensor is associated with a integer enum specifying its sensor type.
 * Distance Sensor = 5
 * Lidar = 6
 
-**Note** :  Cameras are configured differently than the other sensors and do not have an enum associated with them.    Look at [general settings](settings.md) and [image API](image_apis.md) for camera config and API.
+**笔记** :  摄像头的配置与其他传感器不同，并且没有与之关联的枚举。请参阅 [常规设置](settings.md) 和 [图像 API](image_apis.md) ，了解摄像头的配置和 API。 
 
-## Default sensors
+## 默认传感器
 
-If no sensors are specified in the `settings.json`, then the following sensors are enabled by default based on the sim mode.
+如果在`settings.json`中未指定任何传感器，则根据模拟模式默认启用以下传感器。
 
-### Multirotor
+
+### 多旋翼
 * Imu
 * Magnetometer
 * Gps
 * Barometer
 
-### Car
+### 车
 * Gps
 
 ### ComputerVision
 * None
 
-Behind the scenes, `createDefaultSensorSettings` method in [AirSimSettings.hpp](https://github.com/Microsoft/AirSim/blob/main/AirLib/include/common/AirSimSettings.hpp) sets up the above sensors with their default parameters, depending on the sim mode specified in the `settings.json` file.
+在后台，[AirSimSettings.hpp](https://github.com/Microsoft/AirSim/blob/main/AirLib/include/common/AirSimSettings.hpp) 中的 `createDefaultSensorSettings` 方法根据 `settings.json` 文件中指定的模拟模式，使用默认参数设置上述传感器。
 
-## Configuring the default sensor list
 
-The default sensor list can be configured in settings json:
+## 配置默认传感器列表
+
+可以在设置 json 中配置默认传感器列表：
 
 ```json
 "DefaultSensors": {
@@ -110,12 +112,13 @@ The default sensor list can be configured in settings json:
 },
 ```
 
-## Configuring vehicle-specific sensor list
+## 配置特定车辆传感器列表
 
-A vehicle can override a subset of the default sensors listed above. A Lidar and Distance sensor are
-not added to a vehicle by default, so those you need to add this way. Each sensor must have a valid
-"SensorType" and a subset of the properties can be defined that override the default values shown
-above and you can set Enabled to false to disable a specific type of sensor.
+车辆可以覆盖上面列出的部分默认传感器。激光雷达和距离传感器
+默认情况下不会添加到车辆中，因此您需要通过这种方式添加它们。每个传感器必须具有有效的
+“SensorType”，并且可以定义部分属性来覆盖上面显示的默认值，
+并且您可以将 Enabled 设置为 false 以禁用特定类型的传感器。
+
 
 ```json
 "Vehicles": {
@@ -151,17 +154,17 @@ above and you can set Enabled to false to disable a specific type of sensor.
 }
 ```
 
-### Sensor specific settings
+### 传感器特定设置
 
-For detailed information on the meaning of these sensor settings
-see the following pages:
+有关这些传感器设置含义的详细信息，请参阅以下页面：
 
-- [Lidar sensor settings](lidar.md)
-- [Distance sensor settings](distance_sensor.md)
+- [激光雷达传感器设置](lidar.md)
+- [距离传感器设置](distance_sensor.md)
 
-##### Server side visualization for debugging
+##### 用于调试的服务器端可视化
 
-Be default, the points hit by distance sensor are not drawn on the viewport. To enable the drawing of hit points on the viewport, please enable setting `DrawDebugPoints` via settings json. E.g. -
+默认情况下，距离传感器触碰的点不会绘制在视口上。如需启用触碰点绘制功能，请通过设置 json 启用`DrawDebugPoints`设置。例如：
+
 
 ```json
 "Distance": {
@@ -172,10 +175,12 @@ Be default, the points hit by distance sensor are not drawn on the viewport. To 
 }
 ```
 
-## Sensor APIs
-Jump straight to [`hello_drone.py`](https://github.com/Microsoft/AirSim/blob/main/PythonClient/multirotor/hello_drone.py) or [`hello_drone.cpp`](https://github.com/Microsoft/AirSim/blob/main/HelloDrone/main.cpp) for example usage, or see follow below for the full API.
+## 传感器 API
 
-### Barometer
+直接跳转到 [`hello_drone.py`](https://github.com/Microsoft/AirSim/blob/main/PythonClient/multirotor/hello_drone.py) 或 [`hello_drone.cpp`](https://github.com/Microsoft/AirSim/blob/main/HelloDrone/main.cpp) 查看示例用法，或者参阅下文了解完整 API。
+
+
+### 气压计
 ```cpp
 msr::airlib::BarometerBase::Output getBarometerData(const std::string& barometer_name, const std::string& vehicle_name);
 ```
@@ -217,5 +222,6 @@ msr::airlib::DistanceSensorData getDistanceSensorData(const std::string& distanc
 distance_sensor_data = client.getDistanceSensorData(distance_sensor_name = "", vehicle_name = "")
 ```
 
-### Lidar
-See the [lidar page](lidar.md) for Lidar API.
+### 激光雷达
+有关 Lidar API，请参阅 [lidar 页面](lidar.md)。
+
