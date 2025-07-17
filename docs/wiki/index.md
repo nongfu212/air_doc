@@ -8,7 +8,7 @@
 
 * 使用 DroneBlocks 和 AirSim 构建球形全景图
 * 使用虚幻 PixelStreamer 捕捉视频
-* 使用 AirSim 训练 Formula Student Technion 赛车
+* [使用 AirSim 训练 Formula Student Technion 赛车](./build_FSTDriverless_windows.md)
 * [建造六旋翼飞行器](hexacopter.md)
 * [无人机沿着路径移动(moveOnPath)演示](moveOnPath-demo.md)
 * 构建点云
