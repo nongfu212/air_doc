@@ -1,18 +1,24 @@
-# Unreal Environment
+# 虚幻环境
 
-## Setting Up the Unreal Project
+## 设置虚幻项目
 
-### Option 1: Built-in Blocks Environment
-To get up and running fast, you can use the Blocks project that already comes with AirSim. This is not very highly detailed environment to keep the repo size reasonable but we use it for various testing all the times and it is the easiest way to get your feet wet in this strange land. 
+### 选项 1：内置块环境
 
-Follow these [quick steps](unreal_blocks.md).
+为了快速启动并运行，您可以使用 AirSim 自带的 Blocks 项目。为了保持 repo 大小合理，这个环境的精细度并不高，但我们经常用它来进行各种测试，这也是让您在这个陌生的领域入门的最简单方法。
 
-### Option 2: Create Your Own Unreal Environment
-If you want to setup photo-realistic high quality environments, then you will need to create your own Unreal project. This is little bit more involved but worthwhile! 
+按照这些[快速步骤](unreal_blocks.md)操作。
 
-Follow this [step-by-step guide](unreal_custenv.md). 
 
-## Changing Code and Development Workflow
-To see how you can change and test AirSim code, please read our [recommended development workflow](dev_workflow.md).
+### 选项 2：创建自己的虚幻环境
+
+如果您想设置照片级逼真的高质量环境，那么您需要创建自己的虚幻项目。这虽然有点复杂，但值得一试！
+
+按照此 [分步指南](unreal_custenv.md) 进行操作。
+
+
+## 更改代码和开发工作流程
+
+要了解如何更改和测试 AirSim 代码，请阅读我们的[推荐的开发工作流程](dev_workflow.md)。
+
 
 
