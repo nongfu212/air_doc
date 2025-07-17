@@ -108,38 +108,46 @@ Linux 上没有 `Epic Games Launcher`，这意味着如果您需要创建自定�
 按照上述步骤搭建好环境后，你需要经常从 GitHub 更新本地 AirSim 代码到最新版本。具体操作步骤如下：
 
 1. 首先将 [clean.bat](https://github.com/Microsoft/AirSim/blob/main/Unreal/Environments/Blocks/clean.bat)（Linux 用户请将 [clean.sh](https://github.com/Microsoft/AirSim/blob/main/Unreal/Environments/Blocks/clean.sh)）放入环境的根文件夹中。运行此文件可以清理 虚幻引擎项目中的所有中间文件。 
-2. 在您的 AirSim repo 中执行`git pull`，然后执行`build.cmd`（对于 Linux 用户，执行“./build.sh”）。 Do `git pull` in your AirSim repo followed by `build.cmd` (or `./build.sh` for Linux users).
-3. Replace [your project]/Plugins folder with AirSim/Unreal/Plugins folder.
-4. Right click on your .uproject file and chose "Generate Visual Studio project files" option. This is not required for Linux.
+2. 在您的 AirSim repo 中执行`git pull`，然后执行`build.cmd`（对于 Linux 用户，执行“./build.sh”）。
+3. 将 [your project]/Plugins 文件夹替换为 AirSim/Unreal/Plugins 文件夹。
+4. 右键单击 .uproject 文件，然后选择“Generate Visual Studio project files”选项。Linux 系统无需执行此操作。 
 
 ## FAQ
 
-#### What are other cool environments?
-[Unreal Marketplace](https://www.unrealengine.com/marketplace) has dozens of prebuilt extra-ordinarily detailed [environments](https://www.unrealengine.com/marketplace/content-cat/assets/environments) ranging from Moon to Mars and everything in between. The one we have used for testing is called [Modular Neighborhood Pack](https://www.unrealengine.com/marketplace/modular-neighborhood-pack)
-but you can use any environment. Another free environment is [Infinity Blade series](https://www.unrealengine.com/marketplace/infinity-blade-plain-lands). Alternatively, if you look under the Learn tab in Epic Game Launcher, you will find many free samples that you can use. One of our favorites is "A Boy and His Kite" which is a 100 square miles of highly detailed environment (caution: you will need *very* beefy PC to run it!).
+#### 还有哪些很酷的环境？
 
-#### When I press Play button some kind of video starts instead of my vehicle.
-If the environment comes with MatineeActor, delete it to avoid any startup demo sequences. There might be other ways to remove it as well, for example, click on Blueprints button, then Level Blueprint and then look at Begin Play event in Event Graph. You might want to disconnect any connections that may be starting "matinee".
+[虚幻商城](https://www.unrealengine.com/marketplace) 拥有数十个预先构建的极其精细的 [环境](https://www.unrealengine.com/marketplace/content-cat/assets/environments) ，涵盖从月球到火星等各种场景。我们用于测试的环境名为“模块化邻里包 ( [Modular Neighborhood Pack](https://www.unrealengine.com/marketplace/modular-neighborhood-pack) )”，但您可以使用任何环境。另一个免费环境是“无尽之剑 ( [Infinity Blade 系列](https://www.unrealengine.com/marketplace/infinity-blade-plain-lands) )”。或者，如果您在 Epic Game Launcher 的“学习 (Learn)”选项卡下查看，您会发现许多可用的免费示例。我们最喜欢的一个是“男孩和他的风筝 (A Boy and His Kite)”，这是一个 100 平方英里（约 100 平方英里）的高精度环境（注意：您需要*非常*强大的 PC 才能运行它！）。
 
-#### Is there easy way to sync code in my Unreal project with code in AirSim repo?
-Sure, there is! You can find bunch of `.bat` files (for linux, `.sh`) in `AirSim\Unreal\Environments\Blocks`. Just copy them over to your own Unreal project. Most of these are quite simple and self explanatory.
 
-#### I get some error about map.
-You might have to set default map for your project. For example, if you are using Modular Neighborhood Pack, set the Editor Starter Map as well as Game Default Map to Demo_Map in Project Settings > Maps & Modes.
+#### 当我按下播放按钮时，某种视频开始播放，而不是我的车辆。
 
-#### I see "Add to project" option for environment but not "Create project" option.
-In this case, create a new blank C++ project with no Starter Content and add your environment in to it.
+如果环境自带 MatineeActor，请将其删除以避免任何启动演示序列。还有其他方法可以删除它，例如，点击“蓝图”按钮，然后点击“关卡蓝图”，然后查看“事件图表”中的“开始播放”事件。您可能需要断开所有可能正在启动“matinee”的连接。
 
-#### I already have my own Unreal project. How do I use AirSim with it?
-Copy the `Unreal\Plugins` folder from the build you did in the above section into the root of your Unreal project's folder. In your Unreal project's .uproject file, add the key `AdditionalDependencies` to the "Modules" object
-as we showed in the `LandscapeMountains.uproject` above.
+#### 有没有简单的方法可以将我的虚幻引擎项目中的代码与 AirSim repo 中的代码同步？
+
+当然有！你可以在`AirSim\Unreal\Environments\Blocks`中找到一堆`.bat`文件（Linux 系统下为`.sh`）。只需将它们复制到你自己的虚幻引擎项目中即可。其中大多数都非常简单易懂。
+
+
+#### 我收到一些有关地图的错误。
+
+您可能需要为项目设置默认地图。例如，如果您使用的是模块化邻里包 (Modular Neighborhood Pack)，请在“项目设置”>“地图和模式”中将编辑器起始地图和游戏默认地图设置为“Demo_Map”。
+
+#### 我看到了环境的“添加到项目”选项，但没有看到“创建项目”选项。
+在这种情况下，创建一个没有 Starter Content 的新空白 C++ 项目并将您的环境添加到其中。
+
+
+#### 我已经有自己的 Unreal 项目了。如何使用 AirSim？
+
+将您在上一节中构建的`Unreal\Plugins`文件夹复制到 Unreal 项目的根目录下。在 Unreal 项目的 .uproject 文件中，将键`AdditionalDependencies`添加到“Modules”对象中，就像我们在上文“LandscapeMountains.uproject”中展示的那样。
+
 ```json
 "AdditionalDependencies": [
     "AirSim"
 ]
 ```
 
-and the `Plugins` section to the top level object:
+并将`Plugins`部分添加到顶级对象：
+
 ```json
 "Plugins": [
     {
