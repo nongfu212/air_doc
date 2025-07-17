@@ -15,18 +15,20 @@ AirSim 正在按以下顺序搜索设置定义。将使用第一个匹配项：
 这将是编辑器或二进制文件实际可执行文件的深层位置。
 例如，对于 Blocks 二进制文件，搜索的位置是`<path-of-binary>/LinuxNoEditor/Blocks/Binaries/Linux/settings.json`。 
 
-4. Searching for `settings.json` in the folder from where the executable is launched
+4. 在启动可执行文件的文件夹中搜索`settings.json` 
 
-    This is a top-level directory containing the launch script or executable. For e.g. Linux: `<path-of-binary>/LinuxNoEditor/settings.json`, Windows: `<path-of-binary>/WindowsNoEditor/settings.json`
+    这是包含启动脚本或可执行文件的顶级目录。例如，Linux：`<path-of-binary>/LinuxNoEditor/settings.json`，Windows：`<path-of-binary>/WindowsNoEditor/settings.json` 
 
-    Note that this path changes depending on where its invoked from. On Linux, if executing the `Blocks.sh` script from inside LinuxNoEditor folder like `./Blocks.sh`, then the previous mentioned path is used. However, if launched from outside LinuxNoEditor folder such as `./LinuxNoEditor/Blocks.sh`, then `<path-of-binary>/settings.json` will be used.
+    请注意，此路径会根据调用位置而变化。在 Linux 上，如果从 LinuxNoEditor 文件夹内部（例如`./Blocks.sh`）执行`Blocks.sh`脚本，则使用前面提到的路径。但是，如果从 LinuxNoEditor 文件夹外部（例如`./LinuxNoEditor/Blocks.sh`）启动，则将使用`<path-of-binary>/settings.json`。 
 
-5. Looking in the AirSim subfolder for a file called `settings.json`. The AirSim subfolder is located at `Documents\AirSim` on Windows and `~/Documents/AirSim` on Linux systems.
+5. 在 AirSim 子文件夹中查找名为`settings.json`的文件。在 Windows 系统中，AirSim 子文件夹位于`Documents\AirSim`；在 Linux 系统中，AirSim 子文件夹位于`~/Documents/AirSim`。
 
-The file is in usual [json format](https://en.wikipedia.org/wiki/JSON). On first startup AirSim would create `settings.json` file with no settings at the users home folder. To avoid problems, always use ASCII format to save json file.
 
-## How to Chose Between Car and Multirotor?
-The default is to use multirotor. To use car simple set `"SimMode": "Car"` like this:
+该文件采用常见的 [json 格式](https://en.wikipedia.org/wiki/JSON)。首次启动时，AirSim 会在用户主文件夹中创建 `settings.json` 文件，该文件不包含任何设置。为避免出现问题，请始终使用 ASCII 格式保存 json 文件。  
+
+
+## 如何在汽车和多旋翼飞行器之间进行选择？
+默认使用多旋翼飞行器。要使用汽车，只需设置`"SimMode": "Car"`，如下所示： 
 
 ```
 {
@@ -35,12 +37,15 @@ The default is to use multirotor. To use car simple set `"SimMode": "Car"` like 
 }
 ```
 
-To choose multirotor, set `"SimMode": "Multirotor"`. If you want to prompt user to select vehicle type then use `"SimMode": ""`.
+要选择多旋翼飞行器，请设置 `"SimMode": "Multirotor"`。如果您想提示用户选择飞行器类型，请使用 `"SimMode": ""`。
 
-## Available Settings and Their Defaults
-Below are complete list of settings available along with their default values. If any of the settings is missing from json file, then default value is used. Some default values are simply specified as `""` which means actual value may be chosen based on the vehicle you are using. For example, `ViewMode` setting has default value `""` which translates to `"FlyWithMe"` for drones and `"SpringArmChase"` for cars.
 
-**WARNING:** Do not copy paste all of below in your settings.json. We strongly recommend adding only those settings that you don't want default values. Only required element is `"SettingsVersion"`.
+## 可用设置及其默认值
+
+以下是可用设置及其默认值的完整列表。如果 json 文件中缺少任何设置，则使用默认值。某些默认值仅以“""”指定，这意味着实际值可能根据您使用的车辆选择。例如，`ViewMode`设置的默认值为`""`，对于无人机，其默认值为`"FlyWithMe"`，对于汽车，其默认值为`"SpringArmChase"`。
+
+
+**警告：** 请勿将以下所有内容复制粘贴到您的 settings.json 中。我们强烈建议您仅添加那些您不想使用默认值的设置。唯一必需的元素是`"SettingsVersion"`。 
 
 ```json
 {
@@ -210,40 +215,48 @@ Below are complete list of settings available along with their default values. I
 ```
 
 ## SimMode
-SimMode determines which simulation mode will be used. Below are currently supported values:
-- `""`: prompt user to select vehicle type multirotor or car
-- `"Multirotor"`: Use multirotor simulation
-- `"Car"`: Use car simulation
-- `"ComputerVision"`: Use only camera, no vehicle or physics
+SimMode 决定使用哪种模拟模式。以下是当前支持的值：
+- `""`: 提示用户选择飞行器类型：多旋翼飞行器或汽车
+- `"Multirotor"`: 使用多旋翼飞行器模拟
+- `"Car"`: 使用汽车模拟
+- `"ComputerVision"`: 仅使用摄像头，不使用飞行器或物理系统
 
 ## ViewMode
-The ViewMode determines which camera to use as default and how camera will follow the vehicle. For multirotors, the default ViewMode is `"FlyWithMe"` while for cars the default ViewMode is `"SpringArmChase"`.
+ViewMode 决定了默认使用哪个摄像头以及摄像头如何跟随飞行器。对于多旋翼飞行器，默认 ViewMode 为`"FlyWithMe"`，而对于汽车，默认 ViewMode 为`"SpringArmChase"`。
 
-* `FlyWithMe`: Chase the vehicle from behind with 6 degrees of freedom
-* `GroundObserver`: Chase the vehicle from 6' above the ground but with full freedom in XY plane.
-* `Fpv`: View the scene from front camera of vehicle
-* `Manual`: Don't move camera automatically. Use arrow keys and ASWD keys for move camera manually.
-* `SpringArmChase`: Chase the vehicle with camera mounted on (invisible) arm that is attached to the vehicle via spring (so it has some latency in movement).
-* `NoDisplay`: This will freeze rendering for main screen however rendering for subwindows, recording and APIs remain active. This mode is useful to save resources in "headless" mode where you are only interested in getting images and don't care about what gets rendered on main screen. This may also improve FPS for recording images.
+
+* `FlyWithMe`: 以 6 个自由度从后面追赶车辆
+* `GroundObserver`: 从距地面 6 英尺的高度追逐车辆，但在 XY 平面上具有完全的自由。
+* `Fpv`: 从车辆前置摄像头查看场景
+* `Manual`: 不自动移动摄像头。使用箭头键和 ASWD 键手动移动摄像头。
+* `SpringArmChase`: 使用安装在（隐形）臂上的摄像头追逐车辆，该臂通过弹簧连接到车辆上（因此在运动中有一定的延迟）。
+* `NoDisplay`: 这将冻结主屏幕的渲染，但子窗口、录制和 API 的渲染仍然有效。此模式有助于在“无头”模式下节省资源，因为在“无头”模式下，您只需获取图像，而不关心主屏幕上渲染的内容。这也可能提高录制图像的 FPS。
+
 
 ## TimeOfDay
-This setting controls the position of Sun in the environment. By default `Enabled` is false which means Sun's position is left at whatever was the default in the environment and it doesn't change over the time. If `Enabled` is true then Sun position is computed using longitude, latitude and altitude specified in `OriginGeopoint` section for the date specified in `StartDateTime` in the string format as [%Y-%m-%d %H:%M:%S](https://en.cppreference.com/w/cpp/io/manip/get_time), for example, `2018-02-12 15:20:00`. If this string is empty then current date and time is used. If `StartDateTimeDst` is true then we adjust for day light savings time. The Sun's position is then continuously updated at the interval specified in `UpdateIntervalSecs`. In some cases, it might be desirable to have celestial clock run faster or slower than simulation clock. This can be specified using `CelestialClockSpeed`, for example, value 100 means for every 1 second of simulation clock, Sun's position is advanced by 100 seconds so Sun will move in sky much faster.
 
-Also see [Time of Day API](apis.md#time-of-day-api).
+此设置控制环境中太阳的位置。默认情况下，`Enabled`为 false，这意味着太阳的位置将保留在环境中的默认位置，并且不会随时间变化。如果`Enabled`为 true，则使用`OriginGeopoint`部分中指定的经度、纬度和高度，针对`StartDateTime`中指定的日期（字符串格式为 [%Y-%m-%d %H:%M:%S](https://en.cppreference.com/w/cpp/io/manip/get_time) ）计算太阳位置，例如`2018-02-12 15:20:00`。如果此字符串为空，则使用当前日期和时间。如果`StartDateTimeDst`为 true，则我们会调整夏令时。然后，太阳的位置将按照`UpdateIntervalSecs`中指定的间隔持续更新。在某些情况下，可能希望天体时钟运行得比模拟时钟更快或更慢。这可以使用`CelestialClockSpeed`来指定，例如，值 100 表示模拟时钟每 1 秒，太阳的位置就会前进 100 秒，因此太阳在天空中的移动速度会更快。
+
+另请参阅 [时间 API](apis.md#time-of-day-api) 。
+
 
 ## OriginGeopoint
-This setting specifies the latitude, longitude and altitude of the Player Start component placed in the Unreal environment. The vehicle's home point is computed using this transformation. Note that all coordinates exposed via APIs are using NED system in SI units which means each vehicle starts at (0, 0, 0) in NED system. Time of Day settings are computed for geographical coordinates specified in `OriginGeopoint`.
+
+此设置指定放置在虚幻环境中的玩家起始点组件的纬度、经度和海拔高度。飞行器的起始点使用此变换计算。请注意，所有通过 API 公开的坐标均使用国际单位制 (SI) 的 NED 系统，这意味着每辆车的起始点在 NED 系统中为 (0, 0, 0)。时间设置是根据`OriginGeopoint`中指定的地理坐标计算的。
+
 
 ## SubWindows
-This setting determines what is shown in each of 3 subwindows which are visible when you press 1,2,3 keys. 
 
-* `WindowID`: Can be 0 to 2
-* `CameraName`: is any [available camera](image_apis.md#available-cameras) on the vehicle or external camera
-* `ImageType`: integer value determines what kind of image gets shown according to [ImageType enum](image_apis.md#available-imagetype-values).
-* `VehicleName`: string allows you to specify the vehicle to use the camera from, used when multiple vehicles are specified in the settings. First vehicle's camera will be used if there are any mistakes such as incorrect vehicle name, or only a single vehicle.
-* `External`: Set it to `true` if the camera is an external camera. If true, then the `VehicleName` parameter is ignored
+此设置决定了按下 1、2、3 键时可见的 3 个子窗口中分别显示的内容。
 
-For example, for a single car vehicle, below shows driver view, front bumper view and rear view as scene, depth and surface normals respectively.
+* `WindowID`: 可以是 0 到 2
+* `CameraName`: 车辆上是否有任何 [可用摄像头](image_apis.md#available-cameras) 或外部摄像头
+* `ImageType`: 整数值根据 [ImageType 枚举](image_apis.md#available-imagetype-values) 决定显示哪种类型的图像。  
+* `VehicleName`: 此字符串用于指定要使用摄像头的车辆，当设置中指定了多辆车辆时使用。如果出现任何错误，例如车辆名称错误或只有一辆车，则将使用第一辆车的摄像头。
+* `External`: 如果摄像头是外置摄像头，则将其设置为`true`。如果为 true，则`VehicleName`参数将被忽略
+
+
+例如，对于单辆汽车，下面分别显示驾驶员视图、前保险杠视图和后视图作为场景、深度和表面法线。
 ```json
   "SubWindows": [
     {"WindowID": 0, "ImageType": 0, "CameraName": "3", "Visible": true},
@@ -252,7 +265,7 @@ For example, for a single car vehicle, below shows driver view, front bumper vie
   ]
 ```
 
-In case of multiple vehicles, different vehicles can be specified as follows-
+如果有多辆车辆，可以按如下方式指定不同的车辆：
 
 ```json
     "SubWindows": [
@@ -262,20 +275,23 @@ In case of multiple vehicles, different vehicles can be specified as follows-
     ]
 ```
 
-## Recording
-The recording feature allows you to record data such as position, orientation, velocity along with the captured image at specified intervals. You can start recording by pressing red Record button on lower right or the R key. The data is stored in the `Documents\AirSim` folder (or the folder specified using `Folder`), in a time stamped subfolder for each recording session, as tab separated file.
+## 记录
 
-* `RecordInterval`: specifies minimal interval in seconds between capturing two images.
-* `RecordOnMove`: specifies that do not record frame if there was vehicle's position or orientation hasn't changed.
-* `Folder`: Parent folder where timestamped subfolder with recordings are created. Absolute path of the directory must be specified. If not used, then `Documents/AirSim` folder will be used. E.g. `"Folder": "/home/<user>/Documents"`
-* `Enabled`: Whether Recording should start from the beginning itself, setting to `true` will start recording automatically when the simulation starts. By default, it's set to `false`
-* `Cameras`: this element controls which cameras are used to capture images. By default scene image from camera 0 is recorded as compressed png format. This setting is json array so you can specify multiple cameras to capture images, each with potentially different [image types](settings.md#image-capture-settings). 
-    * When `PixelsAsFloat` is true, image is saved as [pfm](pfm.md) file instead of png file.
-    * `VehicleName` option allows you to specify separate cameras for individual vehicles. If the `Cameras` element isn't present, `Scene` image from the default camera of each vehicle will be recorded.
-    * If you don't want to record any images and just the vehicle's physics data, then specify the `Cameras` element but leave it empty, like this: `"Cameras": []`
-    * External cameras are currently not supported in recording
+记录功能允许您以指定的时间间隔记录位置、方向、速度等数据以及捕获的图像。您可以按下右下角的红色录制按钮或 R 键开始录制。数据存储在`Documents\AirSim`文件夹（或使用`Folder`指定的文件夹）中，每个录制会话都会有一个带有时间戳的子文件夹，并以制表符分隔的文件形式保存。
 
-For example, the `Cameras` element below records scene & segmentation images for `Car1` & scene for `Car2`-
+
+* `RecordInterval`: 指定捕获两幅图像之间的最小间隔（以秒为单位）。
+* `RecordOnMove`: 指定如果车辆的位置或方向没有改变则不记录帧。
+* `Folder`: 父文件夹，用于创建包含时间戳的记录子文件夹。必须指定目录的绝对路径。如果未指定，则将使用`Documents/AirSim`文件夹。例如：`"Folder": "/home/<user>/Documents"` 
+* `Enabled`: 记录是否从头开始，设置为`true`表示模拟开始时自动开始记录。默认设置为`false`
+* `Cameras`: 此元素控制使用哪些摄像头采集图像。默认情况下，摄像头 0 的场景图像会被记录为压缩的 png 格式。此设置是一个 JSON 数组，因此您可以指定多个摄像头采集图像，每个摄像头可能具有不同的[图像类型](settings.md#image-capture-settings) 。
+    * 当 `PixelsAsFloat` 为真时，图像将保存为 [pfm](pfm.md) 文件而不是 png 文件。
+    * `VehicleName` 选项允许您为每辆车指定单独的摄像头。如果不存在`Cameras`元素，则将记录每辆车默认摄像头的`Scene`图像。
+    * 如果您不想记录任何图像而只想记录车辆的物理数据，请指定`Cameras`元素但将其留空，如下所示：`"Cameras": []` 
+    * 目前不支持外接摄像头记录
+
+例如，下面的`Cameras`元素记录了`Car1`的场景和分割图像以及`Car2`的场景：
+
 
 ```json
 "Cameras": [
@@ -285,90 +301,113 @@ For example, the `Cameras` element below records scene & segmentation images for
 ]
 ```
 
-Check out [Modifying Recording Data](modify_recording_data.md) for details on how to modify the kinematics data being recorded.
+查看修改记录数据来了解如何 [修改正在记录的](modify_recording_data.md) 运动学数据的详细信息。
+
 
 ## ClockSpeed
-This setting allows you to set the speed of simulation clock with respect to wall clock. For example, value of 5.0 would mean simulation clock has 5 seconds elapsed when wall clock has 1 second elapsed (i.e. simulation is running faster). The value of 0.1 means that simulation clock is 10X slower than wall clock. The value of 1 means simulation is running in real time. It is important to realize that quality of simulation may decrease as the simulation clock runs faster. You might see artifacts like object moving past obstacles because collision is not detected. However slowing down simulation clock (i.e. values < 1.0) generally improves the quality of simulation.
 
-## Segmentation Settings
-The `InitMethod` determines how object IDs are initialized at startup to generate [segmentation](image_apis.md#segmentation). The value "" or "CommonObjectsRandomIDs" (default) means assign random IDs to each object at startup. This will generate segmentation view with random colors assign to each object. The value "None" means don't initialize object IDs. This will cause segmentation view to have single solid colors. This mode is useful if you plan to set up object IDs using [APIs](image_apis.md#segmentation) and it can save lot of delay at startup for large environments like CityEnviron.
+此设置允许您设置模拟时钟相对于挂钟的速度。例如，值为 5.0 表示当挂钟已过去 1 秒时，模拟时钟已过去 5 秒（即模拟运行速度更快）。值为 0.1 表示模拟时钟比挂钟慢 10 倍。值为 1 表示模拟实时运行。需要注意的是，模拟时钟运行速度越快，模拟质量可能会下降。您可能会看到一些伪影，例如物体越过障碍物，因为未检测到碰撞。但是，降低模拟时钟速度（即值小于 1.0）通常可以提高模拟质量。
 
- If `OverrideExisting` is false then initialization does not alter non-zero object IDs already assigned otherwise it does.
 
- If `MeshNamingMethod` is "" or "OwnerName" then we use mesh's owner name to generate random hash as object IDs. If it is "StaticMeshName" then we use static mesh's name to generate random hash as object IDs. Note that it is not possible to tell individual instances of the same static mesh apart this way, but the names are often more intuitive.
+## 分割设置
 
-## Wind Settings
+`InitMethod` 决定了启动时如何初始化对象 ID 以生成 [分割](image_apis.md#segmentation)。值为 "" 或 "CommonObjectsRandomIDs"（默认值）表示在启动时为每个对象分配随机 ID。这将生成为每个对象分配随机颜色的分割视图。值为 "None" 表示不初始化对象 ID。这将导致分割视图呈现单一纯色。如果您计划使用 [API](image_apis.md#segmentation) 设置对象 ID，此模式非常有用，并且可以在像 CityEnviron 这样的大型环境中节省启动时的大量延迟。
 
-This setting specifies the wind speed in World frame, in NED direction. Values are in m/s. By default, speed is 0, i.e. no wind.
 
-## Camera Director Settings
+如果`OverrideExisting`为假，则初始化不会改变已经分配的非零对象 ID，否则会改变。
 
-This element specifies the settings used for the camera following the vehicle in the ViewPort.
 
-* `FollowDistance`: Distance at which camera follows the vehicle, default is -8 (8 meters) for Car, -3 for others.
-* `X, Y, Z, Yaw, Roll, Pitch`: These elements allows you to specify the position and orientation of the camera relative to the vehicle. Position is in NED coordinates in SI units with origin set to Player Start location in Unreal environment. The orientation is specified in degrees.
+如果`MeshNamingMethod`为“”或“OwnerName”，则我们使用网格的所有者名称生成随机哈希值作为对象ID。如果为“StaticMeshName”，则我们使用静态网格的名称生成随机哈希值作为对象ID。请注意，这种方式无法区分同一个静态网格的不同实例，但名称通常更直观。
 
-## Camera Settings
-The `CameraDefaults` element at root level specifies defaults used for all cameras. These defaults can be overridden for individual camera in `Cameras` element inside `Vehicles` as described later.
 
-### Note on ImageType element
-The `ImageType` element in JSON array determines which image type that settings applies to. The valid values are described in [ImageType section](image_apis.md#available-imagetype). In addition, we also support special value `ImageType: -1` to apply the settings to external camera (i.e. what you are looking at on the screen).
+## 风的设置
 
-For example, `CaptureSettings` element is json array so you can add settings for multiple image types easily.
+此设置指定世界坐标系中北纬方向的风速。值以米/秒为单位。默认情况下，速度为 0，即无风。
+
+
+## Camera Director 设置
+
+此元素指定用于在 ViewPort 中跟随车辆的摄像机的设置。
+
+* `FollowDistance`: 摄像头跟随车辆的距离，汽车默认为-8（8米），其他默认为-3。 
+* `X, Y, Z, Yaw, Roll, Pitch`: 这些元素允许您指定摄像机相对于车辆的位置和方向。位置采用国际单位制 (SI) 的 NED 坐标系，原点设置为虚幻环境中的玩家起始位置。方向以度为单位。 
+
+## 相机设置
+
+根级别的`CameraDefaults`元素指定所有摄像头的默认值。这些默认值可以在“Vehicles”类中的`Cameras`元素中为单个摄像头覆盖，具体方法请见后文。
+
+
+### 关于 ImageType 元素的注释
+
+JSON 数组中的 `ImageType` 元素决定了设置应用于哪种图像类型。有效值在 [ImageType 部分](image_apis.md#available-imagetype) 中进行了说明。此外，我们还支持特殊值 `ImageType: -1`，用于将设置应用于外部摄像头（即您正在屏幕上查看的内容）。
+
+
+例如，`CaptureSettings`元素是 json 数组，因此您可以轻松添加多种图像类型的设置。
+
 
 ### CaptureSettings
-The `CaptureSettings` determines how different image types such as scene, depth, disparity, surface normals and segmentation views are rendered. The Width, Height and FOV settings should be self explanatory. The AutoExposureSpeed decides how fast eye adaptation works. We set to generally high value such as 100 to avoid artifacts in image capture. Similarly we set MotionBlurAmount to 0 by default to avoid artifacts in ground truth images. The `ProjectionMode` decides the projection used by the capture camera and can take value "perspective" (default) or "orthographic". If projection mode is "orthographic" then `OrthoWidth` determines width of projected area captured in meters.
 
-For explanation of other settings, please see [this article](https://docs.unrealengine.com/latest/INT/Engine/Rendering/PostProcessEffects/AutomaticExposure/).
+`CaptureSettings` 决定了不同图像类型（例如场景、深度、视差、表面法线和分割视图）的渲染方式。“Width”、“Height” 和 “FOV” 的设置含义不言自明。“AutoExposureSpeed” 决定了人眼适应的速度。我们通常将其设置为较高的值（例如 100），以避免图像采集过程中出现伪影。同样，我们默认将“MotionBlurAmount”设置为 0，以避免地面实况图像中出现伪影。`ProjectionMode` 决定了采集相机使用的投影方式，可以采用“perspective”（默认）或“orthographic”值。如果投影模式为“orthographic”，则`OrthoWidth`决定了采集投影区域的宽度（以米为单位）。
+
+
+有关其他设置的说明，请参阅[本文](https://docs.unrealengine.com/latest/INT/Engine/Rendering/PostProcessEffects/AutomaticExposure/)。
+
 
 ### NoiseSettings
-The `NoiseSettings` allows to add noise to the specified image type with a goal of simulating camera sensor noise, interference and other artifacts. By default no noise is added, i.e., `Enabled: false`. If you set `Enabled: true` then following different types of noise and interference artifacts are enabled, each can be further tuned using setting. The noise effects are implemented as shader created as post processing material in Unreal Engine called [CameraSensorNoise](https://github.com/Microsoft/AirSim/blob/main/Unreal/Plugins/AirSim/Content/HUDAssets/CameraSensorNoise.uasset).
 
-Demo of camera noise and interference simulation:
+“噪声设置 (`NoiseSettings`)” 允许为指定类型的图像添加噪声，以模拟相机传感器噪声、干扰和其他伪影。默认情况下不添加噪声，即`Enabled: false`。如果设置为`Enabled: true`，则会启用以下不同类型的噪声和干扰伪影，每种类型都可以通过设置进一步调整。噪声效果通过着色器实现，该着色器在虚幻引擎中作为后期处理材质创建，名为 [CameraSensorNoise](https://github.com/Microsoft/AirSim/blob/main/Unreal/Plugins/AirSim/Content/HUDAssets/CameraSensorNoise.uasset)。
+
+
+相机噪声和干扰模拟演示：
 
 [![AirSim Drone Demo Video](images/camera_noise_demo.png)](https://youtu.be/1BeCEZmQyp0)
 
-#### Random noise
-This adds random noise blobs with following parameters.
-* `RandContrib`: This determines blend ratio of noise pixel with image pixel, 0 means no noise and 1 means only noise.
-* `RandSpeed`: This determines how fast noise fluctuates, 1 means no fluctuation and higher values like 1E6 means full fluctuation.
-* `RandSize`: This determines how coarse noise is, 1 means every pixel has its own noise while higher value means more than 1 pixels share same noise value.
-* `RandDensity`: This determines how many pixels out of total will have noise, 1 means all pixels while higher value means lesser number of pixels (exponentially).
+#### 随机噪声
+这将添加具有以下参数的随机噪声斑点。
+* `RandContrib`: 这决定了噪声像素与图像像素的混合比，0 表示无噪声，1 表示只有噪声。
+* `RandSpeed`: 这决定了噪声波动的速度，1 表示没有波动，而更高的值（如 1E6）表示完全波动。
+* `RandSize`: 这决定了噪声的粗略程度，1 表示每个像素都有自己的噪声，而更高的值表示超过 1 个像素共享相同的噪声值。 
+* `RandDensity`: 这决定了总共有多少像素会有噪点，1 表示所有像素，而值越高表示像素数量越少（呈指数级）。
 
-#### Horizontal bump distortion
-This adds horizontal bumps / flickering / ghosting effect.
-* `HorzWaveContrib`: This determines blend ratio of noise pixel with image pixel, 0 means no noise and 1 means only noise.
-* `HorzWaveStrength`: This determines overall strength of the effect.
-* `HorzWaveVertSize`: This determines how many vertical pixels would be effected by the effect.
-* `HorzWaveScreenSize`: This determines how much of the screen is effected by the effect.
+#### 水平凹凸变形
+这会增加水平凹凸/闪烁/重影效果。
+* `HorzWaveContrib`: 这决定了噪声像素与图像像素的混合比，0 表示无噪声，1 表示只有噪声。
+* `HorzWaveStrength`: 这决定了效果的整体强度。
+* `HorzWaveVertSize`: 这决定了有多少垂直像素会受到该效果的影响。
+* `HorzWaveScreenSize`: 这决定了屏幕的多少部分会受到该效果的影响。
 
-#### Horizontal noise lines
-This adds regions of noise on horizontal lines.
-* `HorzNoiseLinesContrib`: This determines blend ratio of noise pixel with image pixel, 0 means no noise and 1 means only noise.
-* `HorzNoiseLinesDensityY`: This determines how many pixels in horizontal line gets affected.
-* `HorzNoiseLinesDensityXY`: This determines how many lines on screen gets affected.
+#### 水平噪声线
+这会在水平线上增加噪声区域。
+* `HorzNoiseLinesContrib`: 这决定了噪声像素与图像像素的混合比，0 表示无噪声，1 表示只有噪声。
+* `HorzNoiseLinesDensityY`: 这决定了水平线上有多少像素受到影响。
+* `HorzNoiseLinesDensityXY`: 这决定了屏幕上有多少行受到影响。
 
-#### Horizontal line distortion
-This adds fluctuations on horizontal line.
-* `HorzDistortionContrib`: This determines blend ratio of noise pixel with image pixel, 0 means no noise and 1 means only noise.
-* `HorzDistortionStrength`: This determines how large is the distortion.
+#### 水平线畸变
+这增加了水平线的波动。
+* `HorzDistortionContrib`: 这决定了噪声像素与图像像素的混合比，0 表示无噪声，1 表示只有噪声。
+* `HorzDistortionStrength`: 这决定了失真程度有多大。
 
 ### Gimbal
-The `Gimbal` element allows to freeze camera orientation for pitch, roll and/or yaw. This setting is ignored unless `ImageType` is -1. The `Stabilization` is defaulted to 0 meaning no gimbal i.e. camera orientation changes with body orientation on all axis. The value of 1 means full stabilization. The value between 0 to 1 acts as a weight for fixed angles specified (in degrees, in world-frame) in `Pitch`, `Roll` and `Yaw` elements and orientation of the vehicle body. When any of the angles is omitted from json or set to NaN, that angle is not stabilized (i.e. it moves along with vehicle body).
+`Gimbal`元素允许冻结摄像机的俯仰、横滚和/或偏航方向。除非`ImageType`为-1，否则此设置将被忽略。`Stabilization`默认为0，表示无万向节，即摄像机方向在所有轴上随车身方向而变化。值为1表示完全稳定。0到1之间的值作为`Pitch`、`Roll`和`Yaw` 元素中指定的固定角度（以度为单位，在世界坐标系中）和车身方向的权重。当json中省略任何角度或将其设置为NaN时，该角度不稳定（即它会随车身一起移动）。
 
-### UnrealEngine
-This element contains settings specific to the Unreal Engine. These will be ignored in the Unity project.
-* `PixelFormatOverride`: This contains a list of elements that have both a `ImageType` and `PixelFormat` setting. Each element allows you to override the default pixel format of the UTextureRenderTarget2D object instantiated for the capture specified by the `ImageType` setting. Specifying this element allows you to prevent crashes caused by unexpected pixel formats (see [#4120](https://github.com/microsoft/AirSim/issues/4120) and [#4339](https://github.com/microsoft/AirSim/issues/4339) for examples of these crashes). A full list of pixel formats can be viewed [here](https://docs.unrealengine.com/4.27/en-US/API/Runtime/Core/EPixelFormat/).
 
-## External Cameras
-This element allows specifying cameras which are separate from the cameras attached to the vehicle, such as a CCTV camera. These are fixed cameras, and don't move along with the vehicles. The key in the element is the name of the camera, and the value i.e. settings are the same as `CameraDefaults` described above. All the camera APIs work with external cameras, including capturing images, changing the pose, etc by passing the parameter `external=True` in the API call.
+### 虚幻引擎
+此元素包含虚幻引擎特有的设置。这些设置将在 Unity 项目中被忽略。
+* `PixelFormatOverride`: 这包含一个包含`ImageType`和`PixelFormat`设置的元素列表。每个元素都允许您覆盖`ImageType`设置指定的捕获实例化的 UTextureRenderTarget2D 对象的默认像素格式。指定此元素可以防止由意外像素格式引起的崩溃（有关这些崩溃的示例，请参阅 [#4120](https://github.com/microsoft/AirSim/issues/4120) 和 [#4339](https://github.com/microsoft/AirSim/issues/4339)。完整的像素格式列表可在[此处](https://docs.unrealengine.com/4.27/en-US/API/Runtime/Core/EPixelFormat/)查看。
 
-## Vehicles Settings
-Each simulation mode will go through the list of vehicles specified in this setting and create the ones that has `"AutoCreate": true`. Each vehicle specified in this setting has key which becomes the name of the vehicle. If `"Vehicles"` element is missing then this list is populated with default car named "PhysXCar" and default multirotor named "SimpleFlight".
+## 外接摄像头
 
-### Common Vehicle Setting
-- `VehicleType`: This could be any one of the following - `PhysXCar`, `SimpleFlight`, `PX4Multirotor`, `ComputerVision`, `ArduCopter` & `ArduRover`. There is no default value therefore this element must be specified.
-- `PawnPath`: This allows to override the pawn blueprint to use for the vehicle. For example, you may create new pawn blueprint derived from ACarPawn for a warehouse robot in your own project outside the AirSim code and then specify its path here. See also [PawnPaths](settings.md#PawnPaths). Note that you have to specify your custom pawn blueprint class path inside the global `PawnPaths` object using your proprietarily defined object name, and quote that name inside the `Vehicles` setting. For example,
+此元素允许指定独立于车辆上安装的摄像头（例如闭路电视摄像头）。这些摄像头是固定摄像头，不会随车辆移动。该元素中的键是摄像头的名称，值（即设置）与上面描述的`CameraDefaults`相同。所有摄像头 API 均可与外部摄像头配合使用，包括通过在 API 调用中传递参数`external=True`来捕获图像、更改姿势等。
+
+
+## 车辆设置
+
+每种模拟模式都会遍历此设置中指定的车辆列表，并创建具有`"AutoCreate": true` 的车辆。此设置中指定的每辆车辆都有一个键，该键将成为车辆的名称。如果缺少`"Vehicles"`元素，则此列表将填充名为“PhysXCar”的默认车辆和名为“SimpleFlight”的默认多旋翼飞行器。
+
+
+### 常用车辆设置
+- `VehicleType`: 这可以是以下任意一种：`PhysXCar`、`SimpleFlight`、`PX4Multirotor`、`ComputerVision`、`ArduCopter` 和 `ArduRover`。由于没有默认值，因此必须指定此元素。
+- `PawnPath`: 这允许覆盖用于载具的 pawn 蓝图。例如，您可以在 AirSim 代码之外的项目中，为仓库机器人创建一个源自 ACarPawn 的新 pawn 蓝图，然后在此处指定其路径。另请参阅 [PawnPaths](settings.md#PawnPaths)。请注意，您必须在全局 `PawnPaths` 对象中使用您专有定义的对象名称指定自定义 pawn 蓝图类路径，并在 `Vehicles` 设置中引用该名称。例如： 
 ```json
     {
       ...
@@ -384,13 +423,13 @@ Each simulation mode will go through the list of vehicles specified in this sett
       }
     }
 ```
-- `DefaultVehicleState`: Possible value for multirotors is `Armed` or `Disarmed`.
-- `AutoCreate`: If true then this vehicle would be spawned (if supported by selected sim mode).
-- `RC`: This sub-element allows to specify which remote controller to use for vehicle using `RemoteControlID`. The value of -1 means use keyboard (not supported yet for multirotors). The value >= 0 specifies one of many remote controllers connected to the system. The list of available RCs can be seen in Game Controllers panel in Windows, for example.
-- `X, Y, Z, Yaw, Roll, Pitch`: These elements allows you to specify the initial position and orientation of the vehicle. Position is in NED coordinates in SI units with origin set to Player Start location in Unreal environment. The orientation is specified in degrees.
-- `IsFpvVehicle`: This setting allows to specify which vehicle camera will follow and the view that will be shown when ViewMode is set to Fpv. By default, AirSim selects the first vehicle in settings as FPV vehicle.
-- `Sensors`: This element specifies the sensors associated with the vehicle, see [Sensors page](sensors.md) for details.
-- `Cameras`: This element specifies camera settings for vehicle. The key in this element is name of the [available camera](image_apis.md#available_cameras) and the value is same as `CameraDefaults` as described above. For example, to change FOV for the front center camera to 120 degrees, you can use this for `Vehicles` setting:
+- `DefaultVehicleState`: 多旋翼飞行器的可能值是`Armed`或`Disarmed`。
+- `AutoCreate`: 如果为真，那么该车辆就会被生成（如果所选模拟模式支持）。
+- `RC`: 此子元素允许使用`RemoteControlID`指定飞行器使用的遥控器。值为 -1 表示使用键盘（多旋翼飞行器尚不支持）。值 >= 0 表示指定连接到系统的多个遥控器之一。例如，可以在 Windows 系统的“游戏控制器”面板中查看可用的遥控器列表。
+- `X, Y, Z, Yaw, Roll, Pitch`: 这些元素允许您指定车辆的初始位置和方向。位置采用国际单位制 (SI) 的 NED 坐标系，原点设置为虚幻环境中的玩家起始位置。方向以度为单位。
+- `IsFpvVehicle`: 此设置允许指定当 ViewMode 设置为 FPV 时，哪个车辆摄像头将跟随哪个车辆以及显示的视图。默认情况下，AirSim 选择设置中的第一个车辆作为 FPV 车辆。 
+- `Sensors`: 该元素指定与车辆关联的传感器，详情请参阅 [传感器页面](sensors.md) 。
+- `Cameras`: 此元素指定车辆的摄像头设置。此元素的键是 [可用摄像头](image_apis.md#available_cameras) 的名称，值与上文所述的`CameraDefaults`相同。例如，要将前中央摄像头的视野 (FOV) 更改为 120 度，您可以在“车辆”设置中使用此元素：
 
 ```json
 "Vehicles": {
@@ -410,8 +449,9 @@ Each simulation mode will go through the list of vehicles specified in this sett
 }
 ```
 
-### Using PX4
-By default we use [simple_flight](simple_flight.md) so you don't have to do separate HITL or SITL setups. We also support ["PX4"](px4_setup.md) for advanced users. To use PX4 with AirSim, you can use the following for `Vehicles` setting:
+### 使用 PX4
+
+默认情况下，我们使用 [simple_flight](simple_flight.md)，因此您无需单独进行 HITL 或 SITL 设置。我们还为高级用户提供 ["PX4"](px4_setup.md) 支持。要将 PX4 与 AirSim 配合使用，您可以使用以下`Vehicles`设置：
 
 ```
 "Vehicles": {
@@ -421,9 +461,10 @@ By default we use [simple_flight](simple_flight.md) so you don't have to do sepa
 }
 ```
 
-#### Additional PX4 Settings
+#### 其他 PX4 设置
 
-The defaults for PX4 is to enable hardware-in-loop setup. There are various other settings available for PX4 as follows with their default values:
+PX4 默认启用 **硬件在环** 设置。PX4 还有其他各种设置及其默认值：
+
 
 ```
 "Vehicles": {
@@ -463,68 +504,71 @@ The defaults for PX4 is to enable hardware-in-loop setup. There are various othe
 }
 ```
 
-These settings define the MavLink SystemId and ComponentId for the Simulator (SimSysID, SimCompID),
-and for the vehicle (VehicleSysID, VehicleCompID) and the node that allows remote control of the
-drone from another app this is called the offboard node (OffboardSysID, OffboardCompID).
+这些设置定义了 MavLink 模拟器的 SystemId 和 ComponentId（SimSysID、SimCompID）、飞行器（VehicleSysID、VehicleCompID）以及允许从其他应用程序远程控制无人机的节点（称为机外节点）（OffboardSysID、OffboardCompID）。
 
-If you want the simulator to also forward mavlink messages to your ground control app (like
-QGroundControl) you can also set the UDP address for that in case you want to run that on a
-different machine (QgcHostIp, QgcPort).  The default is local host so QGroundControl should "just
-work" if it is running on the same machine.
 
-You can connect the simulator to the LogViewer app, provided in this repo, by setting the UDP
-address for that (LogViewerHostIp, LogViewerPort).
+如果您希望模拟器也能将 mavlink 消息转发到您的地面控制应用程序（例如 QGroundControl），您也可以设置该应用程序的 UDP 地址，以便在其他机器上运行该应用程序（QgcHostIp、QgcPort）。默认地址为本地主机，因此 QGroundControl 应该“仅在”同一台机器上运行即可正常工作。
 
-And for each flying drone added to the simulator there is a named block of additional settings.  In
-the above you see the default name "PX4".   You can change this name from the Unreal Editor when you
-add a new BP_FlyingPawn asset.  You will see these properties grouped under the category "MavLink".
-The MavLink node for this pawn can be remote over UDP or it can be connected to a local serial port.
-If serial then set UseSerial to true, otherwise set UseSerial to false.  For serial connections you
-also need to set the appropriate SerialBaudRate.  The default of 115200 works with Pixhawk version 2
-over USB.
 
-When communicating with the PX4 drone over serial port both the HIL_* messages and vehicle control
-messages share the same serial port. When communicating over UDP or TCP PX4 requires two separate
-channels.  If UseTcp is false, then UdpIp, UdpPort are used to send HIL_* messages, otherwise the
-TcpPort is used.  TCP support in PX4 was added in 1.9.2 with the `lockstep` feature because the
-guarantee of message delivery that TCP provides is required for the proper functioning of lockstep.
-AirSim becomes a TCP server in that case, and waits for a connection from the PX4 app.  The second
-channel for controlling the vehicle is defined by (ControlIp, ControlPort) and is always a UDP
-channel.
+您可以通过设置 UDP 地址（LogViewerHostIp、LogViewerPort）将模拟器连接到此 repo 中提供的 LogViewer 应用程序。
 
-The `Sensors` section can provide customized settings for simulated sensors, see
-[Sensors](sensors.md). The `Parameters` section can set PX4 parameters during initialization of the
-PX4 connection. See [Setting up PX4 Software-in-Loop](px4_sitl.md) for an example.
 
-### Using ArduPilot
+对于每个添加到模拟器的飞行无人机，都有一个命名的附加设置块。在上图中，您可以看到默认名称“PX4”。您可以在虚幻编辑器中添加新的 BP_FlyingPawn 资源时更改此名称。您将看到这些属性分组在“MavLink”类别下。
+此 Pawn 的 MavLink 节点可以通过 UDP 远程连接，也可以连接到本地串行端口。
+如果是串行连接，则将 UseSerial 设置为 true，否则将 UseSerial 设置为 false。对于串行连接，您还需要设置适当的 SerialBaudRate。默认值 115200 适用于 Pixhawk 2 版本，
+通过 USB 连接。
 
-[ArduPilot](https://ardupilot.org/) Copter & Rover vehicles are supported in latest AirSim main branch & releases `v1.3.0` and later. For settings and how to use, please see [ArduPilot SITL with AirSim](https://ardupilot.org/dev/docs/sitl-with-airsim.html)
 
-## Other Settings
+通过串口与 PX4 无人机通信时，HIL_* 消息和飞行器控制消息共享同一串口。通过 UDP 或 TCP 通信时，PX4 需要两个独立的通道。如果 UseTcp 为 false，则使用 UdpIp 和 UdpPort 发送 HIL_* 消息，否则使用 TcpPort。PX4 在 1.9.2 版本中新增了 TCP 支持，并添加了 `lockstep` 功能，因为 TCP 提供的消息传递保证是 lockstep 正常运行的必要条件。
+在这种情况下，AirSim 将成为 TCP 服务器，并等待来自 PX4 应用程序的连接。用于控制飞行器的第二个通道由 (ControlIp, ControlPort) 定义，并且始终为 UDP 通道。
+
+
+传感器 `Sensors` 部分可以为模拟传感器提供自定义设置，请参阅
+[Sensors](sensors.md)。`Parameters` 部分可以在 PX4 连接初始化期间设置 PX4 参数。有关示例，请参阅 [设置 PX4 软件在环](px4_sitl.md) 。
+
+
+### 使用 ArduPilot
+
+[ArduPilot](https://ardupilot.org/) 直升机和漫游车在最新的 AirSim 主分支及版本 `v1.3.0` 及更高版本中均受支持。有关设置和使用方法，请参阅 [ArduPilot SITL 与 AirSim 的配合使用](https://ardupilot.org/dev/docs/sitl-with-airsim.html) 。
+
+
+## 其他设置
 
 ### EngineSound
-To turn off the engine sound use [setting](settings.md) `"EngineSound": false`. Currently this setting applies only to car.
+
+要关闭引擎声音，请使用 [设置](settings.md) `"EngineSound": false`。目前此设置仅适用于汽车。
+
 
 ### PawnPaths
-This allows you to specify your own vehicle pawn blueprints, for example, you can replace the default car in AirSim with your own car. Your vehicle BP can reside in Content folder of your own Unreal project (i.e. outside of AirSim plugin folder). For example, if you have a car BP located in file `Content\MyCar\MySedanBP.uasset` in your project then you can set `"DefaultCar": {"PawnBP":"Class'/Game/MyCar/MySedanBP.MySedanBP_C'"}`. The `XYZ.XYZ_C` is a special notation required to specify class for BP `XYZ`. Please note that your BP must be derived from CarPawn class. By default this is not the case but you can re-parent the BP using the "Class Settings" button in toolbar in UE editor after you open the BP and then choosing "Car Pawn" for Parent Class settings in Class Options. It is also a good idea to disable "Auto Possess Player" and "Auto Possess AI" as well as set AI Controller Class to None in BP details. Please make sure your asset is included for cooking in packaging options if you are creating binary.
+
+这允许您指定自己的车辆 pawn 蓝图，例如，您可以用自己的车辆替换 AirSim 中的默认车辆。您的车辆蓝图可以位于您自己的虚幻项目的 Content 文件夹中（即 AirSim 插件文件夹之外）。例如，如果您的项目中有一个位于`Content\MyCar\MySedanBP.uasset`文件中的车辆蓝图，那么您可以设置`"DefaultCar": {"PawnBP":"Class'/Game/MyCar/MySedanBP.MySedanBP_C'"}`。`XYZ.XYZ_C`是指定 BP`XYZ`类所需的特殊符号。请注意，您的 BP 必须衍生自 CarPawn 类。默认情况下并非如此，但您可以在打开 BP 后，使用 UE 编辑器工具栏中的“类设置”按钮，然后在“类选项”中选择“Car Pawn”作为父类设置，从而重新设置 BP 的父类。建议禁用“自动附身玩家”和“自动附身AI”，并在BP详情中将AI控制器类别设置为“无”。如果您正在创建二进制文件，请确保您的资源已包含在打包选项中以供烘焙。
+
 
 ### PhysicsEngineName
-For cars, we support only PhysX for now (regardless of value in this setting). For multirotors, we support `"FastPhysicsEngine"` and `"ExternalPhysicsEngine"`. `"ExternalPhysicsEngine"` allows the drone to be controlled via setVehiclePose (), keeping the drone in place until the next call. It is especially useful for moving the AirSim drone using an external simulator or on a saved path.
 
-### LocalHostIp Setting
-Now when connecting to remote machines you may need to pick a specific Ethernet adapter to reach those machines, for example, it might be
-over Ethernet or over Wi-Fi, or some other special virtual adapter or a VPN.  Your PC may have multiple networks, and those networks might not
-be allowed to talk to each other, in which case the UDP messages from one network will not get through to the others.
+对于汽车，我们目前仅支持 PhysX（无论此设置中的值如何）。对于多旋翼飞行器，我们支持`"FastPhysicsEngine"`和`"ExternalPhysicsEngine"`。`"ExternalPhysicsEngine"`允许通过 setVehiclePose () 控制无人机，使无人机保持原位直到下一次调用。这对于使用外部模拟器或沿已保存的路径移动 AirSim 无人机尤其有用。
 
-So the LocalHostIp allows you to configure how you are reaching those machines.  The default of 127.0.0.1 is not able to reach external machines,
-this default is only used when everything you are talking to is contained on a single PC.
+
+### LocalHostIp 设置
+
+现在，当连接到远程机器时，您可能需要选择一个特定的以太网适配器来连接这些机器，例如，它可能是通过以太网、Wi-Fi、其他特殊的虚拟适配器或VPN。您的电脑可能有多个网络，而这些网络可能不允许相互通信，在这种情况下，来自一个网络的UDP消息将无法传递到其他网络。
+
+
+因此，LocalHostIp 允许您配置如何访问这些机器。默认值 127.0.0.1 无法访问外部机器，
+仅当您要通信的所有内容都包含在一台 PC 上时才使用此默认值。
+
 
 ### ApiServerPort
-This setting determines the server port that used by airsim clients, default port is 41451.
-By specifying different ports, the user can run multiple environments in parallel to accelerate data collection process.
+
+此设置决定了 airsim 客户端使用的服务器端口，默认端口为 41451。通过指定不同的端口，用户可以并行运行多个环境以加速数据收集过程。
 
 ### SpeedUnitFactor
-Unit conversion factor for speed related to `m/s`, default is 1. Used in conjunction with SpeedUnitLabel. This may be only used for display purposes for example on-display speed when car is being driven. For example, to get speed in `miles/hr` use factor 2.23694.
+
+与“米/秒”相关的速度单位换算系数，默认值为 1。与 SpeedUnitLabel 结合使用。该系数仅可用于显示目的，例如在汽车行驶时显示速度。例如，要获取 “英里/小时”(`miles/hr`) 的速度，请使用系数 2.23694。
+
 
 ### SpeedUnitLabel
-Unit label for speed, default is `m/s`.  Used in conjunction with SpeedUnitFactor.
+
+速度单位标签，默认为 `m/s`。与 SpeedUnitFactor 配合使用。
+
+
