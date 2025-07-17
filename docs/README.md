@@ -45,7 +45,7 @@ AirSim 中的汽车
 ### Windows
 [![Build Status](https://github.com/microsoft/AirSim/actions/workflows/test_windows.yml/badge.svg)](https://github.com/microsoft/AirSim/actions/workflows/test_windows.yml)
 * [下载二进制文件](https://github.com/Microsoft/AirSim/releases)
-* [构建它](https://microsoft.github.io/AirSim/build_windows)
+* [构建它](build_windows.md)
 
 ### Linux
 [![Build Status](https://github.com/microsoft/AirSim/actions/workflows/test_ubuntu.yml/badge.svg)](https://github.com/microsoft/AirSim/actions/workflows/test_ubuntu.yml)

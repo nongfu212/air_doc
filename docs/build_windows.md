@@ -14,11 +14,16 @@
 ## 构建 AirSim
 * 安装 Visual Studio 2022。**确保**选择使用 **C++ 和 Windows 10 SDK 10.0.19041 进行桌面开发**（默认选择），并在安装 VS 2022 时在“单个组件”选项卡下选择最新的 .NET Framework SDK。 
 * 启动 `Developer Command Prompt for VS 2022`.
-* 克隆仓库：`git clone https://github.com/Microsoft/AirSim.git` ，然后通过 `cd AirSim` AirSim 目录。
+* 克隆仓库：`git clone https://github.com/OpenHUTB/AirSim.git` ，然后通过 `cd AirSim` 进入 AirSim 目录。
 
     **注意：** 通常不建议将 AirSim 安装在 C 盘。这会导致脚本运行失败，并且需要以管理员模式运行 VS。建议将其克隆到其他盘，例如 D 盘或 E 盘。 
 
 * 从命令行运行 `build.cmd` 。这将在 `Unreal\Plugins` 文件夹中创建可立即使用的插件，可将其放入任何虚幻引擎项目中。
+
+
+!!! 笔记
+    构建过程中会弹出`Select Unreal Engine Version`，选择 hutb 所对应的虚幻引擎，会为`AirSim\Unreal\Environments\Blocks.uproject`生成`Blocks.sln`文件，然后直接跳到下面的“如何使用 AirSim”。
+
 
 ## 构建虚幻引擎项目
 
@@ -36,11 +41,15 @@
 
 按照上述步骤设置 AirSim 后，您可以
 
-1. 双击 .sln 文件以加载 `Unreal\Environments\Blocks` 中的 Blocks 项目（或您 [自定义](unreal_custenv.md) 的 Unreal 项目中的 .sln 文件）。如果您没有看到 .sln 文件，则可能是您尚未完成上面“构建 Unreal 项目”部分中的步骤。 
+1. 双击 `Unreal\Environments\Blocks.sln` 文件以加载 Blocks 项目（或您 [自定义](unreal_custenv.md) 的 Unreal 项目中的 .sln 文件）。如果您没有看到 .sln 文件，则可能是您尚未完成上面“构建虚幻引擎项目”部分中的步骤。 
 
     **注意**: Unreal 4.27 将自动生成针对 Visual Studio 2019 的 .sln 文件。Visual Studio 2022 将能够加载和运行此 .sln，但如果您想要完全支持 Visual Studio 2022，则需要通过转到“编辑->编辑器首选项->源代码”并为“源代码编辑器”设置选择“Visual Studio 2022”来明确启用支持。
 
-2. 选择您的虚幻项目作为启动项目（例如，Blocks 项目）并确保构建配置设置为“开发编辑器”和 x64。
+2. 选择您的虚幻项目作为启动项目（例如，`Blocks` 项目，右键`解决方案资源管理器`中的`Block`，选择`设为启动项目`）并确保构建配置设置为`Development Editor`和 `Win64`。
+
+如果报错`1>LINK : fatal error LNK1104: 无法打开文件“D:\work\workspace\UnrealEngine\Engine\Binaries\Win64\UE4Editor-Voice.dll”`，则检查解决方案中有没有合适的UE4。
+
+原因：运行`GenerateProjectFiles.bat`中的`powershell -command "& { (Get-ItemProperty 'Registry::HKEY_CLASSES_ROOT\Unreal.ProjectFile\shell\rungenproj' -Name 'Icon' ).'Icon' }`，显示的`C:\Program Files (x86)\Epic Games\Launcher\Engine\Binaries\Win64\UnrealVersionSelector.exe`不是hutb所使用的虚幻引擎。
 
 3. 虚幻编辑器加载后，按播放(Play)按钮。
 
@@ -49,5 +58,7 @@
 
 请参阅 [使用 API](apis.md)  和 [settings.json](settings.md)  了解各种可用选项。
 
-# AirSim on Unity (Experimental)
-[Unity](https://unity3d.com/) is another great game engine platform and we have an **experimental** integration of [AirSim with Unity](Unity.md). Please note that this is work in progress and all features may not work yet.
+# Unity 上的 AirSim (实验性)
+
+[Unity](https://unity3d.com/) 是另一个优秀的游戏引擎平台，我们目前已将 [AirSim 与 Unity](Unity.md)  集成，并进行了**实验性**测试。请注意，该集成工作仍在进行中，部分功能可能尚未完全实现。
+
