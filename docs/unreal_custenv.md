@@ -104,11 +104,11 @@ Linux 上没有 `Epic Games Launcher`，这意味着如果您需要创建自定�
 默认情况下，AirSim 会提示用户选择要使用的车辆。您可以通过设置 [SimMode](settings.md#SimMode) 轻松更改此设置。请参阅 [使用车辆](using_car.md) 指南。
 
 
-## Updating Your Environment to Latest Version of AirSim
-Once you have your environment using above instructions, you should frequently update your local AirSim code to latest version from GitHub. Below are the instructions to do this:
+## 将您的环境更新至最新版本的 AirSim
+按照上述步骤搭建好环境后，你需要经常从 GitHub 更新本地 AirSim 代码到最新版本。具体操作步骤如下：
 
-1. First put [clean.bat](https://github.com/Microsoft/AirSim/blob/main/Unreal/Environments/Blocks/clean.bat) (or [clean.sh](https://github.com/Microsoft/AirSim/blob/main/Unreal/Environments/Blocks/clean.sh) for Linux users) in the root folder of your environment. Run this file to clean up all intermediate files in your Unreal project.
-2. Do `git pull` in your AirSim repo followed by `build.cmd` (or `./build.sh` for Linux users).
+1. 首先将 [clean.bat](https://github.com/Microsoft/AirSim/blob/main/Unreal/Environments/Blocks/clean.bat)（Linux 用户请将 [clean.sh](https://github.com/Microsoft/AirSim/blob/main/Unreal/Environments/Blocks/clean.sh)）放入环境的根文件夹中。运行此文件可以清理 虚幻引擎项目中的所有中间文件。 
+2. 在您的 AirSim repo 中执行`git pull`，然后执行`build.cmd`（对于 Linux 用户，执行“./build.sh”）。 Do `git pull` in your AirSim repo followed by `build.cmd` (or `./build.sh` for Linux users).
 3. Replace [your project]/Plugins folder with AirSim/Unreal/Plugins folder.
 4. Right click on your .uproject file and chose "Generate Visual Studio project files" option. This is not required for Linux.
 
