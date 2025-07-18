@@ -51,10 +51,10 @@
 
 原因：运行`GenerateProjectFiles.bat`中的`powershell -command "& { (Get-ItemProperty 'Registry::HKEY_CLASSES_ROOT\Unreal.ProjectFile\shell\rungenproj' -Name 'Icon' ).'Icon' }`，显示的`C:\Program Files (x86)\Epic Games\Launcher\Engine\Binaries\Win64\UnrealVersionSelector.exe`不是hutb所使用的虚幻引擎。
 
-3. 虚幻编辑器加载后，按播放(Play)按钮。
+3. 虚幻编辑器加载后，按`运行(Play)`按钮。
 
 !!! 提示
-    转到“编辑->编辑器首选项”，在“搜索”框中输入“CPU”，并确保未选中“在后台时使用较少的 CPU”(Use Less CPU when in Background)。
+    转到“编辑->编辑器偏好设置”，在“搜索”框中输入“CPU”，并确保未选中“在后台时使用较少的 CPU”(Use Less CPU when in Background)。
 
 请参阅 [使用 API](apis.md)  和 [settings.json](settings.md)  了解各种可用选项。
 

@@ -5,16 +5,22 @@
 AirSim 提供 API，方便您以编程方式与模拟中的车辆进行交互。您可以使用这些 API 来检索图像、获取状态、控制车辆等等。
 
 
-## Python Quickstart
-If you want to use Python to call AirSim APIs, we recommend using Anaconda with Python 3.5 or later versions however some code may also work with Python 2.7 ([help us](CONTRIBUTING.md) improve compatibility!).
+## Python 快速入门
+如果您想使用 Python 调用 AirSim API，我们建议使用带有 Python 3.5 或更高版本的 Anaconda，但某些代码也可能适用于 Python 2.7（ [帮助我们](CONTRIBUTING.md) 提高兼容性！）。
 
-First install this package:
+首先安装 Python 虚拟环境：
+```shell
+conda create -n air python=3.8
+conda activate air
+```
+
+首先安装这个包：
 
 ```
 pip install msgpack-rpc-python
 ```
 
-You can either get AirSim binaries from [releases](https://github.com/Microsoft/AirSim/releases) or compile from the source ([Windows](build_windows.md), [Linux](build_linux.md)). Once you can run AirSim, choose Car as vehicle and then navigate to `PythonClient\car\` folder and run:
+您可以从 [releases](https://github.com/Microsoft/AirSim/releases) 获取 AirSim 二进制文件，也可以从源代码编译（[Windows](build_windows.md)、[Linux](build_linux.md)）。一旦您可以运行 AirSim，请选择 Car 作为载具，然后导航到 `PythonClient\car\` 文件夹并运行：
 
 ```
 python hello_car.py
