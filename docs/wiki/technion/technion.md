@@ -1,73 +1,88 @@
-# Formula Student Technion Driverless - Based on AirSim
+# 方程式学生以色列理工学院无人驾驶赛车 - 基于 AirSim
 
-To view AirSim git and the original README, please go to [AirSim git](https://github.com/Microsoft/AirSim).
+要查看 AirSim git 和原始 README，请转到 [AirSim git](https://github.com/Microsoft/AirSim)。
 
-This project is about training and implementing self-driving algorithm for Formula Student Driverless competitions. In such competitions, a formula race car, designed and built by students, is challenged to drive through previously unseen tracks that are marked by traffic cones.  
-We present a simulator for formula student car and the environment of a driverless competition. The simulator is based on AirSim.  
 
-![technion_formula_car](images/technion/technion_formula_car.png)  
-*The Technion Formula Student car. Actual car (left), simulated car (right)*  
+该项目旨在为方程式学生无人驾驶赛车比赛训练和实现自动驾驶算法。在此类比赛中，一辆由学生设计和制造的方程式赛车需要穿越之前从未见过的、由交通锥标记的赛道。
+我们提供了一个用于方程式学生赛车和无人驾驶赛车比赛环境的模拟器。该模拟器基于 AirSim。
 
-AirSim is a simulator for drones, cars and more built on Unreal Engine. It is open-source, cross platform and supports hardware-in-loop with popular flight controllers such as PX4 for physically and visually realistic simulations. It is developed as an Unreal plugin that can simply be dropped in to any Unreal environment you want.  
 
-Our goal is to provide a platform for AI research to experiment with deep learning, in particular imitation learning, for Formula Student Driverless cars.  
+![technion_formula_car](../images/technion/technion_formula_car.png)  
+*以色列理工学院学生方程式赛车。左为实车，右为模拟车。*  
 
-The model of the Formula Student Technion car is provided by [Ryan Pourati](https://www.linkedin.com/in/ryanpo).
 
-The environment scene is provided by [PolyPixel](https://www.polypixel3d.com/).
+AirSim 是一款基于虚幻引擎构建的无人机、汽车等模拟器。它开源且跨平台，支持与 PX4 等主流飞行控制器进行硬件在环，以实现物理和视觉上逼真的模拟。它以虚幻插件的形式开发，可以轻松集成到任何您想要的虚幻环境中。
 
-![imitation learning](images/technion/imitation_learning_real_example.gif)  
-*Driving in real-world using trained imitation learning model, based on AirSim data only*  
 
-## Prerequisites
+我们的目标是为人工智能研究提供一个平台，为方程式学生无人驾驶汽车试验深度学习，特别是模仿学习。
 
-* Operating system: Windows 10
-* GPU: Nvidia GTX 1080 or higher (recommended)
-* Software: Unreal Engine 4.18 and Visual Studio 2017 (see [upgrade instructions](https://github.com/Microsoft/AirSim/blob/master/docs/unreal_upgrade.md))
-* Note: This repository is forked from AirSim 1.2
 
-## How to Get It
+方程式学生以色列理工学院赛车模型由 [Ryan Pourati](https://www.linkedin.com/in/ryanpo) 提供。
+
+
+环境场景由 [PolyPixel](https://www.polypixel3d.com/) 提供。
+
+
+![imitation learning](../images/technion/imitation_learning_real_example.gif)  
+*仅基于 AirSim 数据，使用经过训练的模仿学习模型在现实世界中驾驶*  
+
+## 先决条件
+
+* 操作系统：Windows 10
+* GPU: Nvidia GTX 1080 或更高版本（推荐）
+* 软件: Unreal Engine 4.18 和 Visual Studio 2017 (see [upgrade instructions](https://github.com/Microsoft/AirSim/blob/master/docs/unreal_upgrade.md))
+* 注意：此存储库是从 AirSim 1.2 分支出来的
+
+## 如何获取
 
 ### Windows
-* [Build it](build_FSTDriverless_windows)
+* [构建](./build_FSTDriverless_windows.md)
 
-## How to Use It
+## 如何使用
 
-### Choosing the Mode: Car, Multirotor or ComputerVision
-By default AirSim will prompt you for choosing Car or Multirotor mode. You can use [SimMode setting](https://github.com/Microsoft/AirSim/blob/master/docs/settings.md#simmode) to specify the default vehicle to car (Formula Technion Student car).
+### 选择模式：汽车、多旋翼或计算机视觉
 
-### Manual drive
+默认情况下，AirSim 会提示您选择“Car”或“Multirotor”模式。您可以使用 [SimMode 设置](https://github.com/Microsoft/AirSim/blob/master/docs/settings.md#simmode) 将默认车辆指定为“Car”（Formula Technion Student 赛车）。
 
-If you have a steering wheel (Logitech G920) as shown below, you can manually control the car in the simulator. Also, you can use arrow keys to drive manually.
 
-[More details](https://github.com/Microsoft/AirSim/blob/master/docs/steering_wheel_installation.md)
+### 手动驾驶
 
-![steering_wheel](images/steering_wheel.gif)
+如果您有如下所示的方向盘（罗技 G920），您可以在模拟器中手动控制车辆。您也可以使用箭头键手动驾驶。
 
-### Steering the car using imitation learning
+[更多细节](../../steering_wheel_installation.md)
 
-Using imitation learning, we trained a deep learning model to steer a Formula Student car with an input of only one camera. Our code files for the training procedure are available [here](https://github.com/FSTDriverless/AirSim/tree/master/PythonClient/imitation_learning) and are based on [AirSim cookbook](https://github.com/Microsoft/AutonomousDrivingCookbook).
 
-### Gathering training data
+![steering_wheel](../images/steering_wheel.gif)
 
-We added a few [graphic features](graphic_features) to ease the procedure of recording data.  
-You can change the positions of the cameras using [this](cameras_positioning) tutorial.  
+### 利用模仿学习来驾驶汽车
 
-There are two ways you can generate training data from AirSim for deep learning. The easiest way is to simply press the record button on the lower right corner. This will start writing pose and images for each frame. The data logging code is pretty simple and you can modify it to your heart's desire.
+我们利用模仿学习训练了一个深度学习模型，使其能够仅通过一个摄像头作为输入来驾驶一辆方程式赛车。我们的训练代码文件可在 [此处](https://github.com/FSTDriverless/AirSim/tree/master/PythonClient/imitation_learning) 获取，这些代码文件基于 [AirSim cookbook](https://github.com/Microsoft/AutonomousDrivingCookbook)。
 
-![record screenshot](images/technion/recording_button_small.png)
 
-A better way to generate training data exactly the way you want is by accessing the APIs. This allows you to be in full control of how, what, where and when you want to log data. 
+### 收集训练数据
 
-### Implementation on the Real Car 
+我们添加了一些[图形功能](./graphic_features.md)，以简化数据记录过程。
+您可以使用[此](./cameras_positioning.md)教程更改摄像机的位置。
 
-Our implementation of the algorithm on Nvidia Jetson TX2 can be found in this [repository](https://github.com/FSTDriverless/FSTImplementation).  
 
-### Formula Student Technion algorithm team
+您可以通过两种方式从 AirSim 生成用于深度学习的训练数据。最简单的方法是直接点击右下角的“记录”按钮。这将开始记录每一帧的姿势和图像。数据记录代码非常简单，您可以根据自己的喜好进行修改。
 
-[Tom Hirshberg](https://www.linkedin.com/in/tom-hirshberg-93935b16b/), [Dean Zadok](https://www.linkedin.com/in/dean-zadok-36886791/) and [Amir Biran](https://www.linkedin.com/in/amir-biran-199891125/).  
 
-### Acknowledgments  
+![record screenshot](../images/technion/recording_button_small.png)
 
-We would like to thank our advisors: Dr. Kira Radinsky, Dr. Ashish Kapoor and Boaz Sternfeld.  
-Thanks to the Intelligent Systems Lab (ISL) in the Technion for the support.
+按照您所需的方式生成训练数据的更好方法是访问 API。这使您可以完全控制记录数据的方式、内容、位置和时间。
+
+
+### 实车实现
+
+您可以在此 [存储库](https://github.com/FSTDriverless/FSTImplementation) 中找到我们在 Nvidia Jetson TX2 上对该算法的实现。
+ 
+
+### 方程式大学生以色列理工学院算法团队
+
+[Tom Hirshberg](https://www.linkedin.com/in/tom-hirshberg-93935b16b/), [Dean Zadok](https://www.linkedin.com/in/dean-zadok-36886791/) 和 [Amir Biran](https://www.linkedin.com/in/amir-biran-199891125/).  
+
+### 致谢  
+
+我们要感谢我们的导师：Kira Radinsky 博士、Ashish Kapoor 博士和 Boaz Sternfeld。
+感谢以色列理工学院智能系统实验室 (ISL) 的支持。

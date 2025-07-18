@@ -1,99 +1,112 @@
-# Build AirSim with FST Driverless Environment on Windows
+# 在 Windows 上使用 FST 无人驾驶环境构建 AirSim
 
-## Install Unreal Engine
+## 安装虚幻引擎
 
-1. [Download](https://www.unrealengine.com/download) the Epic Games Launcher. While the Unreal Engine is open source and free to download, registration is still required.
-2. Run the Epic Games Launcher, open the Library tab from left, click on the "Add Versions" which should show the option to download Unreal 4.18 as shown below. If you have multiple versions of Unreal installed then make sure 4.18 is "Current" by clicking down arrow next to the Launch button for the version.
+1. [下载](https://www.unrealengine.com/download) Epic Games 启动器。虽然虚幻引擎是开源的，可以免费下载，但仍然需要注册。
+2. 运行 Epic Games 启动器，从左侧打开“库”选项卡，点击“添加版本”，此时会显示下载虚幻 4.18 的选项，如下所示。如果您安装了多个版本的虚幻引擎，请点击相应版本“启动”按钮旁边的向下箭头，确保 4.18 为“当前版本”。
 
-   **Note**: This project works only with UE 4.18. If you have UE 4.16 or older projects, please see the [upgrade guide](https://github.com/Microsoft/AirSim/blob/master/docs/unreal_upgrade.md) to upgrade your projects.
+!!! 注意
+    本项目仅适用于 UE 4.18。如果您拥有 UE 4.16 或更早版本的项目，请参阅 [升级指南](https://github.com/Microsoft/AirSim/blob/master/docs/unreal_upgrade.md) 来升级您的项目。
 
-## Build AirSim
 
-  1. You will need Visual Studio 2017 (**make sure** to install VC++ and Windows SDK 8.x).
-  2. Start `x64 Native Tools Command Prompt for VS 2017`. Create a folder for the repo and run `git clone https://github.com/Microsoft/AirSim.git`.
-  3. Run `build.cmd` from the command line. This will create ready to use plugin bits in the `Unreal\Plugins` folder that can be dropped into any Unreal project.
+## 构建 AirSim
 
-## Creating and Setting Up Unreal Environment
+1. 您将需要 Visual Studio 2017（确保安装 VC++ 和 Windows SDK 8.x）。
+2. 启动 VS 2017 的 `x64 Native Tools Command Prompt`。为仓库创建一个文件夹并运行 `git clone https://github.com/Microsoft/AirSim.git`。
+3. 从命令行运行 `build.cmd`。这将在 `Unreal\Plugins` 文件夹中创建可立即使用的插件，可将其放入任何 Unreal 项目中。
 
-Finally, you will need an Unreal project that hosts the environment for your vehicles. Follow the list below to create an environment that simulates the FSD competitions.
-1. Make sure AirSim is built and Unreal 4.18 is installed as described above.
-2. Open UE editor and choose "New Project". Choose "Blank" with no starter content. Select your project's location, define it's name (`ProjectName` for example) and press "create project".
 
-![unreal_new_project](images/unreal_new_project.png)
+## 创建和设置虚幻环境
 
-3. After the project is loaded to the editor, from the `File menu` select `New C++ class`, leave default `None` on the type of class, click `Next`, leave default name `MyClass`, and click `Create Class`. We need to do this because Unreal requires at least one source file in project. It should trigger compile and open up Visual Studio solution `ProjectName.sln`.
+最后，您需要一个虚幻项目来托管您的车辆环境。请按照以下列表创建一个模拟 FSD 比赛的环境。
 
-4. Close and save `ProjectName.sln`. Also, close the UE editor.
+1. 确保已构建 AirSim 并已安装 Unreal 4.18，如上所述。
+2. 打开 UE 编辑器，选择“新建项目(New Project)”。选择“空白(Blank)”，不包含任何启动内容。选择项目位置，输入项目名称（例如 `ProjectName`），然后点击“创建项目”。
 
-5. Go to your folder for AirSim repo and copy `Unreal\Plugins` folder into your `ProjectName` folder. This way now your own Unreal project has AirSim plugin.
+![](../images/unreal_new_project.png)
 
-6. Download the environment assets of FSD racecourse from [here](https://drive.google.com/file/d/1FC1T8rZ5hVEDXwlECnPxmPitRCLlxGma/view?usp=sharing). Extract the zip into `ProjectName\Content` (see folders tree in the end of this doc).
+3. 将项目加载到编辑器后，从`文件菜单(File menu)`中选择`新建 C++ 类(New C++ class)`，类类型保留默认的`无(None)`，点击`下一步(Next)`，保留默认名称`MyClass`，然后点击`创建类(Create Class)`。我们需要这样做是因为虚幻引擎要求项目中至少有一个源文件。它会触发编译并打开 Visual Studio 解决方案`ProjectName.sln`。 
 
-7. Download the formula Technion car assets from [here](https://drive.google.com/file/d/1dV4deyLlmMwBwA2ljxbardbGdXHtKKSo/view?usp=sharing). Extract the zip into `ProjectName\Plugins\AirSim\Content\VehicleAdv\SUV` and select `replace` when asked for `SuvCarPawn.uasset` (the original file will be saved into a backup folder).
+4. 关闭并保存`ProjectName.sln`。同时，关闭UE编辑器。 
 
-8. Edit the `ProjectName.uproject` so that it looks like this:
-Notice that we called the project `ProjectName` in case you need to change it.
+
+5. 前往你的 AirSim 仓库文件夹，将 `Unreal\Plugins` 文件夹复制到 `ProjectName` 文件夹中。这样，你的 Unreal 项目就拥有了 AirSim 插件。 
+
+6. 从[此处](https://drive.google.com/file/d/1FC1T8rZ5hVEDXwlECnPxmPitRCLlxGma/view?usp=sharing)下载 FSD 赛马场的环境资源。将 zip 文件解压到`ProjectName\Content`目录下（请参阅本文档末尾的文件夹树）。
+
+7. 从[此处](https://drive.google.com/file/d/1dV4deyLlmMwBwA2ljxbardbGdXHtKKSo/view?usp=sharing)下载公式 Technion 赛车素材。将 zip 文件解压到`ProjectName\Plugins\AirSim\Content\VehicleAdv\SUV`目录下，并在提示`SuvCarPawn.uasset`时选择`replace`（原始文件将保存到备份文件夹中）。
+
+8. 编辑`ProjectName.uproject`，使其如下所示：
+请注意，我们将项目命名为`ProjectName`，以便您需要更改它。 
 
 ```
 {
-	"FileVersion": 3,
-	"EngineAssociation": "4.18",
-	"Category": "Samples",
-	"Description": "",
-	"Modules": [
-		{
-			"Name": "ProjectName",
-			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"AdditionalDependencies": [
-				"AirSim"
-			]
-		}
-	],
-	"TargetPlatforms": [
-		"MacNoEditor",
-		"WindowsNoEditor"
-	],
-	"Plugins": [
-		{
-			"Name": "AirSim",
-			"Enabled": true
-		}
-	]
+    "FileVersion": 3,
+    "EngineAssociation": "4.18",
+    "Category": "Samples",
+    "Description": "",
+    "Modules": [
+        {
+            "Name": "ProjectName",
+            "Type": "Runtime",
+            "LoadingPhase": "Default",
+            "AdditionalDependencies": [
+                "AirSim"
+            ]
+        }
+    ],
+    "TargetPlatforms": [
+        "MacNoEditor",
+        "WindowsNoEditor"
+    ],
+    "Plugins": [
+        {
+            "Name": "AirSim",
+            "Enabled": true
+        }
+    ]
 }
 ```
 
-9. Right click the `ProjectName.uproject` in Windows Explorer and select Generate Visual Studio Project Files. This step detects all plugins and source files in your Unreal project and generates .sln file for Visual Studio.
+9. 在 Windows 资源管理器中右键单击`ProjectName.uproject`，然后选择 `Generate Visual Studio Project Files`。此步骤将检测虚幻项目中的所有插件和源文件，并为 Visual Studio 生成 .sln 文件。 
 
-![regen](images/regen_sln.png)
+![regen](../images/regen_sln.png)
 
-Tip: If the `Generate Visual Studio Project Files` option is missing you may need to reboot your machine for the Unreal Shell extensions to take effect.  If it is still missing then open the `ProjectName.uproject` in the Unreal Editor and select `Refresh Visual Studio Project` from the `File` menu.
 
-10. Reopen `ProjectName.sln` in Visual Studio, and make sure "DebugGame Editor" and "Win64" build configuration is the active build configuration.
+!!! 提示
+    如果缺少`Generate Visual Studio Project Files`选项，您可能需要重启计算机才能使 Unreal Shell 扩展生效。如果仍然缺少该选项，请在 Unreal 编辑器中打开`ProjectName.uproject`，然后从`文件(File)`菜单中选择`Refresh Visual Studio Project`。
 
-![build config](images/vsbuild_config.png)
 
-11. Press `F5` to `debug`. This will start the Unreal Editor. The Unreal Editor allows you to edit the environment, assets and other game related settings. 
+10. 在 Visual Studio 中重新打开`ProjectName.sln`，并确保“DebugGame Editor”和“Win64”构建配置是活动构建配置。
 
-12. First thing, load a map to set your environment. The maps are under `Content\RaceCourse\Maps`. To choose one of the maps double-click on it.
+![build config](../images/vsbuild_config.png)
 
-13. In `Window/World Settings` as shown below, set the `GameMode Override` to `AirSimGameMode`:
+11. 按`F5`键进行`debug(调试)`。这将启动虚幻编辑器。虚幻编辑器允许您编辑环境、资源和其他游戏相关设置。
 
-![sim_game_mode.png](images/sim_game_mode.png)
+12. 首先，加载一张地图来设置你的环境。地图位于`Content\RaceCourse\Maps`目录下。双击选择其中一张地图。 
 
-14. Next, if you want to change the location of `PlayerStart` object in your environment(`PlayerStart` object already exist) you can find and fix it in the `World Outliner`. This is where AirSim plugin will create and place the vehicle. If its too high up then vehicle will fall down as soon as you press play giving potentially random behavior.
+13. 在如下所示的 `Window/World Settings` 中，将 `GameMode Override` 设置为 `AirSimGameMode`： 
 
-![lm_player_start_pos.png](images/lm_player_start_pos.png)
+![sim_game_mode.png](../images/sim_game_mode.png)
 
-15. Go to 'Edit->Editor Preferences' in Unreal Editor, in the 'Search' box type 'CPU' and ensure that the 'Use Less CPU when in Background' is unchecked. If you don't do this then UE will be slowed down dramatically when UE window loses focus.
+14. 接下来，如果您想更改`PlayerStart`对象在环境中的位置（该`PlayerStart`对象已存在），您可以在`World Outliner`中找到并修改它。AirSim 插件将在此处创建并放置载具。如果位置过高，载具会在您按下“播放”按钮时立即掉落，从而可能造成随机行为。
 
-16. Be sure to `Save` these edits. Hit the Play button in the Unreal Editor. See [how to use AirSim](https://github.com/Microsoft/AirSim/#how-to-use-it).
+![lm_player_start_pos.png](../images/lm_player_start_pos.png)
 
-Ready... Set... GO!!!
-You are now running AirSim in your FSD Unreal environment.
+15. 在虚幻编辑器中，前往“编辑->编辑器偏好设置”，在“搜索”框中输入“CPU”，并确保“在后台运行时使用较少 CPU (Use Less CPU when in Background) ”未勾选。如果不勾选，当虚幻引擎窗口失去焦点时，虚幻引擎的速度将显著下降。
 
-## Setup Steering Wheel (Logitech G920)
+16. 请务必`保存(Save)`这些编辑。点击虚幻编辑器中的“播放”按钮。请参阅[如何使用 AirSim](https://github.com/Microsoft/AirSim/#how-to-use-it)。 
 
-A steering wheel is required if you want to drive manually. See the [steering wheel instructions](https://github.com/Microsoft/AirSim/blob/master/docs/steering_wheel_installation.md) for more details.
 
-Alternatively, you can use [APIs](https://github.com/Microsoft/AirSim/blob/master/docs/apis.md) for programmatic control or use the so-called [Computer Vision mode](https://github.com/Microsoft/AirSim/blob/master/docs/image_apis.md) to move around using the keyboard.
+预备……开始……开始！！！
+您现在正在 FSD Unreal 环境中运行 AirSim。
+
+## 设置方向盘（罗技 G920）
+
+
+如果您想手动驾驶，则需要方向盘。有关更多详细信息，请参阅 [方向盘说明](../../steering_wheel_installation.md) 。
+
+
+或者，您可以使用 [API](https://github.com/Microsoft/AirSim/blob/master/docs/apis.md) 进行编程控制，或者使用所谓的 [计算机视觉模式](https://github.com/Microsoft/AirSim/blob/master/docs/image_apis.md) 使用键盘移动。
+
+
