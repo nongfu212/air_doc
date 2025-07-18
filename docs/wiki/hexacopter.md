@@ -106,18 +106,18 @@ static void initializeRotorHexX(vector<RotorPose>& rotor_poses /* the result we 
 
 最后，为了进行渲染，我们需要一个漂亮的六旋翼飞行器三维模型。Udeshaya Wadhwa 制作了 [一个可爱的 DJI S900 模型](https://grabcad.com/library/dji-s900-hex-rotor-drone-1) 。
 
-![](../images/wiki/Hexacopter.jpg)
+![](./images/Hexacopter.jpg)
 
 所以我拿了这个模型，把电机拆了下来（这样我们就可以旋转它们了），这些可以 [在这里找到](https://github.com/Microsoft/AirSim/wiki/images/DJI%20S900.zip) 。你可以 [把这些网格导入虚幻引擎](https://docs.unrealengine.com/latest/INT/Engine/Content/Types/StaticMeshes/HowTo/Importing/index.html) 。我发现，对于模块化社区世界，我必须将 x 轴旋转 90 度，并将模型缩小到原始尺寸的 20% 左右，将默认材质改为漂亮的金属灰色，并根据四轴飞行器蓝图添加单独的可旋转电机。
 
 
 我所做的是复制并粘贴 BP_FlyingPawn，将其命名为 BP_FlyingHex，然后添加另外 2 个道具和另外 2 个旋转，如下所示：
 
-![](../images/wiki/BP_FlyingHex.png)
+![](./images/BP_FlyingHex.png)
 
 然后我编辑了 SetupPropProtationMovement 图，以便它连接 2 个新的道具：
 
-![](../images/wiki/WireRotations.png)
+![](./images/WireRotations.png)
 
 需要注意的是，您无法通过复制/粘贴来获取“Rotation 4”节点，您必须从“组件”列表中拖出“Rotation 4”，然后选择“获取”，然后将其连接到新的“设置更新组件”框，对于“Prop 4”和“Prop 5”也同样操作。
 
@@ -126,7 +126,7 @@ mp4 转 gif: https://convertio.co/zh/mp4-gif/
 -->
 现在您只需让它飞起来即可！是的，它成功了 :-) 
 
-![](../images/wiki/Hex.gif)
+![](./images/Hex.gif)
 
 
 

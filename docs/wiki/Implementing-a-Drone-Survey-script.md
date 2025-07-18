@@ -2,7 +2,7 @@
 
 您是否曾经想过拍摄一组特定地点的俯视图照片？`AirSimClient` Python API 让这一切变得非常简单。[代码请点击此处](https://github.com/microsoft/AirSim/blob/master/PythonClient/multirotor/survey.py) 查看。
 
-![](../images/wiki/survey.png)
+![](./images/survey.png)
 
 假设我们需要以下变量：
 

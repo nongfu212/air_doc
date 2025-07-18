@@ -21,7 +21,7 @@ param set NAV_DLL_ACT 0
 ```
 
 结果如下，请看 [演示视频](https://youtu.be/9CkHgC0a2Xs) ：
-![](../images/wiki/moveOnPath.jpg)
+![](./images/moveOnPath.jpg)
 
 
 

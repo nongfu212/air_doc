@@ -29,7 +29,7 @@
 
 ### 比赛
 
-[方程式无人驾驶赛车](https://github.com/hoangtnm/mark1_project) - 包括素材构建流程、模仿学习
+[方程式无人驾驶赛车](https://github.com/hoangtnm/mark1_project) - 包括素材构建流程、模仿学习（TODO）
 
 
 ## 人
