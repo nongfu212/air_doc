@@ -1,5 +1,6 @@
 # coding=utf-8
 # 参考：https://zhaoxuhui.top/blog/2021/12/03/airsim-note5-drone-control-and-data-collection.html
+# pip install numpy
 # pip install keyboard airsim
 import keyboard
 import airsim
