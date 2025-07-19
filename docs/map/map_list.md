@@ -7,7 +7,7 @@
 
 ![](./images/AbandonedPark.png)
 
-2.Africa (崎岖不平的地形和活泼的动物)
+2.Africa (非洲：崎岖不平的地形和活泼的动物)
 
 ![](./images/Africa.png)
 
@@ -19,7 +19,7 @@
 
 ![](images/Blocks.png)
 
-5.Building_99 ——办公楼里
+5.Building_99 —— 办公楼里
 
 ![](images/Building_99.png)
 
