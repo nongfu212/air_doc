@@ -1,50 +1,45 @@
-# Playback
+# 回放
 
-AirSim supports playing back the high level commands in a *.mavlink log file that were recorded using the MavLinkTest app
-for the purpose of comparing real and simulated flight.
-The [recording.mavlink](logs/recording.mavlink) is an example of a log file captured using a real drone using the following
-command line:
+AirSim 支持回放使用 MavLinkTest 应用记录的 *.mavlink 日志文件中的高级命令，以便比较真实飞行和模拟飞行。[recording.mavlink](logs/recording.mavlink) 是使用真实无人机通过以下命令行捕获的日志文件示例：
 
 ```
 MavLinkTest -serial:/dev/ttyACM0,115200 -logdir:. 
 ```
 
-Then the log file contains the commands performed, which included several "orbit" commands, the resulting GPS map of the flight
-looks like this:
+然后日志文件包含执行的命令，其中包括几个“轨道(orbit)”命令，生成的飞行 GPS 地图如下所示：
+
 
 ![real flight](images/RealFlight.png)
 
-## Side-by-side comparison
+## 并排比较
 
-Now we can copy the *.mavlink log file recorded by MavLinkTest to the PC running the Unreal simulator with AirSim plugin.
-When the Simulator is running and the drone is parked in a place in a map that has room to do the same maneuvers we can run this
-MavLinkTest command line:
+现在，我们可以将 MavLinkTest 记录的 *.mavlink 日志文件复制到运行 Unreal 模拟器（带 AirSim 插件）的电脑上。当模拟器运行，并且无人机停在地图上足够进行相同操作的位置时，我们可以运行以下 MavLinkTest 命令行：
 
 ```
 MavLinkTest -server:127.0.0.1:14550
 ```
 
-This should connect to the simulator.  Now you can enter this command:
+这样就连接到模拟器了。现在你可以输入以下命令：
 
 ```
 PlayLog recording.mavlink
 ```
-The same commands you performed on the real drone will now play again in the simulator.  You can then press 't' to see
-the trace, and it will show you the trace of the real drone and the simulated drone.  Every time you press 't' again
-you can reset the lines so they are sync'd to the current position, this way I was able to capture a side-by-side trace of the
-"orbit" command performed in this recording, which generates the picture below.  The pink line is the simulated
-flight and the red line is the real flight:
+
+您在真实无人机上执行的相同命令现在将在模拟器中再次播放。然后您可以按“t”键查看轨迹，它会显示真实无人机和模拟无人机的轨迹。每次再次按“t”键时，您可以重置线条，使它们同步到当前位置。这样，我就能捕捉到本次录制中执行的“轨道(orbit)”命令的并排轨迹，从而生成下面的图片。粉色线是模拟飞行，红色线是真实飞行：
+
 
 ![playback](images/Playback.png)
 
-Note: I'm using the ';' key in the simulator to take control of camera position using keyboard to get this shot.
 
-## Parameters
+!!! 注意
+    我使用模拟器中的“；”键通过键盘控制相机位置来拍摄这张照片。
 
-It may help to set the simulator up with some of the same flight parameters that your real drone is using, for example,
-in my case I was using a lower than normal cruise speed, slow takeoff speed, and it helps to tell the simulator to
-wait a long time before disarming (COM_DISARM_LAND) and to turn off the safety switches NAV_RCL_ACT and NAV_DLL_ACT
-(`don't` do that on a real drone).
+## 参数
+
+将模拟器设置为与真实无人机相同的一些飞行参数可能会有所帮助。例如，
+在我的情况下，我使用了低于正常巡航速度、较慢的起飞速度，并且告诉模拟器
+在解除武装之前等待很长时间（COM_DISARM_LAND）并关闭安全开关 NAV_RCL_ACT 和 NAV_DLL_ACT
+（在真实无人机上`不要`这样做）会有所帮助。
 
 ```
 param MPC_XY_CRUISE 2

@@ -1,6 +1,9 @@
-AirSim provides a feature that constructs ground truth voxel grids of the world directly from Unreal Engine. A voxel grid is a representation of the occupancy of a given world/map, by discretizing into cells of a certain size; and recording a voxel if that particular location is occupied. 
 
-The logic for constructing the voxel grid is in WorldSimApi.cpp->createVoxelGrid(). For now, the assumption is that the voxel grid is a cube - and the API call from Python is of the structure:
+
+AirSim提供了一种功能，可以直接从虚幻引擎构建世界的真实体素栅格。体素栅格是给定世界/地图的占用表示，通过离散化为特定大小的单元；以及如果该特定位置被占用，则记录体素。
+
+
+构建体素网格的逻辑在`WorldSimApi.cpp->createVoxelGrid()`中。目前，假设体素网格是一个立方体，来自Python的API调用具有以下结构：
 
 ```
 simCreateVoxelGrid(self, position, x, y, z, res, of)
@@ -11,13 +14,13 @@ res (float): Resolution of voxel grid in m
 of (str): Name of output file to save voxel grid as
 ```
 
-Within `createVoxelGrid()`, the main Unreal Engine function that returns occupancy is [OverlapBlockingTestByChannel](https://docs.unrealengine.com/en-US/API/Runtime/Engine/Engine/UWorld/OverlapBlockingTestByChannel/index.html).
+在 `createVoxelGrid()` 中，返回占用率的主虚幻引擎函数是 [OverlapBlockingTestByChannel](https://docs.unrealengine.com/en-US/API/Runtime/Engine/Engine/UWorld/OverlapBlockingTestByChannel/index.html) 。
 
 ```
 OverlapBlockingTestByChannel(position, rotation, ECollisionChannel, FCollisionShape, params);
 ```
 
-This function is called on the positions of all the 'cells' we wish to discretize the map into, and the returned occupancy result is collected into an array `voxel_grid_`. The indexing of the cell occupancy values follows the convention of the [binvox](https://www.patrickmin.com/binvox/binvox.html) format. 
+在希望将贴图离散化到的所有“单元”的位置上调用该函数，并将返回的占用结果收集到数组`voxel_grid_`中。单元占用值的索引遵循 [binvox](https://www.patrickmin.com/binvox/binvox.html) 格式的约定。
 
 ```
 for (float i = 0; i < ncells_x; i++) {
@@ -31,18 +34,20 @@ for (float i = 0; i < ncells_x; i++) {
 }
 ```
 
-The occupancy of the map is calculated iteratively over all discretized cells, which can make it an intensive operation depending on the resolution of the cells, and the total size of the area being measured. If the user's map of interest does not change much, it is possible to run the voxel grid operation once on this map, and save the voxel grid and reuse it. For performance, or with dynamic environments, we recommend running the voxel grid generation for a small area around the robot; and subsequently use it for local planning purposes.
+在所有离散化单元上迭代计算映射的占用率，这可以使其成为依赖于单元的分辨率和被测量区域的总大小的密集操作。如果用户感兴趣的地图变化不大，则可以在此地图上运行一次体素栅格操作，并保存体素栅格并重新使用它。为了提高性能或使用动态环境，我们建议对机器人周围的小区域运行体素栅格生成；并随后将其用于局部规划目的。
 
 
-The voxel grids are stored in the binvox format which can then be converted by the user into an octomap .bt or any other relevant, desired format. Subsequently, these voxel grids/octomaps can be used within mapping/planning. One nifty little utility to visualize a created binvox files is [viewvox](https://www.patrickmin.com/viewvox/). Similarly, `binvox2bt` can convert the binvox to an octomap file.
 
-##### Example voxel grid in Blocks:
+体素栅格以binvox格式存储，然后用户可以将其转换为octomap.bt或任何其他相关的所需格式。随后，可以在映射/规划中使用这些体素栅格/八进制映射。一个漂亮的小实用程序是 [viewvox](https://www.patrickmin.com/viewvox/) ，它可以可视化创建的 binvox 文件。类似地，`binvox2bt` 可以将binvox转换为octomap文件。
+
+
+##### 块地图(Blocks)中的体素栅格示例：
 ![image](images/voxel_grid.png)
 
-##### Blocks voxel grid converted to Octomap format (visualized in rviz):
+##### 块地图（Blocks）体素栅格转换为Octomap格式（在rviz中可视化）：
 ![image](images/octomap.png)
 
-As an example, a voxel grid can be constructed as follows, once the Blocks environment is up and running:
+例如，一旦 Blocks 环境启动并运行，就可以如下构造体素栅格：
 
 ```
 import airsim
@@ -52,4 +57,5 @@ output_path = os.path.join(os.getcwd(), "map.binvox")
 c.simCreateVoxelGrid(center, 100, 100, 100, 0.5, output_path)
 ```
 
-And visualized through `viewvox map.binvox`.
+并通过`viewvox map.binvox`可视化。
+

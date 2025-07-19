@@ -15,7 +15,7 @@ AirSim 正在按以下顺序搜索设置定义。将使用第一个匹配项：
 这将是编辑器或二进制文件实际可执行文件的深层位置。
 例如，对于 Blocks 二进制文件，搜索的位置是`<path-of-binary>/LinuxNoEditor/Blocks/Binaries/Linux/settings.json`。 
 
-4. 在启动可执行文件的文件夹中搜索`settings.json` 
+4. 在**启动可执行文件的文件夹中**搜索`settings.json` 
 
     这是包含启动脚本或可执行文件的顶级目录。例如，Linux：`<path-of-binary>/LinuxNoEditor/settings.json`，Windows：`<path-of-binary>/WindowsNoEditor/settings.json` 
 

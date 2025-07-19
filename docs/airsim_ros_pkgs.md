@@ -1,34 +1,35 @@
 # airsim_ros_pkgs
 
-A ROS wrapper over the AirSim C++ client library.
+AirSim C++客户端库上的ROS封装。
 
-## Setup
+## 安装
 
-The below steps are meant for Linux. If you're running AirSim on Windows, you can use Windows Subsystem for Linux (WSL) to run the ROS wrapper, see the instructions [below](#setting-up-the-build-environment-on-windows10-using-wsl1-or-wsl2). If you're unable or don't prefer to install ROS and related tools on your host Linux due to some issues, you can also try it using Docker, see the steps in [Using Docker for ROS wrapper](#using-docker-for-ros)
+以下步骤适用于Linux。如果在Windows上运行AirSim，则可以使用Windows Subsystem for Linux（WSL）来运行ROS包装，请参阅 [下面](#setting-up-the-build-environment-on-windows10-using-wsl1-or-wsl2) 的说明。如果由于某些问题，您无法或不喜欢在主机Linux上安装ROS和相关工具，您也可以使用Docker尝试，请参阅 [为 ROS 封装使用 Docker](#using-docker-for-ros) 中的步骤
 
-- If your default GCC version is not 8 or above (check using `gcc --version`)
 
-    - Install gcc >= 8.0.0: `sudo apt-get install gcc-8 g++-8`
-    - Verify installation by `gcc-8 --version`
+- 如果默认GCC版本不是8或更高版本（使用`GCC--version`检查） 
+
+    - 使用 gcc >= 8.0.0: `sudo apt-get install gcc-8 g++-8`
+    - 使用 `gcc-8 --version` 验证安装
 
 - Ubuntu 16.04
-    * Install [ROS kinetic](https://wiki.ros.org/kinetic/Installation/Ubuntu)
-    * Install tf2 sensor and mavros packages: `sudo apt-get install ros-kinetic-tf2-sensor-msgs ros-kinetic-tf2-geometry-msgs ros-kinetic-mavros*`
+    * 安装 [ROS kinetic](https://wiki.ros.org/kinetic/Installation/Ubuntu)
+    * 安装tf2 sensor 和 mavros 包：`sudo apt-get install ros-kinetic-tf2-sensor-msgs ros-kinetic-tf2-geometry-msgs ros-kinetic-mavros*`
 
 - Ubuntu 18.04
-    * Install [ROS melodic](https://wiki.ros.org/melodic/Installation/Ubuntu)
-    * Install tf2 sensor and mavros packages: `sudo apt-get install ros-melodic-tf2-sensor-msgs ros-melodic-tf2-geometry-msgs ros-melodic-mavros*`
+    * 安装 [ROS melodic](https://wiki.ros.org/melodic/Installation/Ubuntu)
+    * 安装 tf2 sensor 和 mavros 包: `sudo apt-get install ros-melodic-tf2-sensor-msgs ros-melodic-tf2-geometry-msgs ros-melodic-mavros*`
 - Ubuntu 20.04
-    * Install [ROS noetic](https://wiki.ros.org/noetic/Installation/Ubuntu)
-    * Install tf2 sensor and mavros packages: `sudo apt-get install ros-noetic-tf2-sensor-msgs ros-noetic-tf2-geometry-msgs ros-noetic-mavros*`
+    * 安装 [ROS noetic](https://wiki.ros.org/noetic/Installation/Ubuntu)
+    * 安装 tf2 sensor 和 mavros 包: `sudo apt-get install ros-noetic-tf2-sensor-msgs ros-noetic-tf2-geometry-msgs ros-noetic-mavros*`
 
-- Install [catkin_tools](https://catkin-tools.readthedocs.io/en/latest/installing.html)
-    `sudo apt-get install python-catkin-tools` or
-    `pip install catkin_tools`. If using Ubuntu 20.04 use `pip install "git+https://github.com/catkin/catkin_tools.git#egg=catkin_tools"`
+- 安装 [catkin_tools](https://catkin-tools.readthedocs.io/en/latest/installing.html)
+    `sudo apt-get install python-catkin-tools` 或
+    `pip install catkin_tools`。 如果在 Ubuntu 20.04 则使用 `pip install "git+https://github.com/catkin/catkin_tools.git#egg=catkin_tools"`
 
-## Build
+## 构建
 
-- Build AirSim
+- 构建 AirSim
 
 ```shell
 git clone https://github.com/Microsoft/AirSim.git;
@@ -37,27 +38,27 @@ cd AirSim;
 ./build.sh;
 ```
 
-- Make sure that you have setup the environment variables for ROS as mentioned in the installation pages above. Add the `source` command to your `.bashrc` for convenience (replace `melodic` with specfic version name) -
+- 确保已按照上面的安装页面中所述设置ROS的环境变量。为方便起见，将`source`命令添加到`.bashrc`中（用特定的版本名替换`mediatic`）：
 
 ```shell
 echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-- Build ROS package
+- 构建 ROS 包
 
 ```shell
 cd ros;
-catkin build; # or catkin_make
+catkin build; # 或 catkin_make
 ```
 
-If your default GCC isn't 8 or greater (check using `gcc --version`), then compilation will fail. In that case, use `gcc-8` explicitly as follows-
+如果默认GCC不是8或更高（使用`GCC--version`检查），则编译将失败。在这种情况下，请显式使用`gcc-8`，如下所示
 
 ```shell
 catkin build -DCMAKE_C_COMPILER=gcc-8 -DCMAKE_CXX_COMPILER=g++-8
 ```
 
-## Running
+## 运行
 
 ```shell
 source devel/setup.bash;
@@ -65,16 +66,17 @@ roslaunch airsim_ros_pkgs airsim_node.launch;
 roslaunch airsim_ros_pkgs rviz.launch;
 ```
 
-   **Note**: If you get an error running `roslaunch airsim_ros_pkgs airsim_node.launch`, run `catkin clean` and try again
+!!! 注意
+    如果在运行`roslaunch airsim_ros_pkgs airsim_node.launch`时出错，请运行`catkin clean`，然后重试
 
-## Using AirSim ROS wrapper
+## 使用 AirSim ROS 包装器
 
-The ROS wrapper is composed of two ROS nodes - the first is a wrapper over AirSim's multirotor C++ client library, and the second is a simple PD position controller.
-Let's look at the ROS API for both nodes:
+ROS包装器由两个ROS节点组成——第一个是AirSim多旋翼 C++ 客户端库的包装器，第二个是简单的 比例-微分(PD) 位置控制器。
+让我们看看这 2 个节点的ROS API：
 
-### AirSim ROS Wrapper Node
+### AirSim ROS 包装器节点
 
-#### Publishers:
+#### 发布者：
 
 - `/airsim_node/origin_geo_point` [airsim_ros_pkgs/GPSYaw](https://github.com/microsoft/AirSim/tree/main/ros/src/airsim_ros_pkgs/msg/GPSYaw.msg)
 GPS coordinates corresponding to global NED frame. This is set in the airsim's [settings.json](https://microsoft.github.io/AirSim/settings/) file under the `OriginGeopoint` key.
@@ -107,7 +109,7 @@ IMU sensor data
 - `/airsim_node/VEHICLE_NAME/lidar/SENSOR_NAME` [sensor_msgs::PointCloud2](http://docs.ros.org/api/sensor_msgs/html/msg/PointCloud2.html)
   LIDAR pointcloud
 
-#### Subscribers:
+#### 订阅者:
 
 - `/airsim_node/vel_cmd_body_frame` [airsim_ros_pkgs/VelCmd](https://github.com/microsoft/AirSim/tree/main/ros/src/airsim_ros_pkgs/msg/VelCmd.msg)
   Ignore `vehicle_name` field, leave it to blank. We will use `vehicle_name` in future for multiple drones.
@@ -124,7 +126,7 @@ IMU sensor data
 - `/airsim_node/VEHICLE_NAME/car_cmd` [airsim_ros_pkgs/CarControls](https://github.com/microsoft/AirSim/blob/main/ros/src/airsim_ros_pkgs/msg/CarControls.msg)
 Throttle, brake, steering and gear selections for control. Both automatic and manual transmission control possible, see the [`car_joy.py`](https://github.com/microsoft/AirSim/blob/main/ros/src/airsim_ros_pkgs/scripts/car_joy) script for use.
 
-#### Services:
+#### 服务:
 
 - `/airsim_node/VEHICLE_NAME/land` [airsim_ros_pkgs/Takeoff](https://docs.ros.org/api/std_srvs/html/srv/Empty.html)
 
@@ -133,7 +135,7 @@ Throttle, brake, steering and gear selections for control. Both automatic and ma
 - `/airsim_node/reset` [airsim_ros_pkgs/Reset](https://docs.ros.org/api/std_srvs/html/srv/Empty.html)
  Resets *all* drones
 
-#### Parameters:
+#### 参数:
 
 - `/airsim_node/world_frame_id` [string]
   Set in: `$(airsim_ros_pkgs)/launch/airsim_node.launch`
@@ -169,11 +171,11 @@ Throttle, brake, steering and gear selections for control. Both automatic and ma
   Default: false
   Will publish the ros /clock topic if set to true.
 
-### Simple PID Position Controller Node
+### 简单 PID 位置控制器节点
 
-#### Parameters:
+#### 参数:
 
-- PD controller parameters:
+- PD 控制器参数：
   * `/pd_position_node/kd_x` [double],
     `/pd_position_node/kp_y` [double],
     `/pd_position_node/kp_z` [double],
@@ -195,7 +197,7 @@ Throttle, brake, steering and gear selections for control. Both automatic and ma
 - `/pd_position_node/update_control_every_n_sec` [double]
   Default: 0.01 seconds
 
-#### Services:
+#### 服务:
 
 - `/airsim_node/VEHICLE_NAME/gps_goal` [Request: [srv/SetGPSPosition](https://github.com/microsoft/AirSim/blob/main/ros/src/airsim_ros_pkgs/srv/SetGPSPosition.srv)]
   Target gps position + yaw.
@@ -204,7 +206,7 @@ Throttle, brake, steering and gear selections for control. Both automatic and ma
 - `/airsim_node/VEHICLE_NAME/local_position_goal` [Request: [srv/SetLocalPosition](https://github.com/microsoft/AirSim/blob/main/ros/src/airsim_ros_pkgs/srv/SetLocalPosition.srv)]
   Target local position + yaw in global NED frame.
 
-#### Subscribers:
+#### 订阅者:
 
 - `/airsim_node/origin_geo_point` [airsim_ros_pkgs/GPSYaw](https://github.com/microsoft/AirSim/tree/main/ros/src/airsim_ros_pkgs/msg/GPSYaw.msg)
   Listens to home geo coordinates published by `airsim_node`.
@@ -212,12 +214,12 @@ Throttle, brake, steering and gear selections for control. Both automatic and ma
 - `/airsim_node/VEHICLE_NAME/odom_local_ned` [nav_msgs/Odometry](https://docs.ros.org/api/nav_msgs/html/msg/Odometry.html)
   Listens to odometry published by `airsim_node`
 
-#### Publishers:
+#### 发布者:
 
 - `/vel_cmd_world_frame` [airsim_ros_pkgs/VelCmd](https://github.com/microsoft/AirSim/tree/main/ros/src/airsim_ros_pkgs/msg/VelCmd.msg)
   Sends velocity command to `airsim_node`
 
-#### Global params
+#### 全局参数
 
 - Dynamic constraints. These can be changed in `dynamic_constraints.launch`:
     * `/max_vel_horz_abs` [double]
@@ -229,15 +231,18 @@ Throttle, brake, steering and gear selections for control. Both automatic and ma
     * `/max_yaw_rate_degree` [double]
   Maximum yaw rate (degrees/second)
 
-## Misc
+## 杂项
 
-### Setting up the Build Environment on Windows10 using WSL1 or WSL2
+### 使用 WSL1 或 WSL2 在 Windows10 上设置构架环境
 
-These setup instructions describe how to setup "Bash on Ubuntu on Windows" (aka "Windows Subsystem for Linux").
+这些安装说明描述了如何设置“Windows上Ubuntu上的Bash”（又名“Linux的Windows子系统”）。
 
-It involves enabling the built-in Windows Linux environment (WSL) in Windows10, installing a compatible Linux OS image, and finally installing the build environment as if it were a normal Linux system.
 
-Upon completion, you will be able to build and run the ros wrapper as in a native linux machine.
+它涉及在Windows10中启用内置的Windows Linux环境（WSL），安装兼容的Linux OS映像，最后安装构建环境，就像它是一个普通的Linux系统一样。
+
+
+完成后，您将能够像在本机linux机器中一样构建和运行ros包装器。
+
 
 ##### WSL1 vs WSL2
 

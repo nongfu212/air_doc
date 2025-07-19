@@ -32,12 +32,11 @@ extra_javascript:
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
-copyright: Copyright &copy; 2021 Microsoft Research
+copyright: OpenHUTB 版权所有 &copy; 2025
 
 nav:
   - "主页":
     - "主页": 'README.md'
-  - "修改记录": 'CHANGELOG.md'
   - "构建 AirSim":
     - "下载二进制文件": 'use_precompiled.md'
     - "在 Windows 上构建": 'build_windows.md'
@@ -130,9 +129,10 @@ nav:
     - "Blocks 环境": 'unreal_blocks.md'
     - "谁在使用 AirSim": 'who_is_using.md'
     - "使用 UE 插件内容": 'working_with_plugin_contents.md'
-    - "大学生方程式赛车以色列理工学院自驾赛": 'https://github.com/Microsoft/AirSim/wiki/technion'
+    - "大学生方程式赛车以色列理工学院自驾赛": 'wiki/technion/technion.md'
   - "支持":
     - "FAQ": 'faq.md'
     - "支持": 'SUPPORT.md'
+    - "修改记录": 'CHANGELOG.md'
     - "创建问题": 'create_issue.md'
     - "贡献": 'CONTRIBUTING.md'

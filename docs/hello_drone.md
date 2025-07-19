@@ -1,6 +1,6 @@
 # Hello Drone
 
-## How does Hello Drone work?
+## Hello Drone 如何工作？
 
-Hello Drone uses the RPC client to connect to the RPC server that is automatically started by the AirSim. 
-The RPC server routes all the commands to a class that implements [MultirotorApiBase](https://github.com/Microsoft/AirSim/tree/main/AirLib//include/vehicles/multirotor/api/MultirotorApiBase.hpp). In essence, MultirotorApiBase defines our abstract interface for getting data from the quadrotor and sending back commands. We currently have concrete implementation for MultirotorApiBase for MavLink based vehicles. The implementation for DJI drone platforms, specifically Matrice, is in works.
+Hello Drone 使用 RPC 客户端连接到 AirSim 自动启动的 RPC 服务器。RPC 服务器将所有命令路由到实现 [MultirotorApiBase](https://github.com/Microsoft/AirSim/tree/main/AirLib//include/vehicles/multirotor/api/MultirotorApiBase.hpp) 的类。本质上，MultirotorApiBase 定义了我们的抽象接口，用于从 quadrotor 获取数据并发回命令。我们目前已经为基于 MavLink 的车辆的 MultirotorApiBase 提供了具体的实现。DJI 无人机平台（特别是 Matrice）的实现正在进行中。
+

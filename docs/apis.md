@@ -26,58 +26,64 @@ pip install msgpack-rpc-python
 python hello_car.py
 ```
 
-If you are using Visual Studio 2019 then just open AirSim.sln, set PythonClient as startup project and choose `car\hello_car.py` as your startup script.
+如果您正在使用 Visual Studio 2019，则只需打开 AirSim.sln ，将 PythonClient 设置为启动项目，并选择 `car\hello_car.py` 作为启动脚本。
 
-### Installing AirSim Package
-You can also install `airsim` package simply by,
+
+### 安装 AirSim 包
+
+您也可以简单地通过以下方式安装 `airsim` 包：，
 
 ```
 pip install airsim
 ```
 
-You can find source code and samples for this package in `PythonClient` folder in your repo.
+您可以在代码仓库的 `PythonClient` 文件夹中找到该包的源代码和示例。
 
-**Notes**
-1. You may notice a file `setup_path.py` in our example folders. This file has simple code to detect if `airsim` package is available in parent folder and in that case we use that instead of pip installed package so you always use latest code.
-2. AirSim is still under heavy development which means you might frequently need to update the package to use new APIs.
+**笔记**
+1. 您可能会注意到在我们的示例文件夹中有一个 `setup_path.py` 文件。这个文件有一个简单的代码来检测 `airsim` 包是否在父文件夹中可用，在这种情况下，我们使用它而不是 pip 安装的包，所以您总是使用最新的代码。
+2. AirSim 仍在大量开发中，这意味着您可能需要经常更新软件包以使用新的 API。
 
-## C++ Users
-If you want to use C++ APIs and examples, please see [C++ APIs Guide](apis_cpp.md).
+## C++ 用户
+
+如果要使用 C++ 的 API 和示例，请参阅 [C++ APIs 指南](apis_cpp.md) 。
+
 
 ## Hello Car
-Here's how to use AirSim APIs using Python to control simulated car (see also [C++ example](apis_cpp.md#hello_car)):
+
+下面是如何使用 Python 的 AirSim API 控制模拟汽车（另请参见 [C++ 示例](apis_cpp.md#hello_car) ）：
+
 
 ```python
-# ready to run example: PythonClient/car/hello_car.py
+# 准备运行示例：PythonClient/car/hello_car.py
 import airsim
 import time
 
-# connect to the AirSim simulator
+# 连接到 AirSim 模拟器
 client = airsim.CarClient()
 client.confirmConnection()
 client.enableApiControl(True)
 car_controls = airsim.CarControls()
 
 while True:
-    # get state of the car
+    # 获取车辆状态
     car_state = client.getCarState()
     print("Speed %d, Gear %d" % (car_state.speed, car_state.gear))
 
-    # set the controls for car
+    # 控制车辆
     car_controls.throttle = 1
     car_controls.steering = 1
     client.setCarControls(car_controls)
 
-    # let car drive a bit
+    # 让汽车开一会儿
     time.sleep(1)
 
-    # get camera images from the car
+    # 从汽车中获取相机图像
     responses = client.simGetImages([
         airsim.ImageRequest(0, airsim.ImageType.DepthVis),
         airsim.ImageRequest(1, airsim.ImageType.DepthPlanar, True)])
     print('Retrieved images: %d', len(responses))
 
-    # do something with images
+    # 对图像执行一些操作
     for response in responses:
         if response.pixels_as_float:
             print("Type %d, size %d" % (response.image_type, len(response.image_data_float)))
@@ -85,34 +91,33 @@ while True:
         else:
             print("Type %d, size %d" % (response.image_type, len(response.image_data_uint8)))
             airsim.write_file('py1.png', response.image_data_uint8)
-
 ```
 
 ## Hello Drone
 下面介绍了如何使用 Python 的 AirSim API 来控制模拟四旋翼飞行器（另请参阅 [ C++ 示例](apis_cpp.md#hello_drone)）：
 
 ```python
-# ready to run example: PythonClient/multirotor/hello_drone.py
+# 准备运行示例：PythonClient/multirotor/hello_drone.py
 import airsim
 import os
 
-# connect to the AirSim simulator
+# 连接到 AirSim 模拟器
 client = airsim.MultirotorClient()
 client.confirmConnection()
 client.enableApiControl(True)
 client.armDisarm(True)
 
-# Async methods returns Future. Call join() to wait for task to complete.
+# Async 方法返回 Future。调用 join() 等待任务完成。
 client.takeoffAsync().join()
 client.moveToPositionAsync(-10, 10, -10, 5).join()
 
-# take images
+# 获取图像
 responses = client.simGetImages([
     airsim.ImageRequest("0", airsim.ImageType.DepthVis),
     airsim.ImageRequest("1", airsim.ImageType.DepthPlanar, True)])
 print('Retrieved images: %d', len(responses))
 
-# do something with the images
+# 对图像执行一些操作
 for response in responses:
     if response.pixels_as_float:
         print("Type %d, size %d" % (response.image_type, len(response.image_data_float)))
@@ -122,7 +127,7 @@ for response in responses:
         airsim.write_file(os.path.normpath('/temp/py1.png'), response.image_data_uint8)
 ```
 
-## Common APIs
+## 常用 API
 
 * `reset`: This resets the vehicle to its original starting state. Note that you must call `enableApiControl` and `armDisarm` again after the call to `reset`.
 * `confirmConnection`: Checks state of connection every 1 sec and reports it in Console so user can see the progress for connection.
