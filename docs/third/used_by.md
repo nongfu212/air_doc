@@ -1,7 +1,7 @@
 # [使用AirSim的项目](https://github.com/microsoft/AirSim/network/dependents)
 
-<!-- 整理到的页面：https://github.com/microsoft/AirSim/network/dependents?dependents_before=MTczMjE5Mzk4MTA -->
-<!-- 整理到的仓库：https://github.com/ritvik03/Hybrid_Navigation_Tech -->
+<!-- 整理到的页面：https://github.com/microsoft/AirSim/network/dependents?dependents_before=MjUzMTQ0NDc3NzU -->
+<!-- 整理到的仓库：https://github.com/RazGavrieli/Autonomous-Drone-Landing-On-Moving-Object-AirSim -->
 
 
 ## 飞行器
@@ -16,6 +16,10 @@
 
 [在微软 Airsim 上实现 VINS-Mono SLAM](https://github.com/ritvik03/Hybrid_Navigation_Tech)
 
+[通过信息路径规划实现语义分割的具身主动领域自适应](https://github.com/ethz-asl/active_learning_for_segmentation)
+
+[使用光流和扩展焦点 (Focus of Expansion) 对微型飞行器 (MAV) 进行基于运动的物体检测](https://github.com/evroon/mav-detection)
+
 
 ### 规划
 
@@ -24,6 +28,8 @@
 [多代理路由](https://github.com/xxEoD2242/multi_agent_routing) - 一个通过使用导航库来控制多架无人机的开发库
 
 [蜂窝辅助无人机轨迹生成，实现最佳网络质量](https://github.com/MoeHameed/CPSC601-38-Project)
+
+[移动机器人在主动感知覆盖路径规划方案中的路径规划](https://github.com/emmarapt/OverFOMO) - 基于在线接收的已捕获图像信息调整机器人速度
 
 
 ### 强化学习
@@ -59,6 +65,11 @@
 
 [强化学习在 ATC 代理上为 UAM 分配任务](https://github.com/JhoelWit/GLUAM)
 
+[基于PPO的四轴飞行器自主导航](https://github.com/siavashvampire/RL-for-control-quad) - 用于四轴飞行器在走廊环境中的自主导航。其中每隔 4 米设置一个带有圆形开口的方块供无人机穿过。预期是智能体能够顺利穿过这些开口而不会与方块发生碰撞
+
+[设计一个强化学习空中交通管制员代理](https://github.com/JhoelWit/UAM_RL) - 使其能够承担现实生活中的空中交通管制员的职责，利用城市空中交通来指挥垂直起降机场周围的电动垂直起降飞行器。该问题被表述为一个马尔可夫决策过程，并使用PPO作为强化学习算法。
+
+
 ### 控制
 
 [AirSim中的控制](https://github.com/thechaos16/airsim_controller)
@@ -70,13 +81,21 @@
 [强化学习：调度和资源分配](https://github.com/lasseufpa/ITU-Challenge-ML5G-PHY-RL)
 
 
+[自主无人机着陆移动物体空中模拟](https://github.com/RazGavrieli/Autonomous-Drone-Landing-On-Moving-Object-AirSim)
 
+
+
+### 大模型
+
+[DroneVQA：在模拟四旋翼无人机上部署基于 Transformer 的视觉问答 (VQA) 人工智能模型进行视觉检查](https://github.com/jenniferolenchak/DroneVQA) - 通过比较答案准确性、主题理解、处理速度和模型训练改进等关键因素，比较开源模型的性能以及在无人机应用中进行微调的难易程度。用户可以在虚拟环境中驾驶无人机，并根据无人机摄像头的拍摄内容提出问题。生成了可解释的人工智能 (XAI) 结果可视化效果，从人工智能模型的角度展示提供的提示和图像，突出显示影响模型结论的关键因素以及最佳答案的权重。用户还可以选择模拟环境天气效应，例如雨、雪、灰尘和雾，以及镜头模糊、像素损坏和断线等摄像头缺陷
 
 
 
 ### 端到端
 
 [利用神经网络飞越狭窄缝隙](https://github.com/hku-mars/crossgap_il_rl) - 一种端到端的规划和控制方法
+
+[基于迁移学习 (TL) 的方法，通过深度强化学习减少训练深度神经网络进行自主导航所需的机载计算量](https://github.com/Shais-coder/git-clone-https-github.com-aqeelanwar-DRLwithTL) - 对网络进行端到端训练。这些训练好的元权重随后在模拟测试环境中用作网络的初始化器，并针对最后几个全连接层进行微调。为了验证该方法的鲁棒性，我们模拟了无人机动力学和环境特性的变化。包含真实DJI Tello 无人机上
 
 
 ### 设计
@@ -115,6 +134,10 @@
 
 [GazePointer: 包含要使用的包列表](https://github.com/ece496-Telecopter/Packages)
 
+[Airsim + Python + Docker 示例](https://github.com/cognitedata/Ascend-workshop-2022) - 包括 ROS2 + Docker turtlesim 示例
+
+[FLS（飞行光斑）显示器](https://github.com/bswaika/motill_simulation) - 能够通过占据空间中的物理体积来呈现真实或虚拟的三维物体的显示器，我们需要尺寸仅为数百微米的微型无人机，并配备一个或多个可发出不同颜色和亮度的光源
+
 
 ### 地图
 
@@ -134,11 +157,15 @@
 
 [方程式赛车](https://github.com/AdityaNG/VRE_PATH_PLANNER)
 
+[无人机在狭窄倾斜缝隙中快速飞行](https://github.com/alirezanobakht13/Flight-through-Narrow-Gaps) - 本科论文
+
 
 ### 定制
 [时空变化风支持所做的更改](https://github.com/CoRAL-OSU/AirSim_NRI)
 
 [classicvalues](https://github.com/microsoft/AirSim/compare/main...classicvalues:AirSim:master)
+
+[airsim_first](https://github.com/majrblais/airsim_first)
 
 
 
