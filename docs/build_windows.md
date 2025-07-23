@@ -16,7 +16,8 @@
 * 启动 `Developer Command Prompt for VS 2022`.
 * 克隆仓库：`git clone https://github.com/OpenHUTB/AirSim.git` ，然后通过 `cd AirSim` 进入 AirSim 目录。
 
-    **注意：** 通常不建议将 AirSim 安装在 C 盘。这会导致脚本运行失败，并且需要以管理员模式运行 VS。建议将其克隆到其他盘，例如 D 盘或 E 盘。 
+!!! 注意
+    通常不建议将 AirSim 安装在 C 盘。这会导致脚本运行失败，并且需要以管理员模式运行 VS。建议将其克隆到其他盘，例如 D 盘或 E 盘。 
 
 * 从命令行运行 `build.cmd` 。这将在 `Unreal\Plugins` 文件夹中创建可立即使用的插件，可将其放入任何虚幻引擎项目中。
 
