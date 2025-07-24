@@ -45,10 +45,11 @@
 !!! 提示
     如果右键菜单中没有这个选项，那么可以尝试重启电脑，如果仍然没有，可以尝试打开 `CarlaUE4.uproject` 文件，然后点击 `文件` -> `刷新Visual Studio工程`。
 
-
+<!-- 
 生成成功后，双击打开 `CarlaUE4.sln`，在 Visual Studio 中确认编译选项为 `Development Editor` 和 `Win64`，同时 `CarlaUE4` 设为启动项，然后点击 `调试` -> `开始执行`。此时，虚幻引擎编辑器右下角出现了`新插件可用`的提示，说明虚幻引擎已经能够识别到 AirSim 插件了。
+-->
 
-
+执行`make launch`启动虚幻编辑器。
 在关卡编辑器中，将右侧 `世界场景设置` 中的 `游戏模式重载` 设置为 `AirSimGameMode`，如下图所示。点击 `保存当前关卡` 来保存设置好的环境，这样以后再次打开时就不用再次设置 `游戏模式重载` 了。
 
 
@@ -56,16 +57,23 @@
     如果关卡编辑器右侧没有 `世界场景设置`，则可以点击菜单栏中的 `窗口`，选中 `世界场景设置`。
 
 
-![](../map/images/LandscapeMountains_game_mode_setting.jpg)
+
+
+![](../images/dev/HUTB_game_mode_setting.jpg)
 
 点击工具栏中的 “运行”，就可以运行仿真了，在跳出的对话框中点 “否”，如下图所示。
 
+
 ![](../map/images/LandscapeMountains_select_car_or_quadrotor.jpg)
 
+点击“是”表示使用AirSim的车，但是 AirSimGameMode 运行时，因Town10HD_Opt 因为是分层地图，建筑没有加载，需要是地图 Town10HD，可以正常显示。
 
-如果是第一次仿真运行这个 `山脉景观` 场景，点击 `运行` 后，视口中一偏空白的话，不要紧张，可能需要一些时间来渲染画面，随着渲染的进行，画面会一点点展示出来。不同性能的计算机的渲染时间也不一样。如果渲染的较长时间的话，也不用担心，因为仅第一次打开的时候需要渲染，第一次渲染完成后，后面的仿真操作就可以直接加载了。渲染完成之后，视口中就会出现一个飞行的四旋翼，如下图所示。点击工具栏的 `停止` 按钮，即可退出仿真。
+!!! 报错
+    如果点运行时提示：`There were no compatible vehicles created for current SimMode! Check your settings.json.`，在菜单中点击`运行` -> `以独立进程运行`则可以显示无人机，但是地图没有显示（从配置文件`C:\Users\Administrator\Documents\AirSim\settings.json`中加载，`"SimMode": "ComputerVision"`）。
 
-![](../map/images/LandscapeMountains_simulation.jpg)
+如果是第一次仿真运行这个 `Town10` 场景，点击 `运行` 后，视口中一片空白的话（只显示无人机），不要紧张，可能需要一些时间来渲染画面，随着渲染的进行，画面会一点点展示出来。不同性能的计算机的渲染时间也不一样。如果渲染的较长时间的话，也不用担心，因为仅第一次打开的时候需要渲染，第一次渲染完成后，后面的仿真操作就可以直接加载了。渲染完成之后，视口中就会出现一个飞行的四旋翼，如下图所示。点击工具栏的 `停止` 按钮，即可退出仿真。
+
+![](../images/dev/HUTB_simulation.jpg)
 
 
 至此 AirSim 插件已经加载到虚幻引擎场景工程中了。
