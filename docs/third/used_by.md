@@ -1,7 +1,7 @@
 # [使用AirSim的项目](https://github.com/microsoft/AirSim/network/dependents)
 
 <!-- 整理到的页面：https://github.com/microsoft/AirSim/network/dependents?dependents_before=MjUzMTQ0NDc3NzU -->
-<!-- 整理到的仓库：https://github.com/RazGavrieli/Autonomous-Drone-Landing-On-Moving-Object-AirSim -->
+<!-- 整理到的仓库：https://github.com/microsoft/AirSim-Drone-Racing-Lab-Source -->
 
 
 ## 飞行器
@@ -19,6 +19,8 @@
 [通过信息路径规划实现语义分割的具身主动领域自适应](https://github.com/ethz-asl/active_learning_for_segmentation)
 
 [使用光流和扩展焦点 (Focus of Expansion) 对微型飞行器 (MAV) 进行基于运动的物体检测](https://github.com/evroon/mav-detection)
+
+[使用手势控制 Airsim 无人机](https://github.com/chwee/AutonomusDroneHandGestureProject)
 
 
 ### 规划
@@ -84,6 +86,8 @@
 [自主无人机着陆移动物体空中模拟](https://github.com/RazGavrieli/Autonomous-Drone-Landing-On-Moving-Object-AirSim)
 
 
+[碰撞避免](https://github.com/jinwoolee1230/UAV-collision-avoidance)
+
 
 ### 大模型
 
@@ -98,7 +102,9 @@
 [基于迁移学习 (TL) 的方法，通过深度强化学习减少训练深度神经网络进行自主导航所需的机载计算量](https://github.com/Shais-coder/git-clone-https-github.com-aqeelanwar-DRLwithTL) - 对网络进行端到端训练。这些训练好的元权重随后在模拟测试环境中用作网络的初始化器，并针对最后几个全连接层进行微调。为了验证该方法的鲁棒性，我们模拟了无人机动力学和环境特性的变化。包含真实DJI Tello 无人机上
 
 
-### 设计
+### 平台
+
+[使无人机能够使用机载摄像头识别并跟踪其视野范围内的人员，从而跟踪他们的运动](https://github.com/l-gonz/tfg-giaa-dronecontrol) - [利用该平台开发集成计算机视觉技术的解决方案，并利用其输入来控制无人机的运动](https://l-gonz.github.io/tfg-giaa-dronecontrol/)
 
 [多旋翼机器人设计团队的2020年国际空中机器人竞赛代码](https://github.com/MissouriMRR/IARC-2020) 
 
@@ -159,9 +165,15 @@
 
 [无人机在狭窄倾斜缝隙中快速飞行](https://github.com/alirezanobakht13/Flight-through-Narrow-Gaps) - 本科论文
 
+[密苏里科技大学多旋翼设计团队为 2023-2024 年学生无人机系统竞赛 (SUAS) 设计的模拟环境](https://github.com/MissouriMRR/Simulation-2023)
+
+
 
 ### 定制
+
 [时空变化风支持所做的更改](https://github.com/CoRAL-OSU/AirSim_NRI)
+
+[张家界地图](https://github.com/microsoft/AirSim-Drone-Racing-Lab-Source/commit/4a03fd554534a946a27c4dd7c3067b8515f4fb70) 、[为所有地图添加F10](https://github.com/microsoft/AirSim-Drone-Racing-Lab-Source/commit/c8847d41871590b69636d9c371172f94096f3e78) 等
 
 [classicvalues](https://github.com/microsoft/AirSim/compare/main...classicvalues:AirSim:master)
 
@@ -191,6 +203,10 @@
 [自动赛车的强化学习](https://github.com/eliork/Reinforcement-Learning-on-Autonomous-Race-Car) - 使用软演员评论家 (SAC) 算法和变分自动编码器 (VAE)。
 
 [通用 ROS2 包，用于使用不同的 API 控制各种模拟中的车辆](https://github.com/blakermchale/robot-control)
+
+[利用超分辨率技术实现汽车应用的快速立体摄像机模拟](https://github.com/hamedhaghighi/ETSSR) - 一种利用立体超分辨率 (SSR) 加速立体相机模拟的方法
+
+[用于图像识别的变分量子卷积神经网络确定自动驾驶汽车的转向角](https://github.com/soundwaverohit/QuantumSelfDriving)
 
 
 
