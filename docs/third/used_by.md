@@ -1,7 +1,7 @@
 # [使用AirSim的项目](https://github.com/microsoft/AirSim/network/dependents)
 
-<!-- 整理到的页面：https://github.com/microsoft/AirSim/network/dependents?dependents_before=MzgwNzc3Njk2MDI -->
-<!-- 整理到的仓库：https://github.com/tsinghua-fib-lab/EmbodiedCity -->
+<!-- 整理到的页面：https://github.com/microsoft/AirSim/network/dependents?dependents_before=NDIwNTcwNTEwNDE -->
+<!-- 整理到的仓库：https://github.com/deameW/AirSim212 -->
 
 
 ## 飞行器
@@ -73,6 +73,12 @@
 
 [MOAAPP - 基于多目标注意力的自适应路径规划器（无人机路径规划）](https://github.com/saswatakumardash/MOAAPP-PathPlanner) - 采用深度 Q 学习 (DQN)，并结合长短期记忆(LSTM)和注意力机制进行强化学习。它利用 AirSim 仿真环境增强无人机在复杂、障碍物密集环境中的导航能力，并优化路径长度、安全性和能效等多个目标。
 
+[结合深度强化学习 (DRL)和深度地图，以增强无人机导航和避障能力](https://github.com/omidaghdaeiii/d3qn-drone-navigation) - 集成了Dueling Double Deep Q 网络 (D3QN)和ResNet-8架构，以实现精准的运动指令和稳健的转向角度预测
+
+[在复杂的环境中训练导航策略](https://github.com/deameW/AirSim212)
+
+[基于八叉树的无人机寻路算法](https://github.com/Midas75/AirSim-OCTree-PathFinding)
+
 [使用 AirSim 中的 A* 寻路、传感器数据集成和 YOLO 物体检测的自动驾驶汽车控制系统](https://github.com/oaslananka/Airsim101_Yolov10)
 
 
@@ -129,9 +135,15 @@
 
 [OptimalEmission-SUMO-强化学习](https://github.com/gustavomoers/OptimalEmission-SUMO-ReinforcementLearning)
 
+[使用PPO（近端策略优化）算法对无人机控制进行训练和测试强化学习（RL）模型](https://github.com/aashiq-04/Drone_RL)
+
+[评估不同模拟环境中无人机导航的强化学习算法](https://github.com/ceciljoseph97/uavDRL)
+
 [在 AirSim（一个用于无人机和其他车辆的模拟环境）中实现了一个深度 Q 网络 (DQN) 代理](https://github.com/zispin/drone-simulation-ai) - 该代理旨在跟踪球体，并在保持球体在视野范围内的同时，与球体保持一定距离
 
 [收集安装在车辆上的距离传感器，输入到DQN神经网络中，学习操作无人机完成访问任务](https://github.com/Kura0913/Airsim-DQN)
+
+[强化学习在四旋翼无人机飞行动作控制中的应用](https://github.com/shawn243498/Reinforcement-Learning-in-Controlling-Quadrotor-UAV-Flight-Actions)
 
 
 
@@ -206,6 +218,11 @@
 [空中研究模拟作战](https://github.com/Raspet-Flight-Research-Laboratory/SOAR)
 
 [用于 FPV 战斗无人机（模拟器版本）的带目标跟踪功能的自动驾驶仪](https://github.com/under0tech/autopilot_bee_sim)
+
+[用于搜索和救援行动的自主无人机导航系统项目](https://github.com/abellit/AIUAVProject)
+
+
+[嵌入式无人机控制系统具有基于 LiDAR 的物体检测、实时导航和精确着陆功能](https://github.com/Akira1906/trentos-drone)
 
 
 ### 数据
@@ -298,12 +315,18 @@
 
 [方程式赛车](https://github.com/AdityaNG/VRE_PATH_PLANNER)
 
+[无人机教学仿真](https://github.com/ysskyboy/AirmSim4School)
+
 [无人机在狭窄倾斜缝隙中快速飞行](https://github.com/alirezanobakht13/Flight-through-Narrow-Gaps) - 本科论文
 
 [密苏里科技大学多旋翼设计团队为 2023-2024 年学生无人机系统竞赛 (SUAS) 设计的模拟环境](https://github.com/MissouriMRR/Simulation-2023)
 
 [密苏里科技大学多旋翼设计团队为 2023-2024 年学生无人机系统竞赛 (SUAS) 设计的模拟环境](https://github.com/MissouriMRR/Simulation-2024-SUAS-Enviroment)
 
+
+### 研究
+
+[资源感知分布式贪婪算法 (RAG)](https://github.com/UM-iRaL/Resource-Aware-Coordination-AirSim) - 一种用于机器人网状网络中分布式子模优化的高效通信和计算方法
 
 
 ### 定制
@@ -314,11 +337,17 @@
 
 [Colosseum，AirSim的继任者](https://github.com/akhil22/Colosseum)
 
+[增加了一个宏，用于实现不同的sleep策略](https://github.com/Midas75/AirSim) - 以或多或少的计时精确性为代价，改进AirSim在多机（>20 in i7-12700）仿真下的性能表现。
+
 [张家界地图](https://github.com/microsoft/AirSim-Drone-Racing-Lab-Source/commit/4a03fd554534a946a27c4dd7c3067b8515f4fb70) 、[为所有地图添加F10](https://github.com/microsoft/AirSim-Drone-Racing-Lab-Source/commit/c8847d41871590b69636d9c371172f94096f3e78) 等
+
+[添加/更新了集中式 linting 工作流程](https://github.com/spearuav/ninox-custom-airsim)
 
 [修改 AirSim 的分支以与定制的 Unity 模拟器配合使用](https://github.com/muellerlab/AIFS_AirSim_Release) - 可作为 AIFS 农用飞行模拟器的子模块使用
 
 [用于农业环境飞行的AIFS模拟器](https://github.com/muellerlab/agri-fly) - 基于HiPeRLab、Helios和AirSim的代码，旨在帮助测试在包含高保真农业特征的模拟环境中不同的自主飞行策略（基于Unity）
+
+[ROS2 humble 和 Ubuntu 22.04 兼容](https://github.com/Jois-Shreyank/AirSim-Execo)
 
 [classicvalues](https://github.com/microsoft/AirSim/compare/main...classicvalues:AirSim:master)
 
@@ -362,9 +391,13 @@
 
 [利用超分辨率技术实现汽车应用的快速立体摄像机模拟](https://github.com/hamedhaghighi/ETSSR) - 一种利用立体超分辨率 (SSR) 加速立体相机模拟的方法
 
+[端到端自动驾驶](https://github.com/IksangJeong/End-To-End-Self-driving)
+
 [用于图像识别的变分量子卷积神经网络确定自动驾驶汽车的转向角](https://github.com/soundwaverohit/QuantumSelfDriving)
 
 [符合任务规范的机器人自动驾驶车辆恢复AirSim PX4 ArduPilot Python 平台](https://github.com/DependableSystemsLab/specguard) - 论文“SpecGuard：面向物理攻击的机器人自动驾驶车辆规范感知恢复”的代码
+
+[采用深度 Q 学习的自动驾驶汽车](https://github.com/BurakAhmet/Autonomous-Car-with-Deep-Q-Learning)
 
 [从标签（由激光雷达文件生成）中提取 GPS 数据，运行模拟并使用 PID 控制器控制汽车](https://github.com/AsmaTheWizard/deepen-ai-script)
 
@@ -384,6 +417,8 @@
 
 [Flying Cavalry](https://github.com/rlturkiye/flying-cavalry)
 
+[caviar](https://github.com/lasseufpa/caviar)
+
 [camelmera](https://github.com/threeeyelidds/camelmera)
 
 [CASE22_Collision_VS](https://github.com/marleyshan21/CASE22_Collision_VS)
@@ -399,5 +434,7 @@
 [m2g_racing](https://github.com/Mercy2Green/m2g_racing)
 
 [airSim_Drone](https://github.com/Samuel-Fipps/airSim_Drone)
+
+[Autonomous-Drone](https://github.com/AarizF/Autonomous-Drone) - PEDRA 由 Aqeel Anwar 开发。对模型训练配置进行了更改，以简化和训练自主模型。
 
 
