@@ -1,7 +1,7 @@
 # [使用AirSim的项目](https://github.com/microsoft/AirSim/network/dependents)
 
 <!-- 整理到的页面：https://github.com/microsoft/AirSim/network/dependents?dependents_before=NDIwNTcwNTEwNDE -->
-<!-- 整理到的仓库：https://github.com/deameW/AirSim212 -->
+<!-- 整理到的仓库：https://github.com/cvisionai/AirSim -->
 
 
 ## 飞行器
@@ -17,6 +17,8 @@
 [在微软 Airsim 上实现 VINS-Mono SLAM](https://github.com/ritvik03/Hybrid_Navigation_Tech)
 
 [通过信息路径规划实现语义分割的具身主动领域自适应](https://github.com/ethz-asl/active_learning_for_segmentation)
+
+[使用实时图像分类进行无人机导航](https://github.com/shahlashalu/Autonomous-Drone-Navigation-System)
 
 [使用光流和扩展焦点 (Focus of Expansion) 对微型飞行器 (MAV) 进行基于运动的物体检测](https://github.com/evroon/mav-detection)
 
@@ -37,6 +39,10 @@
 [主动 SLAM VNAV 2023](https://github.com/mbpeterson70/active_slam_vnav_2023)
 
 [目标检测数据集生成器（YOLO 格式）和一些获取推理结果的方法](https://github.com/iriavizcaino/airsim_object_detection)
+
+[人脸识别&跟踪人](https://github.com/Mark-Notify/ai_drone) - 使用 YOLOv8 检测图像中的人物，使用 OpenCV 检测人脸，使用 DeepFace 识别人物，并飞近用户从视频源中选择的目标，系统会说出此人的姓名并在地图上显示他们的位置
+
+[防撞无人机](https://github.com/Rohan201769/Collision_Avoidance_Drone) - 实时无人机防撞系统使用 YOLOv8 计算机视觉检测障碍物并实施三区安全协议（紧急、关键和标准），以确保在动态环境中安全导航
 
 [一款视觉效果惊艳的火焰红外模拟器，用于 SLAM 和感知](https://github.com/castacks/firevision_sim)
 
@@ -76,6 +82,10 @@
 [结合深度强化学习 (DRL)和深度地图，以增强无人机导航和避障能力](https://github.com/omidaghdaeiii/d3qn-drone-navigation) - 集成了Dueling Double Deep Q 网络 (D3QN)和ResNet-8架构，以实现精准的运动指令和稳健的转向角度预测
 
 [在复杂的环境中训练导航策略](https://github.com/deameW/AirSim212)
+
+[无人机自主导航](https://github.com/saha0073/Autonomous_Drone_Navigation_AirSim) - 利用激光雷达数据实时避障。该系统既支持单机螺旋式导航，也支持多机协同集群飞行
+
+[active-suspension 运动规划研究](https://github.com/devprosvn/active-suspension-motion-planning-research)
 
 [基于八叉树的无人机寻路算法](https://github.com/Midas75/AirSim-OCTree-PathFinding)
 
@@ -143,6 +153,18 @@
 
 [收集安装在车辆上的距离传感器，输入到DQN神经网络中，学习操作无人机完成访问任务](https://github.com/Kura0913/Airsim-DQN)
 
+[使用 PPO 的自动汽车导航](https://github.com/Pedrazzini/AutonomousDriveEP)
+
+[rl_airsim](https://github.com/luaru1/rl_airsim)
+
+[基于PyTorch和AirSim实现了一个完整的无人机自动驾驶强化学习系统](https://github.com/1os3/RLearning_AD) - 支持多模态输入处理、复合观测空间、SAC强化学习算法、优先经验回放、XPU加速及高级断点续训功能。 [相同仓库](https://github.com/MicroAeTx/RLearning_AD_CTM)
+
+[一款基于强化学习的无人机导航系统，旨在在模拟环境中进行智能路径规划](https://github.com/GauravVRich/Auto_drone)
+
+[用于最佳路径查找的深度强化学习模拟器和算法环境](https://github.com/zhaoran2000/DRL-drones)
+
+[在走廊环境中使用四轴飞行器进行自主导航](https://github.com/Jigmiey/UAV-motion-planning-with-Reinforcement-Learning) - 包含 PPO、SAC、DQN 和 DDPG 的实现，扩展自 [Bilal Kabas](https://github.com/Jigmiey/UAV-motion-planning-with-Reinforcement-Learning)
+
 [强化学习在四旋翼无人机飞行动作控制中的应用](https://github.com/shawn243498/Reinforcement-Learning-in-Controlling-Quadrotor-UAV-Flight-Actions)
 
 
@@ -170,6 +192,8 @@
 
 [AerialVLN: 基于视觉和语言导航的无人机项目](https://github.com/AirVLN/AirVLN) - 提供 25 个城市级场景，图像逼真
 
+[FlightGPT：基于视觉语言模型的无人机导航代理](https://github.com/Pendulumclock/FlightGPT)
+
 [生成式数字孪生技术用于持续增强信息物理系统的预期功能安全性](https://github.com/JaeMin98/A-Generative-Digital-Twin-for-Continually-Enhancing-the-Intended-functional-safety-of-Cyber-Physical)
 
 [基于视觉语言模型引导的单目视觉无人机导航](https://github.com/gcsarker/vlm_nav) - 基于视觉语言模型（Google Gemini Flash 模型）开发了一套基于单目视觉的无人机导航与避障系统。前置摄像头捕捉的 RGB 图像通过 Depth-Anything 算法处理成深度图。生成的深度图随后被转化为三个离散动作。
@@ -180,6 +204,10 @@
 [基于熵的多智能体无人机分布式行为建模](https://github.com/sevilresearch/EntropySwarm)
 
 [多代理路由](https://github.com/xxEoD2242/multi_agent_routing) - 一个通过使用导航库来控制多架无人机的开发库
+
+[BJTU_MultipleDrone](https://github.com/54shitaimzf/BJTU_MultipleDrone)
+
+[无人机集群swarmVQA](https://github.com/sevilresearch/swarmVQA)
 
 [单摄像头（单目）实现多个 UAS 代理的群集/聚集行为](https://github.com/ConorGagliardi/Monocular-Swarm)
 
@@ -221,8 +249,18 @@
 
 [用于搜索和救援行动的自主无人机导航系统项目](https://github.com/abellit/AIUAVProject)
 
+[无人机视觉强化学习训练环境及训练代码](https://github.com/1os3/RLearning) - 包含奖励结构优化、调试日志与高可维护性结构
+
+[AeroSynapse：自主隐形无人机平台](https://github.com/aahmadf123/AeroSynapse)
+
+[使用 AirSim 进行农业无人机模拟](https://github.com/ashutoshkumar98/Simulation-for-Drone-in-Agriculture)
+
+[OpenFly平台](https://github.com/SHAILAB-IPEC/OpenFly-Platform) - 通过提供高度自动化的数据收集工具链和大规模基准数据集，推动户外空中视觉语言导航 (VLN) 的研究。它包含 10 万条不同的飞行轨迹、使用尖端渲染技术生成的高质量视觉数据，以及一个关键帧感知的 VLN 模型 OpenFly-Agent
+
 
 [嵌入式无人机控制系统具有基于 LiDAR 的物体检测、实时导航和精确着陆功能](https://github.com/Akira1906/trentos-drone)
+
+
 
 
 ### 数据
@@ -321,6 +359,8 @@
 
 [密苏里科技大学多旋翼设计团队为 2023-2024 年学生无人机系统竞赛 (SUAS) 设计的模拟环境](https://github.com/MissouriMRR/Simulation-2023)
 
+[密苏里科技大学多旋翼设计团队参加 2025 年学生无人机系统竞赛 (SUAS) 的代码](https://github.com/MissouriMRR/SUAS-2025)
+
 [密苏里科技大学多旋翼设计团队为 2023-2024 年学生无人机系统竞赛 (SUAS) 设计的模拟环境](https://github.com/MissouriMRR/Simulation-2024-SUAS-Enviroment)
 
 
@@ -341,6 +381,8 @@
 
 [张家界地图](https://github.com/microsoft/AirSim-Drone-Racing-Lab-Source/commit/4a03fd554534a946a27c4dd7c3067b8515f4fb70) 、[为所有地图添加F10](https://github.com/microsoft/AirSim-Drone-Racing-Lab-Source/commit/c8847d41871590b69636d9c371172f94096f3e78) 等
 
+[添加雷达传感器](https://github.com/Hak-Y/AirSim_Sensor/commits/main/)
+
 [添加/更新了集中式 linting 工作流程](https://github.com/spearuav/ninox-custom-airsim)
 
 [修改 AirSim 的分支以与定制的 Unity 模拟器配合使用](https://github.com/muellerlab/AIFS_AirSim_Release) - 可作为 AIFS 农用飞行模拟器的子模块使用
@@ -359,11 +401,11 @@
 
 [AirSim_PPO](https://github.com/qwertyBBeers/AirSim_PPO/commits/master/)
 
+[AirSimDevVerison](https://github.com/yigitserce/AirSimDevVerison/) - clang-12 error fixed
+
 [万向节跟踪器添加需要修复 pid 控制](https://github.com/AlexanderRex/airsim_ros2)
 
 [视觉逼真的水下机器人模拟器 UNav-Sim](https://github.com/open-airlab/UNav-Sim) - 基于虚幻5
-
-
 
 
 ## 人
@@ -386,6 +428,8 @@
 [测试 Airsim API，并训练汽车使用强化学习来查找和导航到物体](https://github.com/sihengt/airsim-vroom)
 
 [自动赛车的强化学习](https://github.com/eliork/Reinforcement-Learning-on-Autonomous-Race-Car) - 使用软演员评论家 (SAC) 算法和变分自动编码器 (VAE)。
+
+[使用 TensorFlow 训练神经网络以及执行实时碰撞检测和多车模拟](https://github.com/cdsjdev/CollisionAvoidance)
 
 [通用 ROS2 包，用于使用不同的 API 控制各种模拟中的车辆](https://github.com/blakermchale/robot-control)
 
@@ -415,7 +459,17 @@
 
 [数据生成](https://github.com/alphavector/all)
 
+[Backend](https://github.com/01amine/Backend) - [相同仓库](https://github.com/PFE-isil-002/Backend)
+
 [Flying Cavalry](https://github.com/rlturkiye/flying-cavalry)
+
+[CAPSTONE](https://github.com/124coding/CAPSTONE)
+
+[FlashTrans](https://github.com/toanbh10032/FlashTrans)
+
+[Flask_news_app](https://github.com/Pennyvia/Flask_news_app)
+
+[无人机研究自动认证机器学习模型](https://github.com/islam8437/Authentification-des-reseaux-UAV)
 
 [caviar](https://github.com/lasseufpa/caviar)
 
