@@ -81,7 +81,20 @@
 
 ## FAQ
 
-添加插件后编译报错：
+
+###### 添加AirSim后（不启用），报找不到AirSim模块定义的错
+报错信息：
+```text
+UnrealBuildTool: ERROR: Could not find definition for module 'AirSim', (referenced via Target -> CarlaUE4.Build.cs)
+```
+需要在`Unreal/CarlaUE4/Source/CarlaUE4/CarlaUE4.Build.cs`中添加模块依赖：
+```C#
+PrivateDependencyModuleNames.AddRange(new string[] { "AirSim" });
+```
+没解决！
+
+
+###### 添加插件后编译报找不到GBufferView.h的错
 ```text
 无法打开包括文件: “SplineMeshSceneProxy.h”: No such file or directory
 无法打开包括文件: “Renderer/Public/GBufferView.h”: No such file or directory
