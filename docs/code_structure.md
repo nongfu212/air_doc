@@ -1,53 +1,51 @@
-# Code Structure
+# 代码结构
 
 ## AirLib
 
-Majority of the code is located in AirLib. This is a self-contained library that you should be able to compile with any C++11 compiler.
+大部分代码位于 AirLib 库中。这是一个独立的库，您可以使用任何 C++11 编译器对其进行编译。
 
-AirLib consists of the following components:
+AirLib由以下组件构成：
 
-1. [*Physics engine:*](https://github.com/microsoft/AirSim/tree/main/AirLib/include/physics) This is header-only physics engine. It is designed to be fast and extensible to implement different vehicles.
-2. [*Sensor models:*](https://github.com/microsoft/AirSim/tree/main/AirLib/include/sensors) This is header-only models for Barometer, IMU, GPS and Magnetometer.
-3. [*Vehicle models:*](https://github.com/microsoft/AirSim/tree/main/AirLib/include/vehiclesr) This is header-only models for vehicle configurations and models. Currently we have implemented model for a MultiRotor and a configuration for PX4 QuadRotor in the X config. There are several different Multirotor models defined in MultiRotorParams.hpp including a hexacopter as well.
-4. [*API-related files:*](https://github.com/microsoft/AirSim/tree/main/AirLib/include/api) This part of AirLib provides abstract base class for our APIs and concrete implementation for specific vehicle platforms such as MavLink. It also has classes for the RPC client and server.
+1. [*物理引擎：*](https://github.com/microsoft/AirSim/tree/main/AirLib/include/physics) 这是一个仅包含头文件的物理引擎。它的设计目标是速度快且易于扩展，以便实现不同的载具模型。
+2. [*传感器模型：*](https://github.com/microsoft/AirSim/tree/main/AirLib/include/sensors) 这是气压计、IMU、GPS 和磁力计的仅头文件模型。
+3. [*载具模型：*](https://github.com/microsoft/AirSim/tree/main/AirLib/include/vehiclesr) 这是仅包含车辆配置和模型的头文件模型。目前，我们已实现了多旋翼飞行器的模型以及 X 配置中的 PX4 四旋翼飞行器的配置。[MultiRotorParams.hpp](https://github.com/OpenHUTB/air/blob/main/AirLib/include/vehicles/multirotor/MultiRotorParams.hpp) 中定义了几种不同的多旋翼飞行器模型，其中也包括六旋翼飞行器。
+4. [*API 相关的文件：*](https://github.com/microsoft/AirSim/tree/main/AirLib/include/api) AirLib 的这一部分为我们的 API 提供抽象基类，并为特定载具平台（例如 MavLink）提供具体实现。它还包含 RPC 客户端和服务器的类。
 
-Apart from these, all common utilities are defined in [`common/`](https://github.com/microsoft/AirSim/tree/main/AirLib/include/common) subfolder. One important file here is [AirSimSettings.hpp](https://github.com/microsoft/AirSim/blob/main/AirLib/include/common/AirSimSettings.hpp) which should be modified if any new fields are to be added in `settings.json`.
+除此之外，所有常用工具都定义在 [`common/`](https://github.com/OpenHUTB/air/tree/main/AirLib/include/common) 子文件夹中。其中一个重要的文件是 [AirSimSettings.hpp](https://github.com/OpenHUTB/air/blob/main/AirLib/include/common/AirSimSettings.hpp)，如果需要在 `settings.json` 中添加任何新字段，则需要修改此文件。
 
-AirSim supports different firmwares for Multirotor such as its own SimpleFlight, PX4 and ArduPilot, files for communicating with each firmware are placed in their respective subfolders in [`multirotor/firmwares`](https://github.com/microsoft/AirSim/tree/main/AirLib/include/vehicles/multirotor/firmwares).
+Air 支持多旋翼飞行器的不同固件，例如其自身的 SimpleFlight、PX4 和 ArduPilot，与每个固件通信的文件都放置在 [`multirotor/firmwares`](https://github.com/OpenHUTB/air/tree/main/AirLib/include/vehicles/multirotor/firmwares) 中的相应子文件夹中。
 
-The vehicle-specific APIs are defined in the `api/` subfolder, along-with required structs. The [`AirLib/src/`](https://github.com/microsoft/AirSim/tree/main/AirLib/src) contains .cpp files with implementations of various mehtods defined in the .hpp files. For e.g. [MultirotorApiBase.cpp](https://github.com/microsoft/AirSim/blob/main/AirLib/src/vehicles/multirotor/api/MultirotorApiBase.cpp) contains the base implementation of the multirotor APIs, which can also be overridden in the specific firmware files if required.
+特定载具的 API 定义在 `api/` 子文件夹中，同时定义的还有所需的结构体。[`AirLib/src/`](https://github.com/OpenHUTB/air/tree/main/AirLib/src) 目录包含 .cpp 文件，其中实现了 .hpp 文件中定义的各种方法。例如，[MultirotorApiBase.cpp](https://github.com/OpenHUTB/air/blob/main/AirLib/src/vehicles/multirotor/api/MultirotorApiBase.cpp) 包含多旋翼飞行器 API 的基本实现，如有需要，也可以在特定的固件文件中对其进行重写。
 
 ## Unreal/Plugins/AirSim
 
-This is the only portion of project which is dependent on Unreal engine. We have kept it isolated so we can implement simulator for other platforms as well, as has been done for [Unity](https://microsoft.github.io/AirSim/Unity.html). The Unreal code takes advantage of its UObject based classes including Blueprints. The `Source/` folder contains the C++ files, while the `Content/` folder has the blueprints and assets. Some main components are described below:
+这是项目中唯一依赖于虚幻引擎的部分。我们将其隔离，以便也能像在 [Unity](https://microsoft.github.io/AirSim/Unity.html) 平台上那样，为其他平台实现模拟器。虚幻引擎代码利用了其基于 UObject 的类，包括蓝图。`Source/` 文件夹包含 C++ 文件，而 `Content/` 文件夹包含蓝图和资源文件。一些主要组件如下所述：
 
-1. *SimMode_ classes*: The SimMode classes help implement many different modes, such as pure Computer Vision mode, where there is no vehicle or simulation for a specific vehicle (currently car and multirotor). The vehicle classes are located in [`Vehicles/`](https://github.com/microsoft/AirSim/tree/main/Unreal/Plugins/AirSim/Source/Vehicles)
-2. *PawnSimApi*: This is the [base class](https://github.com/microsoft/AirSim/blob/main/Unreal/Plugins/AirSim/Source/PawnSimApi.cpp) for all vehicle pawn visualizations. Each vehicle has their own child (Multirotor|Car|ComputerVision)Pawn class.
-3. [UnrealSensors](https://github.com/microsoft/AirSim/tree/main/Unreal/Plugins/AirSim/Source/UnrealSensors): Contains implementation of Distance and Lidar sensors.
-4. *WorldSimApi*: Implements most of the environment and vehicle-agnostic APIs
+1. *SimMode_ 类*: SimMode 类有助于实现多种不同的模式，例如纯计算机视觉模式，该模式下没有车辆，也没有针对特定车辆（目前包括汽车和多旋翼飞行器）的仿真。载具类位于 [`Vehicles/`](https://github.com/OpenHUTB/air/tree/main/Unreal/Plugins/AirSim/Source/Vehicles) 目录中。 
+2. *PawnSimApi*: 这是所有载具棋子(Pawn)可视化的[基类](https://github.com/OpenHUTB/air/blob/main/Unreal/Plugins/AirSim/Source/PawnSimApi.cpp)。每种载具都有自己的子棋子类（多旋翼飞行器 | 汽车 | 计算机视觉）。 
+3. [UnrealSensors](https://github.com/OpenHUTB/air/tree/main/Unreal/Plugins/AirSim/Source/UnrealSensors): 包含距离传感器和激光雷达传感器的实现。
+4. *WorldSimApi*: 实现了大部分与环境和载具无关的 API
 
-Apart from these, [`PIPCamera`](https://github.com/microsoft/AirSim/blob/main/Unreal/Plugins/AirSim/Source/PIPCamera.cpp) contains the camera initialization, and [`UnrealImageCapture`](https://github.com/microsoft/AirSim/blob/main/Unreal/Plugins/AirSim/Source/UnrealImageCapture.cpp) & [`RenderRequest`](https://github.com/microsoft/AirSim/blob/main/Unreal/Plugins/AirSim/Source/RenderRequest.cpp) the image rendering code. [`AirBlueprintLib`](https://github.com/microsoft/AirSim/blob/main/Unreal/Plugins/AirSim/Source/AirBlueprintLib.cpp) has a lot of utility and wrapper methods used to interface with the UE4 engine.
+除此之外，[`PIPCamera`](https://github.com/OpenHUTB/air/blob/main/Unreal/Plugins/AirSim/Source/PIPCamera.cpp) 包含相机初始化代码，[`UnrealImageCapture`](https://github.com/OpenHUTB/air/blob/main/Unreal/Plugins/AirSim/Source/UnrealImageCapture.cpp) 和 [`RenderRequest`](https://github.com/OpenHUTB/air/blob/main/Unreal/Plugins/AirSim/Source/RenderRequest.cpp) 包含图像渲染代码。[`AirBlueprintLib`](https://github.com/microsoft/AirSim/blob/main/Unreal/Plugins/AirSim/Source/AirBlueprintLib.cpp) 包含许多用于与[引擎](https://github.com/OpenHUTB/engine)交互的实用工具和封装方法。
 
 ## MavLinkCom
 
-This is the library developed by our own team member [Chris Lovett](https://github.com/lovettchris) that provides C++ classes to talk to the MavLink devices. This library is stand alone and can be used in any project.
-See [MavLinkCom](mavlinkcom.md) for more info.
+这是 [Chris Lovett](https://github.com/lovettchris) 开发的库，它提供了用于与 MavLink 设备通信的 C++ 类。该库是独立的，可用于任何项目。更多信息请访问 [MavLinkCom](mavlinkcom.md) 。
 
-## Sample Programs
+## 示例程序
 
-We have created a few sample programs to demonstrate how to use the API. See HelloDrone and DroneShell.
-DroneShell demonstrates how to connect to the simulator using UDP.  The simulator is running a server (similar to DroneServer).
+我们创建了一些示例程序来演示如何使用 API。请参阅 HelloDrone 和 DroneShell。DroneShell 演示了如何使用 UDP 连接到模拟器。该模拟器运行着一个服务器（类似于 DroneServer）。
 
 ## PythonClient
 
-[PythonClient](https://github.com/microsoft/AirSim/tree/main/PythonClient) contains Python API wrapper files and sample programs demonstrating their uses.
+[PythonClient](https://github.com/OpenHUTB/air/tree/main/PythonClient) 包含 Python API 封装文件和演示其用法的示例程序。
 
-## Contributing
+## 贡献
 
-See [Contribution Guidelines](CONTRIBUTING.md)
+查看 [贡献指南](CONTRIBUTING.md)
 
-## Unreal Framework
+## 引擎框架
 
-The following picture illustrates how AirSim is loaded and invoked by the Unreal Game Engine:
+下图展示了[模拟器引擎](https://github.com/OpenHUTB/engine)如何加载和调用 [Air](https://github.com/OpenHUTB/air) ：
 
 ![AirSimConstruction](images/airsim_startup.png)

@@ -1,5 +1,6 @@
-# Paper
-You can read more about our architecture and design in [our paper (work in progress)](https://www.microsoft.com/en-us/research/wp-content/uploads/2017/02/aerial-informatics-robotics.pdf). You may cite this as,
+# 论文
+您可以阅读 [正在撰写的论文（暂未完成）](https://www.microsoft.com/en-us/research/wp-content/uploads/2017/02/aerial-informatics-robotics.pdf) 了解更多关于架构和设计方面的信息。您可以这样引用：
+
 ```
 @techreport{MSR-TR-2017-9,
      title = { {A}erial {I}nformatics and {R}obotics Platform },
@@ -10,8 +11,8 @@ You can read more about our architecture and design in [our paper (work in progr
 }
 ```
 
-# Architecture
+# 架构
 
-Below is high level overview of how different components interact with each other.
+下面概述了不同组件之间如何相互作用。
 
 ![architecture diagram](paper/overview.png)

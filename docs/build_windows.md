@@ -80,7 +80,3 @@ make.bat html
 
 
 
-# Unity 上的 AirSim (实验性)
-
-[Unity](https://unity3d.com/) 是另一个优秀的游戏引擎平台，我们目前已将 [AirSim 与 Unity](Unity.md)  集成，并进行了**实验性**测试。请注意，该集成工作仍在进行中，部分功能可能尚未完全实现。
-
