@@ -1,10 +1,10 @@
-# How to Access Meshes in AIRSIM
+# 如何在 AIR 中访问网格
 
-AirSim supports the ability to access the static meshes that make up the scene.
+Air 支持访问构成场景的静态网格。
 
 
-## Mesh structure
-Each mesh is represented with the below struct.
+## 网格结构体
+每个网格都用以下结构体表示。
 ```cpp
 struct MeshPositionVertexBuffersResponse {
 
@@ -17,19 +17,16 @@ struct MeshPositionVertexBuffersResponse {
 };
 ```
 
-* The position and orientation are in the Unreal coordinate system.
-* The mesh itself is a triangular mesh represented by the vertices and the indices.
-	* The triangular mesh type is typically called a [Face-Vertex](https://en.wikipedia.org/wiki/Polygon_mesh#Face-vertex_meshes) Mesh. This means every triplet of indices hold the indexes of the vertices that make up the triangle/face.
-	* The x,y,z coordinates of the vertices are all stored in a single vector. This means the vertices vector is Nx3 where N is number of vertices. 
-    * The position of the vertices are the global positions in the Unreal coordinate system. This means they have already been transformed by the position and orientation.
+* 位置和朝向均采用引擎坐标系。
+* 网格本身是一个三角形网格，由顶点和索引表示。
+	* 这种三角形网格类型通常被称为 [面顶点(Face-Vertex)](https://en.wikipedia.org/wiki/Polygon_mesh#Face-vertex_meshes) 网格。这意味着每个索引三元组都保存着构成三角形/面的顶点的索引。 
+	* 所有顶点的 x、y、z 坐标都存储在一个向量中。这意味着顶点向量是 N×3 的，其中 N 是顶点的数量。 
+    * 顶点的位置是引擎坐标系中的全局位置。这意味着它们已经根据位置和方向进行了变换。
 
-## How to use
-The API to get the meshes in the scene is quite simple. However, one should note that the function call is very expensive and should
- very rarely be called. In general this is ok because this function only accesses the static meshes which for most applications are
- not changing during the duration of your program.
+## 如何使用
+获取场景网格的 API 非常简单。但是需要注意的是，该函数调用开销很大，因此应尽量避免调用。通常情况下，这没有问题，因为该函数仅访问静态网格，而对于大多数应用程序来说，这些网格在程序运行期间不会发生变化。
 
-Note that you will have to use a 3rdparty library or your own custom code to actually interact with the received meshes. Below I utilize the
-Python bindings of [libigl](https://github.com/libigl/libigl) to visualize the received meshes.
+请注意，您需要使用第三方库或自定义代码才能与接收到的网格进行交互。下面我使用 [libigl](https://github.com/libigl/libigl) 的 Python 绑定来可视化接收到的网格。
 
 ```python
 import airsim
@@ -39,40 +36,40 @@ AIRSIM_HOST_IP='127.0.0.1'
 client = airsim.VehicleClient(ip=AIRSIM_HOST_IP)
 client.confirmConnection()
 
-# List of returned meshes are received via this function
+# 通过此函数接收返回的网格列表。
 meshes=client.simGetMeshPositionVertexBuffers()
 
 
 index=0
 for m in meshes:
-    # Finds one of the cube meshes in the Blocks environment
+    # 在 Blocks 环境中找到一个立方体网格。
     if 'cube' in m.name:
-
-        # Code from here on relies on libigl. Libigl uses pybind11 to wrap C++ code. So here the built pyigl.so
-        # library is in the same directory as this example code.
-        # This is here as code for your own mesh library should require something similar
+        # 从这里开始的代码依赖于 libigl。
+        # libigl 使用 pybind11 封装 C++ 代码。
+        # 因此，这里构建的 pyigl.so 库与示例代码位于同一目录下。
+        # 之所以在此说明，是因为您自己的网格库代码也可能需要类似的实现。
         from pyigl import *
         from iglhelpers import *
 
-        # Convert the lists to numpy arrays
+        # 将列表转换为numpy数组
         vertex_list=np.array(m.vertices,dtype=np.float32)
         indices=np.array(m.indices,dtype=np.uint32)
 
         num_vertices=int(len(vertex_list)/3)
         num_indices=len(indices)
 
-        # Libigl requires the shape to be Nx3 where N is number of vertices or indices
-        # It also requires the actual type to be double(float64) for vertices and int64 for the triangles/indices
+        # Libigl 要求形状为 Nx3，其中 N 为顶点数或索引数。
+        # 它还要求顶点的实际类型为 double（float64），三角形/索引的实际类型为 int64。
         vertices_reshaped=vertex_list.reshape((num_vertices,3))
         indices_reshaped=indices.reshape((int(num_indices/3),3))
         vertices_reshaped=vertices_reshaped.astype(np.float64)
         indices_reshaped=indices_reshaped.astype(np.int64)
 
-        # Libigl function to convert to internal Eigen format
+        # Libigl 函数用于转换为 Eigen 内部格式
         v_eig=p2e(vertices_reshaped)
         i_eig=p2e(indices_reshaped)
 
-        # View the mesh
+        # 查看网格
         viewer = igl.glfw.Viewer()
         viewer.data().set_mesh(v_eig,i_eig)
         viewer.launch()
