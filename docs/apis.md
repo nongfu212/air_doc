@@ -41,11 +41,8 @@ pip install hutb
 
 !!! 笔记
     1. 您可能会注意到在我们的示例文件夹中有一个 `setup_path.py` 文件。这个文件有一个简单的代码来检测 `airsim` 包是否在父文件夹中可用，在这种情况下，我们使用它而不是 pip 安装的包，所以您总是使用最新的代码。
-    2. [低空项目](https://github.com/OpenHUTB/air) 仍在大量开发中，这意味着您可能需要经常更新软件包以使用新的 API。
-
-## C++ 用户
-
-如果要使用 C++ 的 API 和示例，请参阅 [C++ APIs 指南](apis_cpp.md) 。
+    2. 使用`pip install airsim`进行 Python 包的安装可能会出现错误：`No module named 'numpy'`，需要进入源代码的 [PythonClient](https://github.com/OpenHUTB/air/tree/main/PythonClient) 目录，使用`pip install .`进行安装（参考 [链接](https://github.com/microsoft/AirSim/issues/4920#issuecomment-1989402420) ）。
+    3. [低空项目](https://github.com/OpenHUTB/air) 仍在大量开发中，这意味着您可能需要经常更新软件包以使用新的 API。
 
 
 ## Hello Drone
@@ -350,6 +347,10 @@ AirLib 是一个独立的库，您可以将其安装在机外计算模块（例�
 * [Building a Hexacopter](https://github.com/Microsoft/AirSim/wiki/hexacopter)
 * [Building Point Clouds](https://github.com/Microsoft/AirSim/wiki/Point-Clouds)
 
+
+## C++ 用户
+
+如果要使用 C++ 的 API 和示例，请参阅 [C++ API 指南](apis_cpp.md) 。
 
 ## 经常问到的问题
 
