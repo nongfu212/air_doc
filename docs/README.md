@@ -18,7 +18,7 @@
 
 该项目基于 [AirSim](https://github.com/microsoft/AirSim) 项目，可单独使用，也可以将其作为一个插件集成到  HUTB 项目中，配置方法请参考 [链接](dev/add_plugin.md) 。
 
-2017年，微软研究院创建了AirSim，作为人工智能研究和实验的模拟平台。2022 年微软调整战略，放弃了该项目的维护，我们在 AirSim 的基础之上继续开发，经过多年发展，这个研究项目已实现其目标，并取得了长足进展——成为共享研究代码和测试空中人工智能开发与模拟新想法的常用方式。此外，时间也推动了我们将技术应用于现实世界的方式不断进步，尤其是在空中机动和自主系统方面。例如，无人机送货不再是科幻故事，而是商业现实，这意味着新的需求需要满足。我们在此过程中收获颇丰，并感谢社区成员一直以来的积极参与。
+2017年，微软研究院创建了 AirSim，作为人工智能研究和实验的模拟平台。2022 年微软调整战略，放弃了该项目的维护，我们在 AirSim 的基础之上继续开发，经过多年发展，这个研究项目已实现其目标，并取得了长足进展——成为共享研究代码和测试空中人工智能开发与模拟新想法的常用方式。此外，时间也推动了我们将技术应用于现实世界的方式不断进步，尤其是在空中机动和自主系统方面。例如，无人机送货不再是科幻故事，而是商业现实，这意味着新的需求需要满足。我们在此过程中收获颇丰，并感谢社区成员一直以来的积极参与。
 
 
 # 欢迎来到低空模拟器
@@ -48,27 +48,22 @@ Air 中的汽车
 ### Linux
 [![Build Status](https://github.com/OpenHUTB/air/actions/workflows/test_ubuntu.yml/badge.svg)](https://github.comOpenHUTB/air/actions/workflows/test_ubuntu.yml)
 * [下载二进制文件](https://github.com/OpenHUTB/air/releases)
-* [构建它](https://microsoft.github.io/AirSim/build_linux)
+* [构建它](build_linux.md)
 
 ### macOS
 [![构建状态](https://github.com/OpenHUTB/air/actions/workflows/test_macos.yml/badge.svg)](https://github.com/OpenHUTB/air/actions/workflows/test_macos.yml)
-* [构建它](https://microsoft.github.io/AirSim/build_macos)
+* [构建它](build_macos.md)
 
 有关更多详细信息，请参阅 [使用预编译二进制文件](docs/use_precompiled.md) 文档。
 
 
 ## 如何使用
 
-### 文档
-
-查看有关 AirSim 各个方面的 [详细文档](https://microsoft.github.io/AirSim/) 。
-
-
 ### 手动控制
 
 如果您拥有如下所示的遥控器 (Remote Control, RC)，则可以在模拟器中手动控制无人机。对于汽车，您可以使用箭头键手动驾驶。
 
-[更多详细信息](https://microsoft.github.io/AirSim/remote_control)
+[更多详细信息](remote_control/)
 
 ![record screenshot](images/AirSimDroneManual.gif)
 
@@ -77,13 +72,13 @@ Air 中的汽车
 
 ### 程序控制
 
-AirSim 提供 API，方便您在模拟中以编程方式与飞行器进行交互。您可以使用这些 API 检索图像、获取状态、控制飞行器等等。这些 API 通过 RPC 公开，并可通过多种语言访问，包括 C++、Python、C# 和 Java。
+Air 提供 API，方便您在模拟中以编程方式与飞行器进行交互。您可以使用这些 API 检索图像、获取状态、控制飞行器等等。这些 API 通过 RPC 公开，并可通过多种语言访问，包括 C++、Python、C# 和 Java。
 
 这些 API 也可作为独立的跨平台库的一部分使用，因此您可以将它们部署到车辆的配套计算机上。这样，您就可以在模拟器中编写和测试代码，然后在真实车辆上执行。迁移学习及相关研究是我们的重点领域之一。
 
-请注意，您可以使用 [SimMode 设置](https://microsoft.github.io/AirSim/settings#simmode) 来指定默认车辆或新的ComputerVision 模式，这样您就不会在每次启动 AirSim 时收到提示。
+请注意，您可以使用 [SimMode 设置](settings/#simmode) 来指定默认车辆或新的 ComputerVision 模式，这样您就不会在每次启动 AirSim 时收到提示。
 
-[更多详细信息](https://microsoft.github.io/AirSim/apis)
+[更多详细信息](apis.md)
 
 ### 收集训练数据
 
@@ -97,11 +92,11 @@ AirSim 提供 API，方便您在模拟中以编程方式与飞行器进行交互
 
 AirSim 的另一种使用方式是所谓的“计算机视觉”模式。在此模式下，您无需使用车辆或物理引擎。您可以使用键盘在场景中移动，或使用 API 将可用的摄像头定位到任意姿势，并收集诸如深度、视差、表面法线或物体分割等图像。
 
-[更多详细信息](https://microsoft.github.io/AirSim/image_apis)
+[更多详细信息](image_apis.md)
 
 ### 天气效果
 
-按 F10 查看各种可用的天气效果选项。您还可以使用 [APIs](https://microsoft.github.io/AirSim/apis#weather-apis) 控制天气。按 F1 查看其他可用选项。
+按 F10 查看各种可用的天气效果选项。您还可以使用 [APIs](apis#weather-apis) 控制天气。按 F1 查看其他可用选项。
 
 ![record screenshot](images/weather_menu.png)
 
@@ -111,7 +106,7 @@ AirSim 的另一种使用方式是所谓的“计算机视觉”模式。在此�
 - [视频 - 使用 AirSim 和 Pixhawk 教程](https://youtu.be/HNWdYrtw3f0)
 - [视频 - 使用 AirSim 的现成环境](https://www.youtube.com/watch?v=y09VbdQWvQY) 
 - [网络研讨会——利用高保真仿真实现自主系统](https://note.microsoft.com/MSR-Webinar-AirSim-Registration-On-Demand.html) 
-- [使用 AirSim 进行强化学习](https://microsoft.github.io/AirSim/reinforcement_learning) 
+- [使用 AirSim 进行强化学习](reinforcement_learning.md) 
 - [自动驾驶烹饪手册](https://aka.ms/AutonomousDrivingCookbook) 
 - [使用 TensorFlow 实现简单的防碰撞](https://github.com/simondlevy/AirSimTensorFlow) 
 
@@ -137,13 +132,13 @@ AirSim 的另一种使用方式是所谓的“计算机视觉”模式。在此�
 如果您正在寻找可以做出贡献的领域，请查看 [未解决的问题](https://github.com/OpenHUTB/air/issues) 。
 
 
-* [更多关于 AirSim 设计的信息](https://microsoft.github.io/AirSim/design)
-* [有关代码结构的更多信息](https://microsoft.github.io/AirSim/code_structure)
+* [更多关于 AirSim 设计的信息](design.md)
+* [有关代码结构的更多信息](code_structure.md)
 * [贡献指南](CONTRIBUTING.md)
 
 ### 谁在使用 AirSim？
 
-我们维护着一份我们所知的一些项目、人员和团体的 [列表](https://microsoft.github.io/AirSim/who_is_using) 。如果您希望被收录在此列表中，请 [在此处提交申请](https://github.com/OpenHUTB/air/issues) 。
+我们维护着一份我们所知的一些项目、人员和团体的 [列表](who_is_using.md) 。如果您希望被收录在此列表中，请 [在此处提交申请](https://github.com/OpenHUTB/air/issues) 。
 
 
 ## 联系
@@ -172,7 +167,7 @@ AirSim 的另一种使用方式是所谓的“计算机视觉”模式。在此�
 
 ## 常问问题
 
-如果您遇到问题，请查看 [常见问题解答](https://microsoft.github.io/AirSim/faq) 并随时在 [AirSim](https://github.com/OpenHUTB/air/issues) 存储库中发布问题。
+如果您遇到问题，请查看 [常见问题解答](faq.md) 并随时在 [AirSim](https://github.com/OpenHUTB/air/issues) 存储库中发布问题。
 
 ## 行为守则
 

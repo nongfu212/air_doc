@@ -29,9 +29,9 @@ python hello_car.py
 如果您正在使用 Visual Studio 2019，则只需打开 AirSim.sln ，将 PythonClient 设置为启动项目，并选择 `car\hello_car.py` 作为启动脚本。
 
 
-### 安装 AirSim 包
+### 安装 Air 包
 
-您也可以简单地通过以下方式安装 `airsim` 包：，
+您也可以简单地通过以下方式安装 `air` 包：，
 
 ```
 pip install hutb
@@ -46,7 +46,7 @@ pip install hutb
 
 
 ## Hello Drone
-下面介绍了如何使用 Python 的 AirSim API 来控制模拟四旋翼飞行器，准备运行示例 [hello_drone.py](https://github.com/OpenHUTB/air/blob/main/PythonClient/multirotor/hello_drone.py)（另请参阅 [ C++ 示例](apis_cpp.md#hello_drone)）：
+下面介绍了如何使用 Python 的 AirSim API 来控制模拟四旋翼飞行器，准备运行示例 [hello_drone.py](https://github.com/OpenHUTB/air/blob/main/PythonClient/multirotor/hello_drone.py)（另请参阅 [C++ 示例](apis_cpp.md#hello_drone)）：
 
 ```python
 import airsim
@@ -171,7 +171,7 @@ simSetTimeOfDay(self, is_enabled, start_datetime = "", is_start_datetime_dst = F
 
 要测试模拟器中从车辆到某个点或两点之间的视线，请分别使用 `simTestLineOfSightToPoint(point, vehicle_name)` 和 `simTestLineOfSightBetweenPoints(point1, point2)` 函数。模拟器的世界范围以两个 `GeoPoints` 向量的形式表示，可以使用 `simGetWorldExtents()` 函数获取。
 
-### 天气 API
+### 天气 API <span id="weather-apis"></span>
 
 默认情况下，所有天气效果均已禁用。要启用天气效果，请先调用：
 
