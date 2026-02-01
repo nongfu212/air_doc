@@ -32,7 +32,7 @@ extra_javascript:
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
-copyright: OpenHUTB 版权所有 &copy; 2025
+copyright: OpenHUTB 版权所有 &copy; 2026
 
 nav:
   - "主页":

@@ -42,16 +42,21 @@ Air 中的汽车
 
 ### Windows
 [![Build Status](https://github.com/OpenHUTB/air/actions/workflows/test_windows.yml/badge.svg)](https://github.com/OpenHUTB/air/actions/workflows/test_windows.yml)
+
 * [下载二进制文件](https://github.com/OpenHUTB/air/releases)
+
 * [构建它](build_windows.md)
 
 ### Linux
 [![Build Status](https://github.com/OpenHUTB/air/actions/workflows/test_ubuntu.yml/badge.svg)](https://github.comOpenHUTB/air/actions/workflows/test_ubuntu.yml)
+
 * [下载二进制文件](https://github.com/OpenHUTB/air/releases)
+
 * [构建它](build_linux.md)
 
 ### macOS
 [![构建状态](https://github.com/OpenHUTB/air/actions/workflows/test_macos.yml/badge.svg)](https://github.com/OpenHUTB/air/actions/workflows/test_macos.yml)
+
 * [构建它](build_macos.md)
 
 有关更多详细信息，请参阅 [使用预编译二进制文件](docs/use_precompiled.md) 文档。
@@ -63,7 +68,7 @@ Air 中的汽车
 
 如果您拥有如下所示的遥控器 (Remote Control, RC)，则可以在模拟器中手动控制无人机。对于汽车，您可以使用箭头键手动驾驶。
 
-[更多详细信息](remote_control/)
+[更多详细信息](remote_control.md)
 
 ![record screenshot](images/AirSimDroneManual.gif)
 
@@ -78,7 +83,9 @@ Air 提供 API，方便您在模拟中以编程方式与飞行器进行交互。
 
 请注意，您可以使用 [SimMode 设置](settings/#simmode) 来指定默认车辆或新的 ComputerVision 模式，这样您就不会在每次启动 AirSim 时收到提示。
 
-[更多详细信息](apis.md)
+* [示例](./example/list.md)
+
+* [更多详细 API 信息](apis.md)
 
 ### 收集训练数据
 
@@ -178,5 +185,3 @@ AirSim 的另一种使用方式是所谓的“计算机视觉”模式。在此�
 ## 许可证
 
 本项目遵循 MIT 许可证发布。请查看 [许可证文件](LICENSE) 了解更多详情。
-
-
