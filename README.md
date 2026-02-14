@@ -8,13 +8,31 @@
 详细部署方案请参考 [人车模拟器仓库](https://github.com/OpenHUTB/doc) 。
 
 
-### 已知问题
+### 其他问题和解决方案
 
 ##### Codespace运行报错：ERROR: No matching distribution found for pymdownx
 
 > 解决：
 > 
 > `pip install pymdown-extensions --force`
+
+
+##### 编译 api_docs 
+
+运行 `docs/api_docs/make.bat`需要安装：
+```shell
+# 
+pip install sphinx_rtd_theme
+# ModuleNotFoundError: No module named 'airsim'
+pip install hutb
+```
+
+报错：sphinx.errors.ConfigError: Invalid `intersphinx_mapping` configuration (1 error)
+
+解决：注释掉 conf.py 中的 intersphinx_mapping：
+```python
+# intersphinx_mapping = {'https://docs.python.org/': None}
+```
 
 
 
