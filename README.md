@@ -5,7 +5,12 @@
 
 ## 部署
 
-详细部署方案请参考 [人车模拟器仓库](https://github.com/OpenHUTB/doc) 。
+依赖安装：
+```shell
+pip install -r requirements.txt
+```
+
+详细部署方案请参考 [人车模拟器文档](https://github.com/OpenHUTB/doc) 。
 
 
 ### 其他问题和解决方案
