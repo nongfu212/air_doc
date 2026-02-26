@@ -8,6 +8,8 @@
 依赖安装：
 ```shell
 pip install -r requirements.txt
+# 启动服务
+mkdocs serve --livereload
 ```
 
 详细部署方案请参考 [人车模拟器文档](https://github.com/OpenHUTB/doc) 。

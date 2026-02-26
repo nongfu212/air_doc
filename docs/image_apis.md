@@ -125,29 +125,34 @@ int getStereoAndDepthImages()
 
 ### Python
 
-如需更完整的可直接运行的示例代码，请参阅 AirSimClient 项目中的多旋翼飞行器 [示例代码](https://github.com/Microsoft/AirSim/tree/main/PythonClient//multirotor/hello_drone.py) 或 [HelloCar 示例代码](https://github.com/Microsoft/AirSim/tree/main/PythonClient//car/hello_car.py) 。这些代码还演示了一些简单的操作，例如将图像保存到文件或使用 `numpy` 处理图像。
+如需更完整的可直接运行的示例代码，请参阅 AirSimClient 项目中的多旋翼飞行器 [示例代码](https://github.com/OpenHUTB/air/tree/main/PythonClient//multirotor/hello_drone.py) 或 [HelloCar 示例代码](https://github.com/OpenHUTB/air/tree/main/PythonClient//car/hello_car.py) 。这些代码还演示了一些简单的操作，例如将图像保存到文件或使用 `numpy` 处理图像。
 
 
 ### C++
 
-如需更完整的可运行 [示例代码](https://github.com/Microsoft/AirSim/tree/main/HelloDrone//main.cpp) ，请参阅 HelloDrone 多旋翼飞行器项目或 [HelloCar 项目的示例代码](https://github.com/Microsoft/AirSim/tree/main/HelloCar//main.cpp) 。
+如需更完整的可运行 [示例代码](https://github.com/OpenHUTB/air/tree/main/HelloDrone//main.cpp) ，请参阅 HelloDrone 多旋翼飞行器项目或 [HelloCar 项目的示例代码](https://github.com/OpenHUTB/air/tree/main/HelloCar//main.cpp) 。
+
+另请参阅[其他示例代码](https://github.com/OpenHUTB/air/tree/main/Examples/DataCollection/StereoImageGenerator.hpp)，该代码生成指定数量的立体图像以及真实深度和视差，并将其保存为 [pfm 格式](pfm.md) 。
 
 
-See also [other example code](https://github.com/Microsoft/AirSim/tree/main/Examples/DataCollection/StereoImageGenerator.hpp) that generates specified number of stereo images along with ground truth depth and disparity and saving it to [pfm format](pfm.md).
+## 可用的相机
 
-## Available Cameras
+这些是每辆车默认配备的摄像头。除此之外，您还可以通过 [设置](settings.md) 为车辆添加更多摄像头，以及添加未安装在任何车辆上的外部摄像头。
 
-These are the default cameras already available in each vehicle. Apart from these, you can add more cameras to the vehicles and external cameras which are not attached to any vehicle through the [settings](settings.md).
+### 汽车
 
-### Car
-The cameras on car can be accessed by following names in API calls: `front_center`, `front_right`, `front_left`, `fpv` and `back_center`. Here FPV camera is driver's head position in the car.
-### Multirotor
-The cameras on the drone can be accessed by following names in API calls: `front_center`, `front_right`, `front_left`, `bottom_center` and `back_center`. 
-### Computer Vision Mode
-Camera names are same as in multirotor.
+可以通过 API 调用以下名称访问车载摄像头： `front_center`、`front_right`、`front_left`、`fpv` 和 `back_center`。其中，FPV 摄像头显示的是驾驶员在车内的头部位置。
 
-### Backward compatibility for camera names
-Before AirSim v1.2, cameras were accessed using ID numbers instead of names. For backward compatibility you can still use following ID numbers for above camera names in same order as above: `"0"`, `"1"`, `"2"`, `"3"`, `"4"`. In addition, camera name `""` is also available to access the default camera which is generally the camera `"0"`.
+### 多旋翼飞行器
+可以通过 API 调用中的以下名称访问无人机上的摄像头： `front_center`、`front_right`、`front_left`、`bottom_center` 和 `back_center`。
+
+### 计算机视觉模式
+
+相机名称与多旋翼飞行器中的相同。
+
+### 相机名称的向后兼容性
+
+在 AirSim v1.2 之前，摄像机是通过 ID 号而非名称来访问的。为了向后兼容，您仍然可以按上述顺序使用以下 ID 号访问上述摄像机名称：`"0"`, `"1"`, `"2"`, `"3"`, `"4"`。此外，摄像机名称`""`也可以用于访问默认摄像机，通常为摄像机`"0"`。
 
 ## "计算机视觉" 模式
 
@@ -163,35 +168,40 @@ Before AirSim v1.2, cameras were accessed using ID numbers instead of names. For
 }
 ```
 
-以下是移动摄像头并拍摄图像的 [Python 代码示例](https://github.com/Microsoft/AirSim/tree/main/PythonClient//computer_vision/cv_mode.py) 。
+以下是移动摄像头并拍摄图像的 [Python 代码示例](https://github.com/OpenHUTB/air/tree/main/PythonClient//computer_vision/cv_mode.py) 。
 
 此模式受到 [UnrealCV 项目](http://unrealcv.org/) 的启发。
 
 
-### Setting Pose in Computer Vision Mode
-To move around the environment using APIs you can use `simSetVehiclePose` API. This API takes position and orientation and sets that on the invisible vehicle where the front-center camera is located. All rest of the cameras move along keeping the relative position. If you don't want to change position (or orientation) then just set components of position (or orientation) to floating point nan values. The `simGetVehiclePose` allows to retrieve the current pose. You can also use `simGetGroundTruthKinematics` to get the quantities kinematics quantities for the movement. Many other non-vehicle specific APIs are also available such as segmentation APIs, collision APIs and camera APIs.
+### 在计算机视觉模式下设置姿态
 
-## Camera APIs
-The `simGetCameraInfo` returns the pose (in world frame, NED coordinates, SI units) and FOV (in degrees) for the specified camera. Please see [example usage](https://github.com/Microsoft/AirSim/tree/main/PythonClient//computer_vision/cv_mode.py).
+要使用 API 在环境中移动，可以使用 `simSetVehiclePose` API。此 API 接收位置和方向信息，并将其设置到位于车辆中心前方的摄像头所在的不可见车辆上。所有其他摄像头都会保持相对位置并随之移动。如果您不想改变位置（或方向），只需将位置（或方向）分量设置为浮点 NaN 值即可。`simGetVehiclePose` 允许您检索当前姿态。您还可以使用 `simGetGroundTruthKinematics` 获取运动的运动学参数。此外，还有许多其他非车辆专用 API 可用，例如分割 API、碰撞 API 和摄像头 API。
 
-The `simSetCameraPose` sets the pose for the specified camera while taking an input pose as a combination of relative position and a quaternion in NED frame. The handy `airsim.to_quaternion()` function allows to convert pitch, roll, yaw to quaternion. For example, to set camera-0 to 15-degree pitch while maintaining the same position, you can use:
+## 相机 API
+
+`simGetCameraInfo` 函数返回指定相机的位姿（世界坐标系，NED 坐标，SI 单位）和视场角（以度为单位）。请参阅 [示例用法](https://github.com/OpenHUTB/air/tree/main/PythonClient//computer_vision/cv_mode.py) 。
+
+`simSetCameraPose` 函数用于设置指定摄像机的姿态，其输入姿态为相对位置和 NED 坐标系中的四元数的组合。`airsim.to_quaternion()` 函数可以将俯仰角、横滚角和偏航角转换为四元数。例如，要将 camera-0 的俯仰角设置为 15 度，同时保持其位置不变，可以使用以下方法：
 ```
 camera_pose = airsim.Pose(airsim.Vector3r(0, 0, 0), airsim.to_quaternion(0.261799, 0, 0))  #PRY in radians
 client.simSetCameraPose(0, camera_pose);
 ```
 
-- `simSetCameraFov` allows changing the Field-of-View of the camera at runtime.
-- `simSetDistortionParams`, `simGetDistortionParams` allow setting and fetching the distortion parameters K1, K2, K3, P1, P2
+- `simSetCameraFov` 允许在运行时更改相机的视野。
+- `simSetDistortionParams` 和 `simGetDistortionParams` 函数允许设置和获取失真参数 K1、K2、K3、P1 和 P2。 
 
-All Camera APIs take in 3 common parameters apart from the API-specific ones, `camera_name`(str), `vehicle_name`(str) and `external`(bool, to indicate [External Camera](settings.md#external-cameras)). Camera and vehicle name is used to get the specific camera, if `external` is set to `true`, then the vehicle name is ignored. Also see [external_camera.py](https://github.com/microsoft/AirSim/blob/main/PythonClient/computer_vision/external_camera.py) for example usage of these APIs.
 
-### Gimbal
-You can set stabilization for pitch, roll or yaw for any camera [using settings](settings.md#gimbal).
+除了 API 特有的参数外，所有相机 API 都接受 3 个通用参数：`camera_name(str)`、`vehicle_name(str)` 和 `external`(bool, 指示是否为 [外部相机](settings.md#external-cameras) )。`camera_name` 和 `vehicle_name` 用于获取特定的摄像头；如果 `external` 设置为 `true`，则忽略车辆名称。有关这些 API 的示例用法，请参阅 [external_camera.py](https://github.com/OpenHUTB/air/blob/main/PythonClient/computer_vision/external_camera.py) 文件。
 
-Please see [example usage](https://github.com/Microsoft/AirSim/tree/main/PythonClient//computer_vision/cv_mode.py).
 
-## Changing Resolution and Camera Parameters
-To change resolution, FOV etc, you can use [settings.json](settings.md). For example, below addition in settings.json sets parameters for scene capture and uses "Computer Vision" mode described above. If you omit any setting then below default values will be used. For more information see [settings doc](settings.md). If you are using stereo camera, currently the distance between left and right is fixed at 25 cm.
+### 云台
+您可以 [使用设置](settings.md#gimbal) 为任何相机设置俯仰、横滚或偏航的稳定性。
+
+请参阅 [使用示例](https://github.com/OpenHUTB/air/tree/main/PythonClient/computer_vision/cv_mode.py) 。
+
+
+## 更改分辨率和相机参数
+要更改分辨率、视场角 (FOV) 等参数，您可以使用 [settings.json](settings.md) 文件。例如，以下添加到 settings.json 文件中的设置将设置场景捕获的参数，并使用上述“计算机视觉”模式。如果您省略任何设置，则将使用以下默认值。更多信息请参阅 [设置文档](settings.md) 。如果您使用的是立体相机，目前左右两侧的距离固定为 25 厘米。
 
 ```json
 {
@@ -212,8 +222,8 @@ To change resolution, FOV etc, you can use [settings.json](settings.md). For exa
 }
 ```
 
-## What Does Pixel Values Mean in Different Image Types?
-### Available ImageType Values
+## 不同图像类型中的像素值分别代表什么？
+### 可用的图像类型(ImageType)值
 ```cpp
   Scene = 0, 
   DepthPlanar = 1, 
@@ -227,39 +237,43 @@ To change resolution, FOV etc, you can use [settings.json](settings.md). For exa
   OpticalFlowVis = 9
 ```                
 
-### DepthPlanar and DepthPerspective
-You normally want to retrieve the depth image as float (i.e. set `pixels_as_float = true`) and specify `ImageType = DepthPlanar` or `ImageType = DepthPerspective` in `ImageRequest`. For `ImageType = DepthPlanar`, you get depth in camera plane, i.e., all points that are plane-parallel to the camera have same depth. For `ImageType = DepthPerspective`, you get depth from camera using a projection ray that hits that pixel. Depending on your use case, planner depth or perspective depth may be the ground truth image that you want. For example, you may be able to feed perspective depth to ROS package such as `depth_image_proc` to generate a point cloud. Or planner depth may be more compatible with estimated depth image generated by stereo algorithms such as SGM.
+### DepthPlanar 和 DepthPerspective
+通常情况下，您需要以浮点数形式获取深度图像（即设置 `pixels_as_float = true`），并在 `ImageRequest` 中指定 `ImageType = DepthPlanar` 或 `ImageType = DepthPerspective`。对于 `ImageType = DepthPlanar`，您将获得相机平面上的深度，也就是说，所有与相机平面平行的点都具有相同的深度。对于 `ImageType = DepthPerspective`，您将使用投射到该像素的光线从相机获取深度。根据您的具体应用场景，平面深度或透视深度可能就是您需要的真实深度图像。例如，您可以将透视深度提供给 ROS 包（例如 `depth_image_proc`）来生成点云。或者，平面深度可能与立体算法（例如 SGM）生成的估计深度图像更兼容。
 
 ### DepthVis
-When you specify `ImageType = DepthVis` in `ImageRequest`, you get an image that helps depth visualization. In this case, each pixel value is interpolated from black to white depending on depth in camera plane in meters. The pixels with pure white means depth of 100m or more while pure black means depth of 0 meters.
+在 `ImageRequest` 中指定 `ImageType = DepthVis` 时，您将获得一张用于深度可视化的图像。在这种情况下，每个像素值都会根据相机平面上的深度（以米为单位）进行插值，从黑色到白色。纯白色像素表示深度为 100 米或更深，而纯黑色像素表示深度为 0 米。
 
 ### DisparityNormalized
-You normally want to retrieve disparity image as float (i.e. set `pixels_as_float = true` and specify `ImageType = DisparityNormalized` in `ImageRequest`) in which case each pixel is `(Xl - Xr)/Xmax`, which is thereby normalized to values between 0 to 1.
 
-### Segmentation
-When you specify `ImageType = Segmentation` in `ImageRequest`, you get an image that gives you ground truth segmentation of the scene. At the startup, AirSim assigns value 0 to 255 to each mesh available in environment. This value is then mapped to a specific color in [the pallet](https://github.com/microsoft/AirSim/blob/main/Unreal/Plugins/AirSim/Content/HUDAssets/seg_color_palette.png). The RGB values for each object ID can be found in [this file](seg_rgbs.txt).
+通常情况下，您希望以浮点数形式检索视差图像（即在 `ImageRequest` 中设置 `pixels_as_float = true` 并指定 `ImageType = DisparityNormalized`），在这种情况下，每个像素都是 `(Xl - Xr)/Xmax`，从而被归一化为 0 到 1 之间的值。
 
-You can assign a specific value (limited to the range 0-255) to a specific mesh using APIs. For example, below Python code sets the object ID for the mesh called "Ground" to 20 in Blocks environment and hence changes its color in Segmentation view:
+
+### 分割 Segmentation
+
+在 `ImageRequest` 中指定 `ImageType = Segmentation` 时，您将获得一张图像，其中包含场景的真实分割结果。启动时，AirSim 会为环境中每个可用的网格分配 0 到 255 的值。然后，该值会映射到 [调色板](https://github.com/OpenHUTB/air/blob/main/Unreal/Plugins/AirSim/Content/HUDAssets/seg_color_palette.png) 中的特定颜色。每个对象 ID 的 RGB 值都可以在 [此文件](seg_rgbs.txt) 中找到。
+
+您可以使用 API 为特定网格分配一个特定值（范围为 0-255）。例如，以下 Python 代码将 Blocks 环境中名为“Ground”的网格的对象 ID 设置为 20，从而更改其在分割视图中的颜色：
 
 ```python
 success = client.simSetSegmentationObjectID("Ground", 20);
 ```
 
-The return value is a boolean type that lets you know if the mesh was found.
+返回值是一个布尔类型，用于告知您是否找到了网格。
 
-Notice that typical Unreal environments, like Blocks, usually have many other meshes that comprises of same object, for example, "Ground_2", "Ground_3" and so on. As it is tedious to set object ID for all of these meshes, AirSim also supports regular expressions. For example, the code below sets all meshes which have names starting with "ground" (ignoring case) to 21 with just one line:
+!!! 注意
+    典型的虚幻引擎环境（例如方块）通常包含许多由相同对象构成的网格，例如“Ground_2”、“Ground_3”等等。由于为所有这些网格设置对象 ID 非常繁琐，AirSim 也支持正则表达式。例如，以下代码只需一行即可将所有名称以“ground”（忽略大小写）开头的网格的 ID 设置为 21：
 
 ```python
 success = client.simSetSegmentationObjectID("ground[\w]*", 21, True);
 ```
 
-The return value is true if at least one mesh was found using regular expression matching.
+如果使用正则表达式匹配至少找到一个网格，则返回值为真。
 
-It is recommended that you request uncompressed image using this API to ensure you get precise RGB values for segmentation image:
+建议您使用此 API 请求未压缩的图像，以确保获得精确的分割图像 RGB 值：
 ```python
 responses = client.simGetImages([ImageRequest(0, AirSimImageType.Segmentation, False, False)])
-img1d = np.fromstring(response.image_data_uint8, dtype=np.uint8) #get numpy array
-img_rgb = img1d.reshape(response.height, response.width, 3) #reshape array to 3 channel image array H X W X 3
+img1d = np.fromstring(response.image_data_uint8, dtype=np.uint8) # 获取 numpy 数组
+img_rgb = img1d.reshape(response.height, response.width, 3) # reshape array to 3 channel image array H X W X 3
 img_rgb = np.flipud(img_rgb) #original image is fliped vertically
 
 #find unique colors
@@ -268,34 +282,40 @@ print(np.unique(img_rgb[:,:,1], return_counts=True)) #green
 print(np.unique(img_rgb[:,:,2], return_counts=True)) #blue  
 ```
 
-A complete ready-to-run example can be found in [segmentation.py](https://github.com/Microsoft/AirSim/tree/main/PythonClient//computer_vision/segmentation.py).
+[segmentation.py](https://github.com/OpenHUTB/air/tree/main/PythonClient//computer_vision/segmentation.py) 中提供了一个完整的可运行示例。
 
-#### Unsetting object ID
-An object's ID can be set to -1 to make it not show up on the segmentation image.
+#### 取消设置对象 ID
+可以将对象的 ID 设置为 -1，使其不显示在分割图像上。
 
-#### How to Find Mesh Names?
-To get desired ground truth segmentation you will need to know the names of the meshes in your Unreal environment. To do this, you will need to open up Unreal Environment in Unreal Editor and then inspect the names of the meshes you are interested in using the World Outliner. For example, below we see the mesh names for the ground in Blocks environment in right panel in the editor:
+#### 如何查找网格名称？
+为了获得所需的真实分割结果，您需要知道虚幻引擎环境中网格的名称。为此，您需要在虚幻编辑器中打开虚幻环境，然后使用世界大纲视图查看您感兴趣的网格名称。例如，下图显示了编辑器右侧面板中“方块(Blocks)”环境中地面网格的名称：
 
 ![record screenshot](images/unreal_editor_blocks.png)
 
-If you don't know how to open Unreal Environment in Unreal Editor then try following the guide for [building from source](build_windows.md).
+如果您不知道如何在虚幻编辑器中打开虚幻环境，请尝试按照 [从源代码构建](build_windows.md) 的指南进行操作。
 
-Once you decide on the meshes you are interested, note down their names and use above API to set their object IDs. There are [few settings](settings.md#segmentation-settings) available to change object ID generation behavior.
+确定所需的网格后，记下它们的名称，并使用上述 API 设置它们的对象 ID。有 [一些设置](settings.md#segmentation-settings) 可以更改对象 ID 的生成方式。
 
-#### Changing Colors for Object IDs
-At present the color for each object ID is fixed as in [this pallet](https://github.com/microsoft/AirSim/blob/main/Unreal/Plugins/AirSim/Content/HUDAssets/seg_color_palette.png). We will be adding ability to change colors for object IDs to desired values shortly. In the meantime you can open the segmentation image in your favorite image editor and get the RGB values you are interested in.
 
-#### Startup Object IDs
-At the start, AirSim assigns object ID to each object found in environment of type `UStaticMeshComponent` or `ALandscapeProxy`. It then either uses mesh name or owner name (depending on settings), lower cases it, removes any chars below ASCII 97 to remove numbers and some punctuations, sums int value of all chars and modulo 255 to generate the object ID. In other words, all object with same alphabet chars would get same object ID. This heuristic is simple and effective for many Unreal environments but may not be what you want. In that case, please use above APIs to change object IDs to your desired values. There are [few settings](settings.md#segmentation-settings) available to change this behavior.
+#### 更改对象 ID 的颜色
+目前，每个对象 ID 的颜色都固定为 [该调色板](https://github.com/microsoft/AirSim/blob/main/Unreal/Plugins/AirSim/Content/HUDAssets/seg_color_palette.png) 中所示的颜色。我们将很快添加自定义对象 ID 颜色的功能。在此期间，您可以使用您常用的图像编辑器打开分割图像，并获取您所需的 RGB 值。
 
-#### Getting Object ID for Mesh
-The `simGetSegmentationObjectID` API allows you get object ID for given mesh name.
+#### 启动对象 ID
 
-### Infrared
-Currently this is just a map from object ID to grey scale 0-255. So any mesh with object ID 42 shows up with color (42, 42, 42). Please see [segmentation section](#segmentation) for more details on how to set object IDs. Typically noise setting can be applied for this image type to get slightly more realistic effect. We are still working on adding other infrared artifacts and any contributions are welcome.
+启动时，AirSim 会为环境中所有类型为 `UStaticMeshComponent` 或 `ALandscapeProxy` 的对象分配一个对象 ID。然后，它会根据设置，使用网格名称或所有者名称，将其转换为小写，移除 ASCII 码 97 以下的所有字符（包括数字和部分标点符号），将所有字符的整数值相加，然后取模 255，从而生成对象 ID。换句话说，所有包含相同字母的对象都会获得相同的对象 ID。这种启发式方法简单有效，适用于许多虚幻引擎环境，但可能并非您所需。在这种情况下，请使用上述 API 将对象 ID 更改为您所需的值。有 [一些设置](settings.md#segmentation-settings) 可用于更改此行为。
 
-### OpticalFlow and OpticalFlowVis
-These image types return information about motion perceived by the point of view of the camera. OpticalFlow returns a 2-channel image where the channels correspond to vx and vy respectively. OpticalFlowVis is similar to OpticalFlow but converts flow data to RGB for a more 'visual' output.
 
-## Example Code
-A complete example of setting vehicle positions at random locations and orientations and then taking images can be found in [GenerateImageGenerator.hpp](https://github.com/Microsoft/AirSim/tree/main/Examples/DataCollection/StereoImageGenerator.hpp). This example generates specified number of stereo images and ground truth disparity image and saving it to [pfm format](pfm.md).
+#### 获取网格对象的 ID
+`simGetSegmentationObjectID` API 允许您获取给定网格名称的对象 ID。
+
+### 红外
+
+目前这只是一个从对象 ID 到灰度值 0-255 的映射。因此，任何对象 ID 为 42 的网格都会显示为颜色 (42, 42, 42)。有关如何设置对象 ID 的更多详细信息，请参阅 [分割部分](#segmentation) 。通常，可以对这种图像类型应用噪声设置，以获得更逼真的效果。我们仍在努力添加其他红外伪影，欢迎任何贡献。
+
+### 光流(OpticalFlow) 和光流可视化(OpticalFlowVis)
+这些图像类型返回有关摄像机视角所感知到的运动信息。OpticalFlow 返回一个双通道图像，其中两个通道分别对应于 vx 和 vy。OpticalFlowVis 与 OpticalFlow 类似，但它将流数据转换为 RGB 格式，以获得更直观的输出。
+
+## 示例代码
+
+[GenerateImageGenerator.hpp](https://github.com/OpenHUTB/air/tree/main/Examples/DataCollection/StereoImageGenerator.hpp) 文件提供了一个完整的示例，演示如何将车辆位置和方向随机设置，然后拍摄图像。该示例生成指定数量的立体图像和真实视差图像，并将其保存为 [pfm 格式](pfm.md) 。
+
