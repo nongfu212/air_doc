@@ -189,7 +189,7 @@ msr::airlib::BarometerBase::Output getBarometerData(const std::string& barometer
 barometer_data = client.getBarometerData(barometer_name = "", vehicle_name = "")
 ```
 
-### IMU
+### 惯性测量单元（IMU）
 ```cpp
 msr::airlib::ImuBase::Output getImuData(const std::string& imu_name = "", const std::string& vehicle_name = "");
 ```
@@ -206,7 +206,7 @@ msr::airlib::GpsBase::Output getGpsData(const std::string& gps_name = "", const 
 gps_data = client.getGpsData(gps_name = "", vehicle_name = "")
 ```
 
-### Magnetometer
+### 磁力计
 ```cpp
 msr::airlib::MagnetometerBase::Output getMagnetometerData(const std::string& magnetometer_name = "", const std::string& vehicle_name = "");
 ```
@@ -214,7 +214,7 @@ msr::airlib::MagnetometerBase::Output getMagnetometerData(const std::string& mag
 magnetometer_data = client.getMagnetometerData(magnetometer_name = "", vehicle_name = "")
 ```
 
-### Distance sensor
+### 距离传感器
 ```cpp
 msr::airlib::DistanceSensorData getDistanceSensorData(const std::string& distance_sensor_name = "", const std::string& vehicle_name = "");
 ```
