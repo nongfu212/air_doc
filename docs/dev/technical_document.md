@@ -399,7 +399,7 @@ $$
 
 1. 记录 Carla 汽车的初始位置 \( (cx_o, cy_o) \) 和 AirSim 无人机 NED 的位置 \( (dx_o, dy_o) \)
 
-2. 每帧: \( \delta = (cx - cx_o, cy - cy_o) \) ，目标无人机 NED = \( (dx_o + \delta x, dy_o, \delta y) \) 。
+2. 每帧: \( \Delta = (cx - cx_o, cy - cy_o) \) ，目标无人机 NED = \( (dx_o + \Delta x, dy_o, \Delta y) \) 。
 
 ---
 
