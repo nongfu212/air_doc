@@ -208,18 +208,18 @@ r.CustomDepth=3           ; 语义分割所需
 bEnableEnhancedDeterminism=True
 ```
 
-**`Unreal/CarlaUE4/Config/DefaultGame.ini`** (packaging):
+**`Unreal/CarlaUE4/Config/DefaultGame.ini`** (打包):
 ```ini
-; 13 CARLA maps + AirSim asset map
+; 13 Carla 地图 + AirSim 资产地图
 +MapsToCook=(FilePath="/Game/Carla/Maps/Town01")
 +MapsToCook=(FilePath="/AirSim/AirSimAssets")
-; 6 AirSim content directories for cooking
+; 6 AirSim 烘焙内容目
 +DirectoriesToAlwaysCook=(Path="AirSim/Blueprints")
 +DirectoriesToAlwaysCook=(Path="AirSim/Models")
 +DirectoriesToAlwaysCook=(Path="AirSim/Weather")
 ```
 
-**`~/Documents/AirSim/settings.json`** (runtime):
+**`~/Documents/AirSim/settings.json`** (运行时):
 ```json
 {
     "SettingsVersion": 1.2,
@@ -238,158 +238,174 @@ bEnableEnhancedDeterminism=True
 
 ---
 
-## 3. Dual Communication Architecture
+## 3. 双通信架构
 
-### 3.1 CARLA Server (Port 2000)
+### 3.1 Carla 服务端 (端口 2000)
 
-CARLA uses a **three-port architecture**:
+Carla 是用 **三端口架构**：
 
-| Port | Protocol | Purpose |
+| 端口 | 协议 | 目的 |
 |------|----------|---------|
-| 2000 | rpclib (MessagePack-RPC) | Synchronous commands: spawn, destroy, weather, tick |
-| 2001 | TCP streaming | High-throughput sensor data (camera images, LiDAR) |
-| 2002 | TCP secondary | Multi-GPU synchronization |
+| 2000 | rpclib (MessagePack-RPC) | 同步命令: spawn, destroy, weather, tick |
+| 2001 | TCP 流式传输 | 高通量传感器数据（相机图像、激光雷达） |
+| 2002 | TCP 辅助 | 多 GPU 同步 |
 
-**RPC binding pattern**: Operations that modify UE4 state are **sync-bound** to the game thread via `boost::asio::io_context` post-and-wait. Read-only operations are **async-bound** to RPC worker threads.
+**RPC绑定模式**: 修改 UE4 状态的操作通过`boost::asio::io_context` 的 post-and-wait 机制同步绑定(**sync-bound**)到游戏线程。只读操作异步绑定(**async-bound**)到 RPC 工作线程。
 
-**Sensor data pipeline**:
-1. Sensor captures data during UE4 tick (game thread)
-2. `FPixelReader::SendPixelsInRenderThread()` enqueues a render command
-3. GPU pixels are read via `FRHICommandListImmediate`
-4. Data is serialized through `SensorRegistry::Serialize()` (type-dispatched)
-5. Sent via dedicated TCP stream (each sensor has a unique stream token)
+**传感器数据管道**:
+1. 传感器在 UE4 游戏线程节拍周期内捕获数据
+2. `FPixelReader::SendPixelsInRenderThread()` 将渲染命令加入渲染命令队列
+3. GPU 像素通过 `FRHICommandListImmediate` 读取
+4. 数据通过 `SensorRegistry::Serialize()`（类型分发）进行序列化。
+5. 通过专用 TCP 流发送（每个传感器都有一个唯一的流令牌）
 
-### 3.2 AirSim Server (Port 41451)
+### 3.2 AirSim 服务端 (端口 41451)
 
-AirSim uses a **single-port RPC architecture** via rpclib:
+AirSim 使用 rpclib 实现的**单端口 RPC 架构**：
 
-| Port | Protocol | Purpose |
+| 端口 | 协议 | 目的 |
 |------|----------|---------|
-| 41451 | rpclib (MessagePack-RPC) | All commands: flight control, image capture, sensor queries |
+| 41451 | rpclib (MessagePack-RPC) | 所有指令：飞行控制、图像采集、传感器查询 |
 
-**Image capture**: Unlike CARLA's streaming model, AirSim images are requested on-demand through RPC calls (`simGetImages`). The server reads the UE4 render target synchronously and returns raw pixel data in the RPC response.
+**图像采集**: 与 Carla 的流式传输模型不同，AirSim 图像是通过 RPC 调用（`simGetImages`）按需请求的。服务器同步读取 UE4 渲染目标，并在 RPC 响应中返回原始像素数据。
 
-**Physics thread interaction**: Flight commands (e.g., `moveToPositionAsync`) are posted to AirSim's internal command queue. The `FastPhysicsEngine` running on a dedicated async thread at 333 Hz reads commands and updates the physics state. The RPC server reads back state on demand.
+**物理线程交互**: 飞行指令（例如 `moveToPositionAsync`）被发布到 AirSim 的内部指令队列。运行在专用异步线程上、频率为 333 Hz 的 `FastPhysicsEngine` 读取指令并更新物理状态。RPC 服务器按需读取状态。
 
-### 3.3 Coexistence
+### 3.3 共存
 
-Both RPC servers run within the same process, sharing the UE4 world. They do not interfere because:
-- They bind to different ports (2000 vs 41451)
-- They use independent rpclib server instances
-- Game-thread operations are serialized naturally by UE4's single-threaded game loop
-- AirSim's async physics thread operates on its own kinematic state, reading UE4 collision geometry but not modifying CARLA actors
+这两个 RPC 服务器运行在同一个进程中，共享同一个 UE4 世界。它们之间不会相互干扰，因为：
+
+- 它们绑定到不同的端口（2000 与 41451）
+
+- 它们使用独立的 rpclib 服务器实例。
+
+- UE4 的单线程游戏循环自然地实现了游戏线程操作的串行化。
+
+- AirSim 的异步物理线程运行在其自身的运动学状态上，读取 UE4 碰撞几何​​体，但不会修改 Carla 的参与者。
 
 ---
 
-## 4. Sensor Systems
+## 4. 传感器系统
 
-### 4.1 CARLA Ground Sensors (10 types)
+### 4.1 Carla 地面传感器 (10 种类型)
 
-CARLA provides a comprehensive ground-vehicle sensor suite, all spawnable as actors attached to any vehicle:
+Carla 提供了一套全面的真实载具传感器套件，所有传感器都可以作为 Actor 附加到任何车辆上：
 
-| Sensor | Class Hierarchy | Data Format | Key Parameters |
+| 传感器 | 类层次结构 | 数据格式 | 关键参数 |
 |--------|----------------|-------------|----------------|
-| RGB Camera | `ASceneCaptureCamera` : `ASceneCaptureSensor` : `ASensor` | BGRA uint8 | Resolution, FOV, lens distortion |
-| Depth Camera | `ADepthCamera` : `AShaderBasedSensor` : `ASceneCaptureSensor` | Encoded R+G×256+B×65536, normalized to meters | Same as RGB |
-| Semantic Segmentation | `ASemanticSegmentationCamera` : `AShaderBasedSensor` | Label index in R channel (20+ CityScapes-compatible classes) | Same as RGB |
-| Instance Segmentation | `AInstanceSegmentationCamera` : `AShaderBasedSensor` | Per-instance unique color | Same as RGB |
-| LiDAR | `ARayCastLidar` : `ARayCastSemanticLidar` : `ASensor` | float32 [x, y, z, intensity] per point | Channels (16-128), range, points/sec, rotation freq |
-| Radar | `ARadar` : `ASensor` | Per-detection: azimuth, altitude, depth, velocity | H-FOV, V-FOV, range, points/sec |
-| IMU | `AInertialMeasurementUnit` : `ASensor` | Accelerometer (3D), gyroscope (3D), compass | Noise std dev, bias |
-| GNSS | `AGnssSensor` : `ASensor` | Latitude, longitude, altitude | Noise deviation |
-| Collision | `ACollisionSensor` : `ASensor` | Event-driven: other actor, impulse | -- |
-| Lane Invasion | `ALaneInvasionSensor` : `ASensor` | Event-driven: crossed lane markings | -- |
+| RGB 相机 | `ASceneCaptureCamera` : `ASceneCaptureSensor` : `ASensor` | BGRA uint8 | 分辨率、视场角、镜头畸变 |
+| 深度相机 | `ADepthCamera` : `AShaderBasedSensor` : `ASceneCaptureSensor` | 编码格式为 R+G×256+B×65536, 以米为单位进行标准化 | 与 RGB 相同 |
+| 语义分割 | `ASemanticSegmentationCamera` : `AShaderBasedSensor` | R 通道中的标签索引（20 多个与 Cityscapes 兼容的类） | 与 RGB 相同 |
+| 实例分割 | `AInstanceSegmentationCamera` : `AShaderBasedSensor` | 每个实例的唯一颜色 | 与 RGB 相同 |
+| 激光雷达 | `ARayCastLidar` : `ARayCastSemanticLidar` : `ASensor` | 每个点为 float32 [x, y, z, 强度] | 通道数（16-128），范围，点数/秒，旋转频率 |
+| 毫米波雷达 | `ARadar` : `ASensor` | 每次探测结果：方位角、高度角、深度、速度 | 水平视场角、垂直视场角、范围、点数/秒 |
+| IMU | `AInertialMeasurementUnit` : `ASensor` | 加速度计 (3D), 陀螺仪 (3D), 罗盘 | 噪声标准差，偏差 |
+| GNSS | `AGnssSensor` : `ASensor` | 纬度、经度、海拔 | 噪声偏差 |
+| 碰撞 | `ACollisionSensor` : `ASensor` | 事件驱动：其他参与者，脉冲 | -- |
+| 压线 | `ALaneInvasionSensor` : `ASensor` | 事件驱动：和车道线交叉 | -- |
 
-**Shader-based rendering**: Depth, segmentation, normals, and optical flow cameras apply post-process materials to UE4's scene capture pipeline. Materials write to the G-buffer channels, which are then read back as pixel data. This achieves pixel-perfect alignment with RGB images at negligible additional rendering cost.
+**基于着色器的渲染**: 深度、分割、法线和光流像机将后处理材质应用于 UE4 的场景捕获管线。材质写入几何 (Geometry, G) 缓冲区通道，然后作为像素数据读取。这以极低的额外渲染成本实现了与 RGB 图像的像素级完美对齐。
 
-**LiDAR implementation**: Uses UE4 `LineTraceSingleByChannel` for ray-casting. Points are generated in a rotating pattern matching real LiDAR scan patterns. Intensity is computed via an attenuation model: `α × I₀ + β`, where I₀ depends on hit distance and material reflectivity. Supports atmospheric attenuation for rain/fog conditions.
+**激光雷达实现**: 使用 UE4 `LineTraceSingleByChannel` 进行光线投射。点云以旋转模式生成，与真实的激光雷达扫描模式相匹配。强度通过衰减模型 `α × I₀ + β` 计算，其中 I₀ 取决于探测距离和材质反射率。支持雨雾等大气衰减。
 
-### 4.2 AirSim Aerial Sensors (6 types)
+### 4.2 AirSim 空中传感器（6 种类型）
 
-| Sensor | Implementation | Data Format | Noise Model |
+| 传感器 | 实现 | 数据格式 | 噪声模型 |
 |--------|---------------|-------------|-------------|
-| RGB Camera | `APIPCamera` + `USceneCaptureComponent2D` | uint8 BGRA | -- |
-| Depth Camera | Post-process material on same component | float32 (meters) or uint8 (visualization) | -- |
-| Segmentation | Post-process material on same component | uint8 label colors | -- |
-| IMU | `ImuSimple` (AirLib) | Accelerometer, gyroscope, compass | Angle Random Walk, Velocity Random Walk, Gaussian-Markov bias drift |
-| GPS | `GpsSimple` (AirLib) | Lat, lon, alt, velocity | EPH/EPV convergence filter, update rate limiting, latency |
-| Barometer | `BarometerSimple` (AirLib) | Altitude (m), pressure (Pa) | Gaussian-Markov drift (~10m/hr), uncorrelated noise (~0.2m σ) |
-| Magnetometer | `MagnetometerSimple` (AirLib) | Body-frame magnetic field (3D) | Gaussian noise + uniform bias |
+| RGB 相机 | `APIPCamera` + `USceneCaptureComponent2D` | uint8 BGRA | -- |
+| Depth 相机 | 同一组件上的后处理材料 | float32（米）或 uint8（可视化） | -- |
+| 分割 | 同一组件上的后处理材料 | uint8 标签颜色 | -- |
+| IMU | `ImuSimple` (AirLib) | 加速度计、陀螺仪、指南针 | 角度随机游走、速度随机游走、高斯-马尔可夫偏差漂移 |
+| GPS | `GpsSimple` (AirLib) | 纬度、经度、海拔、速度 | EPH/EPV 收敛滤波器、更新速率限制、延迟 |
+| 气压计 | `BarometerSimple` (AirLib) | 海拔（米），气压（帕） | 高斯-马尔可夫漂移（~10米/小时），不相关噪声（~0.2米σ） |
+| 磁力计 | `MagnetometerSimple` (AirLib) | 体坐标系磁场（三维） | 高斯噪声 + 均匀偏差 |
 
-**Camera system**: Each drone has 5 camera mount points (front_center, front_right, front_left, bottom_center, back_center). Each mount creates multiple `USceneCaptureComponent2D` instances for different image types. Images are captured on-demand through the RPC API. Default resolution: 1280×960.
+**相机系统**: 每架无人机有 5 个相机安装点（前中心、前右、前左、下中心、后中心）。每个安装点都会创建多个 `USceneCaptureComponent2D` 实例，用于拍摄不同类型的图像。图像通过 RPC API 按需采集。默认分辨率：1280×960。
 
-**Sensor noise models**: AirSim implements physically-motivated noise models based on Oliver Woodman's "An introduction to inertial navigation" (Cambridge TR-696):
-- **IMU**: ARW (angle random walk) for gyroscope drift, VRW (velocity random walk) for accelerometer bias, with configurable turn-on bias
-- **GPS**: First-order low-pass filter for horizontal/vertical position error convergence, simulating cold-start behavior
-- **Barometer**: Gaussian-Markov process for slow pressure drift, plus high-frequency measurement noise
+**传感器噪声模型**: AirSim 实现了基于 Oliver Woodman 的《惯性导航导论》（剑桥 TR-696）的物理噪声模型：
 
-### 4.3 Combined Sensor Capabilities
+- **IMU**: 采用角度随机游走 (angle random walk, ARW) 算法校正陀螺仪漂移，采用速度随机游走 (velocity random walk, VRW) 算法校正加速度计偏差，并可配置开启偏差。
 
-In SimWorld, **all 16 sensor types can operate simultaneously**:
+- **GPS**: 用于水平/垂直位置误差收敛的一阶低通滤波器，模拟冷启动行为
 
-| Perspective | Sensors Available | Total Streams |
+- **气压计**: 采用高斯-马尔可夫过程模拟缓慢的压力漂移，并考虑高频测量噪声
+
+### 4.3 组合传感器能力
+
+在SimWorld中，**所有16种传感器类型可以同时运行**：
+
+| 角度 | 可用传感器 | 流的总数 |
 |-------------|-------------------|---------------|
-| Ground Vehicle | RGB, Depth, Segmentation, Instance Seg, LiDAR, Radar, IMU, GNSS, Collision, Lane Invasion | 10 |
-| Aerial Drone | RGB, Depth, Segmentation, Infrared, IMU, GPS, Barometer, Magnetometer | 8 |
-| **Combined** | **All of the above, synchronized to the same world state** | **18** |
+| 地面车辆 | RGB, Depth, Segmentation, Instance Seg, LiDAR, Radar, IMU, GNSS, Collision, Lane Invasion | 10 |
+| 无人机 | RGB, Depth, Segmentation, Infrared, IMU, GPS, Barometer, Magnetometer | 8 |
+| **组合** | **以上所有内容均与同一世界状态同步** | **18** |
 
-This is a unique capability -- no other simulator provides synchronized ground + aerial multi-modal sensor data in a single rendering pass.
+这是一项独特的功能，因为没有其他模拟器能够在一次渲染过程中提供同步的地面+空中多模态传感器数据。
+
 
 ---
 
-## 5. Physics and Flight Dynamics
+## 5. 物理学和飞行动力学
 
-### 5.1 Ground Vehicle Physics
+### 5.1 地面车辆物理
 
-CARLA uses UE4's native PhysX vehicle physics (`AWheeledVehicle`):
-- 4-wheel (standard cars) and N-wheel (trucks, buses) configurations
-- Torque curve, steering curve, mass, drag, center of mass tuning
-- Ackermann steering model with PID controller
-- Integration with Project Chrono for higher-fidelity tire models (optional)
+Carla 使用 UE4 的原生 PhysX 车辆物理引擎（`AWheeledVehicle`）：
 
-### 5.2 Drone Flight Dynamics (FastPhysicsEngine)
+- 4轮（标准轿车）和N轮（卡车、公共汽车）配置
 
-AirSim implements a **custom rigid-body dynamics engine** running on a dedicated async thread at 333 Hz:
+- 扭矩曲线、转向曲线、质量、阻力、质心调校
 
-**Integration**: Second-order Verlet method for both linear and angular motion:
-```
-v(t+dt) = v(t) + a(t) × dt
-x(t+dt) = x(t) + v(t+dt) × dt
-```
+- 采用PID控制器的阿克曼转向模型
 
-**Force model**: Each rotor contributes a thrust force vector and torque. Total wrench is the sum over 4 rotors. Aerodynamic drag uses a 6-face box model with velocity-squared dependence:
-```
-F_drag = -0.5 × ρ × Cd × A × |v_rel|² × v̂_rel
-```
-where `v_rel` accounts for wind.
+- 与 Project Chrono 集成，实现更高保真度的轮胎模型（可选）
 
-**Collision response**: Impulse-based method with Coulomb friction:
-```
-j = -(1 + e) × (v · n) / (1/m + ((I⁻¹(r × n)) × r) · n)
-```
-Ground lock prevents micro-bouncing on landing surfaces.
+### 5.2 无人机飞行动力学 (FastPhysicsEngine)
 
-**Flight controllers**:
-- **SimpleFlight** (default): Built-in PID controller for position, velocity, and attitude control. Runs within AirLib, no external dependencies.
-- **PX4** (optional): Software-in-the-loop with PX4 Autopilot via MAVLink
-- **ArduPilot** (optional): SITL integration
+AirSim 实现了一个**自定义的刚体动力学引擎**，该引擎运行在专用的异步线程上，频率为 333 Hz：
 
-### 5.3 Coordinate Systems
+**积分**: 采用二阶 Verlet 方法计算线运动和角运动：
+$$
+v(t+dt) = v(t) + a(t) \times dt
+$$
+$$
+x(t+dt) = x(t) + v(t+dt) \times dt
+$$
 
-| System | Convention | Origin | Units |
+**力模型**: 每个旋翼贡献一个推力矢量和一个扭矩。总扭矩是四个旋翼扭矩之和。空气动力阻力采用六面盒模型，其与速度的平方成正比：
+$$
+F_{drag} = -0.5 \times \rho \times Cd \times A \times |v_{rel}|^2 \times \hat{v}_{rel}
+$$
+其中 \(\hat{v}_{rel}\) 考虑风的影响。
+
+**碰撞响应**: 基于库仑摩擦的脉冲法：
+$$
+j = - \frac{(1 + e) \times (v \cdot n)}{ \frac{1}{m} + ((I^{-1}(r \times n)) × r) \cdot n}
+$$
+地面锁定功能可防止飞机在着陆面上发生微小弹跳。
+
+**飞控**:
+- **SimpleFlight** (默认): 内置 PID 控制器，用于位置、速度和姿态控制。运行于AirLib库内，无外部依赖。
+- **PX4** (可选): 通过 MAVLink 与 PX4 自动驾驶仪实现软件在环集成
+- **ArduPilot** (可选): SITL集成
+
+### 5.3 坐标系
+
+| 系统 | 约定 | 原点 | 单位 |
 |--------|-----------|--------|-------|
-| UE4 / CARLA | Left-handed, Z-up | Map origin (0, 0, 0) | Centimeters (internally), meters (API) |
-| AirSim | NED (North-East-Down) | PlayerStart location | Meters |
+| UE4 / Carla | 左手系，Z 轴向上 | 地图原点 (0, 0, 0) | 厘米（内部单位），米（API单位） |
+| AirSim | 北东地（North-East-Down, NED） | 玩家起始位置 | 米 |
 
-**Coordinate mapping**: AirSim creates a `NedTransform` at BeginPlay that maps between UE4 world coordinates and the NED frame anchored at the drone's spawn point. For drone-follows-car applications, we use a **relative offset method**:
-1. Record initial CARLA car position `(cx₀, cy₀)` and AirSim drone NED position `(dx₀, dy₀)`
-2. Per frame: `Δ = (cx - cx₀, cy - cy₀)`, target drone NED = `(dx₀ + Δx, dy₀ + Δy, -altitude)`
+**坐标映射**: AirSim 在 BeginPlay 时创建一个 `NedTransform`，用于在 UE4 世界坐标和以无人机生成点为锚点的 NED 坐标系之间进行映射。对于无人机跟随车辆的应用，我们使用**相对偏移方法**：
+
+1. 记录 Carla 汽车的初始位置 \( (cx_o, cy_o) \) 和 AirSim 无人机 NED 的位置 \( (dx_o, dy_o) \)
+
+2. 每帧: \( \delta = (cx - cx_o, cy - cy_o) \) ，目标无人机 NED = \( (dx_o + \delta x, dy_o, \delta y) \) 。
 
 ---
 
-## 6. Traffic and Environment
+## 6. 交通与环境
 
-### 6.1 Traffic Manager
+### 6.1 交通管理器
 
 CARLA's Traffic Manager is a **client-side pipeline architecture** running on a dedicated thread:
 
@@ -404,7 +420,7 @@ CARLA's Traffic Manager is a **client-side pipeline architecture** running on a 
 
 The TM maintains an **InMemoryMap** (cached waypoint graph) for O(1) spatial queries and a **SimulationState** tracking all managed actors' kinematics.
 
-### 6.2 Weather System
+### 6.2 天气系统
 
 15 continuous parameters controlling atmospheric conditions:
 
@@ -423,7 +439,7 @@ The TM maintains an **InMemoryMap** (cached waypoint graph) for O(1) spatial que
 
 14 named presets covering day/night, clear/cloudy/rain/storm conditions. Weather affects **both** CARLA rendering and AirSim's aerial views simultaneously.
 
-### 6.3 Maps and Road Networks
+### 6.3 地图和路网
 
 | Map | Description | Spawn Points | Area |
 |-----|-------------|--------------|------|
@@ -442,9 +458,9 @@ Each map includes:
 
 ---
 
-## 7. Actor System
+## 7. 参与者系统
 
-### 7.1 Actor Blueprint Library
+### 7.1 参与者蓝图库
 
 | Category | Count | Examples |
 |----------|-------|---------|
@@ -455,7 +471,7 @@ Each map includes:
 | Other | 3 | Controller types |
 | **Total** | **220** | |
 
-### 7.2 Actor Spawn Pipeline
+### 7.2 参与者生成管线
 
 ```
 Python: world.spawn_actor(blueprint, transform)
@@ -469,7 +485,7 @@ Python: world.spawn_actor(blueprint, transform)
         → return carla::rpc::Actor (serialized to client)
 ```
 
-### 7.3 Pedestrian AI Navigation
+### 7.3 行人 AI 导航
 
 Walkers use UE4's **Recast navigation mesh** for pathfinding:
 - Navigation mesh is pre-built from map geometry
@@ -479,9 +495,9 @@ Walkers use UE4's **Recast navigation mesh** for pathfinding:
 
 ---
 
-## 8. Application Domains and Research Capabilities
+## 8. 应用领域和研究能力
 
-### 8.1 Autonomous Driving
+### 8.1 自动驾驶
 
 - Full ego-vehicle sensor suite (RGB, depth, segmentation, LiDAR, radar, IMU, GNSS)
 - Traffic Manager with per-vehicle behavioral parameters
@@ -489,7 +505,7 @@ Walkers use UE4's **Recast navigation mesh** for pathfinding:
 - 41 vehicle types across 6+ maps with OpenDRIVE road networks
 - Deterministic simulation mode for reproducible experiments
 
-### 8.2 UAV Navigation and Control
+### 8.2 无人机导航与控制
 
 - 6-DOF flight control: position, velocity, body-frame velocity, yaw rate, path following
 - Physics-based dynamics at 333 Hz with wind and aerodynamic drag
@@ -497,25 +513,25 @@ Walkers use UE4's **Recast navigation mesh** for pathfinding:
 - Configurable flight controllers (SimpleFlight, PX4, ArduPilot)
 - Sensor noise models (IMU, GPS, barometer, magnetometer) for realistic perception
 
-### 8.3 Air-Ground Cooperative Systems (Novel)
+### 8.3 空地协同系统 (新颖)
 
-This is SimWorld's unique research capability:
+这是 SimWorld 独有的研究能力：
 
-- **Drone-car tracking**: UAV follows ground vehicles with real-time coordinate translation
-- **Aerial traffic monitoring**: Bird's-eye-view vehicle detection and counting
-- **Cooperative perception**: Ground-level + aerial sensor fusion datasets
-- **Multi-agent coordination**: Multiple CARLA vehicles + AirSim drone in shared scenarios
-- **Emergency response**: Aerial scouting + ground navigation in urban environments
+- **无人机-车辆跟踪**: 无人机通过实时坐标变换跟踪地面车辆
+- **空中交通监控**: 鸟瞰式车辆检测与计数
+- **协同感知**: 地面+空中传感器融合数据集
+- **多智能体协同**: 多辆 Carla 车辆 + AirSim 无人机在共享场景中
+- **应急响应**: 城市环境中的空中侦察 + 地面导航
 
-### 8.4 Social Navigation
+### 8.4 社交导航
 
-- FPS-style first-person pedestrian control with mouse-look
-- 52 pedestrian types with AI-controlled navigation
-- Large-scale crowd simulation (50+ vehicles + 20+ pedestrians)
-- Pedestrian-vehicle interaction in traffic environments
-- Variable weather and lighting conditions
+- 第一人称射击游戏风格，采用鼠标视角的第一人称行人控制
+- 52 种行人类型，配备 AI 控制的导航
+- 大规模人群模拟（50辆以上车辆 + 20名以上行人）
+- 交通环境中的行人-车辆交互
+- 多变的天气和光照条件
 
-### 8.5 Multi-Modal Dataset Generation
+### 8.5 多模态数据集生成
 
 SimWorld enables generating datasets with **unprecedented modality coverage**:
 
@@ -542,75 +558,75 @@ All modalities are **synchronized to the same simulation frame** and share the s
 
 ---
 
-## 9. ROS Integration
+## 9. ROS 集成
 
-SimWorld supports dual ROS2 bridges for integration with robotics stacks:
+SimWorld 支持双 ROS2 桥接器，用于与机器人技术栈集成：
 
-### 9.1 CARLA ROS Bridge
+### 9.1 CARLA ROS 桥
 
-- Workspace: `carla-ros-bridge` (ROS2 Humble)
-- Published topics: `/carla/world_info`, `/carla/status`, `/clock`, per-vehicle sensor topics
-- Services: `/carla/spawn_object`, `/carla/destroy_object`, `/carla/get_blueprints`
-- Namespace: `/carla/*`
+- 工作空间: `carla-ros-bridge` (ROS2 Humble)
+- 已发布的主题：`/carla/world_info`, `/carla/status`, `/clock`, 每个车的传感器主体
+- 服务：`/carla/spawn_object`, `/carla/destroy_object`, `/carla/get_blueprints`
+- 命名空间：`/carla/*`
 
-### 9.2 AirSim ROS Wrapper
+### 9.2 AirSim ROS 封装器
 
-- Package: `airsim_ros_pkgs` (ROS2 Humble)
-- Published topics: `/airsim_node/SimpleFlight/imu/imu`, `/airsim_node/SimpleFlight/front_center/Scene`, GPS, barometer, magnetometer, odometry
-- Services: takeoff, land, reset
-- Namespace: `/airsim_node/*`
+- 包：`airsim_ros_pkgs` (ROS2 Humble)
+- 已发布的主题：`/airsim_node/SimpleFlight/imu/imu`, `/airsim_node/SimpleFlight/front_center/Scene`, GPS, barometer, magnetometer, odometry
+- 服务: takeoff, land, reset
+- 命名空间: `/airsim_node/*`
 
-### 9.3 Simultaneous Operation
+### 9.3 同时运行
 
-Both bridges run concurrently under the same ROS master with **zero namespace conflicts** (`/carla/` vs `/airsim_node/`). This enables standard ROS2 tools (rviz2, rosbag2, nav2) to consume both ground and aerial data streams.
+这两个桥接器在同一个 ROS 主节点下同时运行，**不存在命名空间冲突**（`/carla/` 与 `/airsim_node/`）。这使得标准的 ROS2 工具（rviz2、rosbag2、nav2）能够同时使用地面和空中数据流。
 
 ---
 
-## 10. Performance Characteristics
+## 10. 性能特征
 
-### 10.1 System Requirements
+### 10.1 系统要求
 
-| Component | Minimum | Recommended |
+| 部件 | 最低配置 | 推荐配置 |
 |-----------|---------|-------------|
 | GPU | 4 GB VRAM (Vulkan) | 8+ GB VRAM (NVIDIA RTX) |
-| RAM | 16 GB | 32 GB |
-| CPU | 4 cores | 8+ cores |
-| Disk | 20 GB (packaged) | 40 GB (source + build) |
-| OS | Ubuntu 18.04+ | Ubuntu 20.04/22.04 |
+| 内存 | 16 GB | 32 GB |
+| CPU | 4 核 | 8+ 核 |
+| 硬盘 | 20 GB (打包) | 40 GB (源代码构建) |
+| 操作系统 | Ubuntu 18.04+ | Ubuntu 20.04/22.04 |
 
-### 10.2 GPU Memory Usage (Tested on RTX A4000, 16 GB)
+### 10.2 显存使用 (在 RTX A4000, 16 GB 上测试)
 
-| Scenario | VRAM Usage |
+| 场景 | 显存（Video RAM, VRAM）使用 |
 |----------|------------|
-| Idle (Town10HD loaded) | ~3700 MiB |
-| + 3 vehicles + 2 walkers + drone | ~3870 MiB |
-| 3-hour continuous operation | ~3878 MiB (stable, no leak) |
-| Peak during map loading | ~5000 MiB |
+| 空闲（Town10HD 已加载） | ~3700 MiB |
+| + 3 辆车 + 2 个行人 + 无人机 | ~3870 MiB |
+| 3 小时持续操作 | ~3878 MiB (稳定，无泄漏) |
+| 地图加载期间的峰值 | ~5000 MiB |
 
-### 10.3 Stability
+### 10.3 稳定性
 
-| Test | Duration | Cycles | Errors | Result |
+| 测试 | 持续时间 | 周期 | 错误 | 结果 |
 |------|----------|--------|--------|--------|
-| Continuous spawn/destroy + drone | 3 hours | 357 | 0 | PASS |
-| Map switching (Town01→03→05) | ~15 min | 3 maps | 0 | PASS |
-| 89-item comprehensive API test | ~5 min | 89 tests | 0 | PASS |
+| 持续生成/销毁 + 无人机 | 3 小时 | 357 个 | 0 | 通过 |
+| 地图切换 (Town01→03→05) | ~15 min | 3 地图 | 0 | 通过 |
+| 包含 89 项的综合 API 测试 | ~5 分钟 | 89 项 | 0 | PASS |
 
-### 10.4 Known Limitations
+### 10.4 已知局限性
 
-| Limitation | Cause | Workaround |
+| 局限 | 原因 | 变通方案 |
 |-----------|-------|-----------|
-| Autopilot vehicles ≤ 10 with drone | AirSim physics ↔ CARLA Traffic Manager quaternion conflict | Limit traffic count or disable autopilot |
-| Map switch latency: 2-5 min | Full asset reload in Shipping build | Use API with 300s timeout |
-| Single drone instance | AirSim settings.json limitation | Configurable for multi-drone |
+| 配备无人机时自动驾驶车辆 ≤ 10 辆 | AirSim 物理 ↔ CARLA 交通管理器四元数冲突 | 限制流量或禁用自动驾驶 |
+| 地图切换延迟：2-5分钟 | Shipping 构建中的完全资产重新加载 | 使用 API 设置超时时间为 300 秒 |
+| 单无人机实例 | AirSim settings.json 限制 | 可配置用于多无人机 |
 
 ---
 
-## 11. Build and Deployment
+## 11. 构建和部署
 
-### 11.1 Compilation
+### 11.1 编译
 
 ```bash
-# Module-level compilation (avoids features.h cross-compile error)
+# 模块级编译（避免 features.h 交叉编译错误）
 export UE4_ROOT=/path/to/UnrealEngine-4.26
 ${UE4_ROOT}/Engine/Build/BatchFiles/Linux/Build.sh CarlaUE4Editor Linux Development \
     -project="/path/to/CarlaUE4.uproject" -module=Carla    # ~290s
@@ -618,12 +634,12 @@ ${UE4_ROOT}/Engine/Build/BatchFiles/Linux/Build.sh CarlaUE4Editor Linux Developm
     -project="/path/to/CarlaUE4.uproject" -module=AirSim   # ~100s
 ```
 
-### 11.2 Packaging
+### 11.2 打包
 
 ```bash
 ./Util/BuildTools/Package.sh --config=Shipping --no-zip
-# Output: Dist/CARLA_Shipping_<version>/LinuxNoEditor/ (~19 GB)
-# Compile: ~800s (656 units), Cook: ~2h (13459 packages)
+# 输出: Dist/CARLA_Shipping_<version>/LinuxNoEditor/ (~19 GB)
+# 编译: ~800s (656 units), Cook: ~2h (13459 packages)
 ```
 
 ### 11.3 Distribution
@@ -655,30 +671,30 @@ Packaged build: **7.3 GB** compressed (excluding debug symbols), containing:
 | Single-process rendering | N/A | N/A | N/A | N/A | ✅ |
 | Open source | ✅ MIT | ✅ MIT | ❌ Discontinued | ❌ Proprietary | ✅ |
 
-**Key differentiator**: SimWorld is the only platform providing physics-based drone flight, comprehensive ground traffic management, and multi-modal synchronized air-ground sensor data in a single rendering process.
+**主要区别**：SimWorld 是唯一一个在单一渲染过程中提供基于物理的无人机飞行、全面的地面交通管理以及多模态同步空地传感器数据的平台。
 
 ---
 
-## 13. Potential Paper Contributions
+## 13. 潜在的论文贡献
 
-### For NeurIPS / ICLR Submission
+### 提交至 NeurIPS / ICLR
 
-1. **System paper**: Novel architecture solving the single-GameMode constraint for simulator unification
-2. **Benchmark paper**: New benchmark for air-ground cooperative perception
-3. **Dataset paper**: Large-scale multi-modal dataset with synchronized ground + aerial annotations
-4. **Application paper**: Aerial-assisted autonomous driving / social navigation with air-ground data
+1. **系统论文**: 解决模拟器统一中单一游戏模式限制的新型架构
+2. **基准论文**: 空地协同感知的新基准
+3. **数据集论文**: 具有同步地面+空中标注的大规模多模态数据集
+4. **应用论文**: 基于空地数据的空中辅助自动驾驶/社交导航
 
-### Potential Evaluation Experiments
+### 潜在评估实验
 
-- **Object detection**: Compare detection accuracy using ground-only vs. ground+aerial data
-- **Trajectory prediction**: Pedestrian/vehicle trajectory prediction with aerial context
-- **Multi-modal fusion**: Sensor fusion benchmarks across 16+ synchronized modalities
-- **Sim-to-real transfer**: Domain adaptation from SimWorld synthetic data to real-world datasets
-- **Cooperative perception**: Communication-constrained air-ground perception fusion
-- **Social navigation**: Pedestrian interaction modeling with drone presence
-- **RL-based drone control**: Training drone policies for car-following, surveillance, search tasks
+- **目标检测**: 比较仅使用地面数据和使用地面+航空数据的检测精度
+- **轨迹预测**: 基于空中环境的行人/车辆轨迹预测
+- **多模态融合**: 跨 16 种以上同步模态的传感器融合基准测试
+- **仿真到现实迁移**: 从 SimWorld 合成数据到真实世界数据集的域自适应
+- **协同感知**: 受通信约束的空地感知融合
+- **社会导航**: 基于无人机存在的行人交互建模
+- **基于强化学习的无人机控制**: 训练无人机策略，用于车辆跟踪、监视和搜索任务
 
-### Comparable Published Work at Top Venues
+### 在顶级场合发表的类似作品
 
 - **CARLA**: "CARLA: An Open Urban Driving Simulator" (CoRL 2017)
 - **AirSim**: "AirSim: High-Fidelity Visual and Physical Simulation for Autonomous Vehicles" (FSR 2017)
@@ -686,75 +702,75 @@ Packaged build: **7.3 GB** compressed (excluding debug symbols), containing:
 - **ISAAC Sim**: "Isaac Sim: An Extensible Robotics Simulator" (ICRA 2022)
 - **MetaDrive**: "MetaDrive: Composing Diverse Driving Scenarios for Generalizable RL" (TPAMI 2022)
 
-SimWorld fills the gap between driving simulators and aerial simulators, enabling a new class of research at the intersection of autonomous driving, drone navigation, and multi-agent systems.
+SimWorld 填补了驾驶模拟器和航空模拟器之间的空白，在自动驾驶、无人机导航和多智能体系统交叉领域开辟了一类新的研究方向。
 
 ---
 
-## Appendix A: Complete File Inventory
+## 附录A：完整文件清单
 
-### Core Architecture Files
+### 核心架构文件
 
-| File | Description |
+| 文件 | 描述 |
 |------|-------------|
-| `Plugins/AirSim/Source/SimWorldGameMode.h/.cpp` | Unified GameMode (432 lines) |
+| `Plugins/AirSim/Source/SimWorldGameMode.h/.cpp` | 统一的游戏模式 (432 行) |
 | `Plugins/Carla/Source/Carla/Game/CarlaGameModeBase.h/.cpp` | CARLA base GameMode |
-| `Plugins/Carla/Source/Carla/Game/CarlaEpisode.h/.cpp` | Episode manager |
-| `Plugins/AirSim/Source/SimMode/SimModeBase.h/.cpp` | AirSim simulation mode |
-| `Plugins/AirSim/Source/AirSim.Build.cs` | Build config (Carla dependency) |
-| `Config/DefaultEngine.ini` | GameMode registration |
-| `Config/DefaultGame.ini` | Packaging config |
+| `Plugins/Carla/Source/Carla/Game/CarlaEpisode.h/.cpp` | Episode 管理器 |
+| `Plugins/AirSim/Source/SimMode/SimModeBase.h/.cpp` | AirSim 仿真模式 |
+| `Plugins/AirSim/Source/AirSim.Build.cs` | 构建配置（Carla 依赖） |
+| `Config/DefaultEngine.ini` | 游戏模式注册 |
+| `Config/DefaultGame.ini` | 打包配置 |
 
-### CARLA Sensor Files
+### CARLA 传感器文件
 
-| File | Sensor |
+| 文件 | 传感器 |
 |------|--------|
-| `Sensor/SceneCaptureCamera.h/.cpp` | RGB Camera |
-| `Sensor/DepthCamera.h/.cpp` | Depth Camera |
-| `Sensor/SemanticSegmentationCamera.h/.cpp` | Semantic Segmentation |
-| `Sensor/InstanceSegmentationCamera.h/.cpp` | Instance Segmentation |
-| `Sensor/RayCastLidar.h/.cpp` | LiDAR |
-| `Sensor/Radar.h/.cpp` | Radar |
+| `Sensor/SceneCaptureCamera.h/.cpp` | RGB 相机 |
+| `Sensor/DepthCamera.h/.cpp` | Depth 相机 |
+| `Sensor/SemanticSegmentationCamera.h/.cpp` | 语义分割 |
+| `Sensor/InstanceSegmentationCamera.h/.cpp` | 实例分割 |
+| `Sensor/RayCastLidar.h/.cpp` | 激光雷达 |
+| `Sensor/Radar.h/.cpp` | 毫米波雷达 |
 | `Sensor/InertialMeasurementUnit.h/.cpp` | IMU |
 | `Sensor/GnssSensor.h/.cpp` | GNSS |
 
-### AirSim Core Files
+### AirSim 核心文件
 
-| File | Component |
+| 文件 | 部件 |
 |------|-----------|
-| `Vehicles/Multirotor/FlyingPawn.h/.cpp` | Drone pawn |
-| `Vehicles/Multirotor/MultirotorPawnSimApi.h/.cpp` | Drone API wrapper |
-| `Vehicles/Multirotor/SimModeWorldMultiRotor.h/.cpp` | Multirotor sim mode |
-| `AirLib/include/physics/FastPhysicsEngine.hpp` | Drone physics |
-| `AirLib/include/vehicles/multirotor/MultiRotorPhysicsBody.hpp` | Rigid body model |
-| `AirLib/include/vehicles/multirotor/api/MultirotorRpcLibServer.hpp` | API server |
-| `AirLib/include/sensors/imu/ImuSimple.hpp` | IMU with noise |
-| `AirLib/include/sensors/gps/GpsSimple.hpp` | GPS with noise |
-| `AirLib/include/sensors/barometer/BarometerSimple.hpp` | Barometer with noise |
+| `Vehicles/Multirotor/FlyingPawn.h/.cpp` | 无人机棋子 |
+| `Vehicles/Multirotor/MultirotorPawnSimApi.h/.cpp` | 无人机 API 封装器 |
+| `Vehicles/Multirotor/SimModeWorldMultiRotor.h/.cpp` | 多旋翼飞行器模拟模式 |
+| `AirLib/include/physics/FastPhysicsEngine.hpp` | 无人机物理 |
+| `AirLib/include/vehicles/multirotor/MultiRotorPhysicsBody.hpp` | 刚体模型 |
+| `AirLib/include/vehicles/multirotor/api/MultirotorRpcLibServer.hpp` | API 服务端 |
+| `AirLib/include/sensors/imu/ImuSimple.hpp` | 带噪声的 IMU |
+| `AirLib/include/sensors/gps/GpsSimple.hpp` | 带噪声的 GPS |
+| `AirLib/include/sensors/barometer/BarometerSimple.hpp` | 带噪声的气压计 |
 
-## Appendix B: Python API Quick Reference
+## 附录 B：Python API 快速参考
 
-### CARLA API (port 2000)
+### CARLA API (端口 2000)
 ```python
 import carla
 client = carla.Client('localhost', 2000)
 world = client.get_world()
 
-# Environment
+# 环境
 world.set_weather(carla.WeatherParameters.ClearNoon)
 world.get_map().get_spawn_points()
 
-# Actors
+# 参与者
 bp = world.get_blueprint_library().find('vehicle.tesla.model3')
 vehicle = world.spawn_actor(bp, spawn_point)
 vehicle.set_autopilot(True)
 
-# Sensors
+# 传感器
 cam_bp = world.get_blueprint_library().find('sensor.camera.rgb')
 camera = world.spawn_actor(cam_bp, transform, attach_to=vehicle)
 camera.listen(lambda image: process(image))
 ```
 
-### AirSim API (port 41451)
+### AirSim API (端口 41451)
 ```python
 import airsim
 client = airsim.MultirotorClient(port=41451)
@@ -762,12 +778,12 @@ client.confirmConnection()
 client.enableApiControl(True)
 client.armDisarm(True)
 
-# Flight
+# 飞行
 client.takeoffAsync().join()
 client.moveToPositionAsync(x, y, z, speed).join()
 client.moveByVelocityAsync(vx, vy, vz, duration).join()
 
-# Sensors
+# 传感器
 responses = client.simGetImages([
     airsim.ImageRequest("0", airsim.ImageType.Scene, False, False),
     airsim.ImageRequest("0", airsim.ImageType.DepthPerspective, True),
@@ -777,23 +793,23 @@ imu = client.getImuData()
 gps = client.getGpsData()
 ```
 
-### Combined Usage
+### 组合使用
 ```python
 import carla, airsim, threading
 
-# Both APIs on the same world
+# 两个 API 都在同一个世界
 carla_client = carla.Client('localhost', 2000)
 air_client = airsim.MultirotorClient(port=41451)
 
-# Spawn CARLA traffic while flying AirSim drone
+# 在飞行模拟无人机时生成 Carla 交通
 world = carla_client.get_world()
 vehicle = world.spawn_actor(vehicle_bp, spawn_point)
 vehicle.set_autopilot(True)
 
 air_client.takeoffAsync().join()
-air_client.moveToZAsync(-30, 5).join()  # 30m altitude
+air_client.moveToZAsync(-30, 5).join()  # 30 米高度
 
-# Collect synchronized ground + aerial data
+# 收集同步地面+空中数据
 ground_image = carla_camera.listen(callback)
 aerial_images = air_client.simGetImages([...])
 ```
