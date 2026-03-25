@@ -1,50 +1,9 @@
-<table>
-  <tr>
-    <td width="160" valign="middle" align="center">
-      <img src="logo_upload.png" alt="CarlaAir Logo" width="140"/>
-    </td>
-    <td valign="middle" align="left">
-      <h1>CarlaAir</h1>
-      <p><b>在 CARLA 世界里飞无人机。</b><br/>
-      将 CARLA 与 AirSim 融合为一——地面车辆与空中无人机，同一世界，同一脚本。</p>
-      <p>
-        <a href="https://youtu.be/a0fZG2dmT1Q"><img src="https://img.shields.io/badge/版本-v0.1.7-blue" alt="Version"/></a>
-        <img src="https://img.shields.io/badge/许可证-MIT-yellow.svg" alt="License: MIT"/>
-        <img src="https://img.shields.io/badge/python-3.8+-blue" alt="Python 3.8+"/>
-        <img src="https://img.shields.io/badge/CARLA-0.9.16-green" alt="CARLA 0.9.16"/>
-        <img src="https://img.shields.io/badge/AirSim-1.8.1-orange" alt="AirSim 1.8.1"/>
-        <img src="https://img.shields.io/badge/平台-Ubuntu%2020.04%20%7C%2022.04-lightgrey" alt="Platform"/>
-        <img src="https://img.shields.io/badge/arXiv-即将发布-b31b1b" alt="arXiv"/>
-      </p>
-      <p>
-        <a href="README.md">English</a> | <a href="README_CN.md">简体中文</a>
-      </p>
-    </td>
-  </tr>
-</table>
+## 统一空地仿真
 
-<p align="center">
-  <a href="https://www.bilibili.com/video/BV1pTQzBkES7/">
-    <img src="teaser_upload.gif" alt="CarlaAir Teaser — 点击观看完整演示视频" width="100%"/>
-  </a>
-</p>
+该模块是一个开源的空地联合仿真平台。它通过在底层 C++ 将全球领先的自动驾驶仿真器（CARLA）与机器人仿真器（AirSim）合并为单一的 `ASimWorldGameMode`，实现了真正的帧级传感器同步、统一的物理引擎，以及无缝的双 Python API 交互。
 
-<p align="center">
-  <i>点击 GIF 或 </i><a href="https://www.bilibili.com/video/BV1pTQzBkES7/"><b>B站观看 30 秒完整演示视频（汉斯·季默配乐）</b></a> 🎵 | <a href="https://youtu.be/a0fZG2dmT1Q">YouTube</a>
-</p>
+![](../images/dev/CarlaAir.gif)
 
----
-
-## 🔥 最新动态
-
-- **[2026-03]** `v0.1.7` 发布 — VSync 全屏修复、稳定交通系统、一键环境配置、无人机录制工具、坐标系文档
-- **[2026-03]** `v0.1.6` 发布 — 自动交通生成、UE4 原生 Sweep 碰撞、地面夹紧系统
-- **[2026-03]** `v0.1.5` 发布 — 12 方向碰撞系统、双语帮助菜单（`H`）
-- **[2026-03]** `v0.1.4` 发布 — ROS2 验证（63 个话题）、首个官方二进制发布
-
----
-
-**CarlaAir** 是一个开源的空地联合仿真平台。它通过在底层 C++ 将全球领先的自动驾驶仿真器（CARLA）与机器人仿真器（AirSim）合并为单一的 `ASimWorldGameMode`，实现了真正的帧级传感器同步、统一的物理引擎，以及无缝的双 Python API 交互。
 
 ## ✨ 核心亮点
 
@@ -131,7 +90,7 @@ python3 examples/recording/demo_director.py \    # 🎬 多轨迹回放 + 自由
     trajectories/vehicle_*.json trajectories/drone_*.json
 ```
 
-> **文档：** [坐标系换算 (CARLA↔AirSim)](CarlaAir_Release/guide/COORDINATE_SYSTEMS.md) · [快速入门指南](CarlaAir_Release/guide/Quick-Start.md) · [常见问题](FAQ.md)
+
 
 ---
 
@@ -155,18 +114,33 @@ python3 examples/recording/demo_director.py \    # 🎬 多轨迹回放 + 自由
 ## 📚 文档与示例
 
 **完整文档：**
+
 - [快速入门指南](quick_start.md)
+
 - [技术架构详解](architecture.md)
+
 - [坐标系换算](coordinate_systems.md)
+
 - [上游代码修改清单](modifications.md)
+
+- [技术文档](technical_document.md)
+
+- [坐标系换算 (CARLA↔AirSim)](CarlaAir_Release/guide/COORDINATE_SYSTEMS.md) 
+
+- [快速入门指南](CarlaAir_Release/guide/Quick-Start.md)
+
+- [常见问题](FAQ.md)
 
 ---
 
 ## 📜 许可证与致谢
 
 该项目是站在巨人的肩膀上。我们诚挚感谢以下开源项目的开发者：
+
 - [CARLA Simulator](https://github.com/carla-simulator/carla) (MIT License)
+
 - [Microsoft AirSim](https://github.com/microsoft/AirSim) (MIT License)
+
 - [Unreal Engine](https://www.unrealengine.com/)
 
 
