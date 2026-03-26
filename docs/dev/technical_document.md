@@ -1,6 +1,9 @@
 # 面向自主系统的统一空地仿真
 
+![](../images/dev/CarlaAir.gif)
+
 ---
+
 
 ## 1. 引言和动机
 
@@ -336,8 +339,8 @@ Carla 提供了一套全面的真实载具传感器套件，所有传感器都�
 
 | 角度 | 可用传感器 | 流的总数 |
 |-------------|-------------------|---------------|
-| 地面车辆 | RGB, Depth, Segmentation, Instance Seg, LiDAR, Radar, IMU, GNSS, Collision, Lane Invasion | 10 |
-| 无人机 | RGB, Depth, Segmentation, Infrared, IMU, GPS, Barometer, Magnetometer | 8 |
+| 地面车辆 | RGB、深度、分割、实例分割、激光雷达、雷达、IMU、GNSS、碰撞、 压线 | 10 |
+| 无人机 | RGB、深度、分割、红外、IMU、GPS、气压计、磁力计 | 8 |
 | **组合** | **以上所有内容均与同一世界状态同步** | **18** |
 
 这是一项独特的功能，因为没有其他模拟器能够在一次渲染过程中提供同步的地面+空中多模态传感器数据。
@@ -407,54 +410,60 @@ $$
 
 ### 6.1 交通管理器
 
-CARLA's Traffic Manager is a **client-side pipeline architecture** running on a dedicated thread:
+CARLA 的流量管理器是一个运行在专用线程上的**客户端管线架构**：
 
-| Stage | Function |
+| 阶段 | 功能 |
 |-------|----------|
-| ALSM | Actor Lifecycle and State Management -- syncs simulation state |
-| Localization | Waypoint horizon maintenance, lane change decisions |
-| Collision | Polygon-based collision prediction (boost::geometry) |
-| Traffic Light | Signal compliance logic |
-| Motion Plan | PID controller: separate urban/highway parameters |
-| Vehicle Light | Automatic headlight/brake light management |
+| ALSM | 参与者生命周期和状态管理(Actor Lifecycle and State Management, ALSM)——同步模拟状态 |
+| 定位 | 航点视界维护，变道决策 |
+| 碰撞 | 基于多边形的碰撞预测 (boost::geometry) |
+| 交通灯 | 信号遵守逻辑 |
+| 运动规划 | PID控制器：分隔的城市/高速公路参数 |
+| 车灯 | 自动前大灯/刹车灯管理 |
 
-The TM maintains an **InMemoryMap** (cached waypoint graph) for O(1) spatial queries and a **SimulationState** tracking all managed actors' kinematics.
+交通管理器维护一个用于 O(1) 空间查询的 **内存地图(InMemoryMap)**（缓存的路径点图）和一个跟踪所有受管参与者运动学的 **模拟状态(SimulationState)**。
+
 
 ### 6.2 天气系统
 
-15 continuous parameters controlling atmospheric conditions:
+控制大气条件的 15 个连续参数：
 
-| Parameter | Range | Effect |
+| 参数 | 范围 | 效果 |
 |-----------|-------|--------|
-| Cloudiness | 0-100 | Cloud cover density |
-| Precipitation | 0-100 | Rain intensity |
-| PrecipitationDeposits | 0-100 | Water puddle accumulation |
-| WindIntensity | 0-100 | Wind speed |
-| SunAzimuthAngle | 0-360 | Sun horizontal angle |
-| SunAltitudeAngle | -90 to 90 | Sun elevation (negative = night) |
-| FogDensity | 0-100 | Volumetric fog thickness |
-| FogDistance | 0+ | Fog start distance (m) |
-| Wetness | 0-100 | Surface wetness (reflections) |
-| DustStorm | 0-100 | Dust/sandstorm intensity |
+| Cloudiness | 0-100 | 云覆盖密度 |
+| Precipitation | 0-100 | 降雨强度 |
+| PrecipitationDeposits | 0-100 | 水坑积水 |
+| WindIntensity | 0-100 | 风速 |
+| SunAzimuthAngle | 0-360 | 太阳水平角 |
+| SunAltitudeAngle | -90 to 90 | 太阳高度角（负值 = 夜晚） |
+| FogDensity | 0-100 | 体积雾厚度 |
+| FogDistance | 0+ | 雾起始距离（米） |
+| Wetness | 0-100 | 表面湿度（反射） |
+| DustStorm | 0-100 | 沙尘暴/沙暴强度 |
 
-14 named presets covering day/night, clear/cloudy/rain/storm conditions. Weather affects **both** CARLA rendering and AirSim's aerial views simultaneously.
+4 个预设模式，涵盖白天/夜晚、晴天/阴天/雨天/暴风雨等天气状况。天气会**同时**影响 Carla 渲染和 AirSim 的航拍视图。
+
 
 ### 6.3 地图和路网
 
-| Map | Description | Spawn Points | Area |
+| 地图 | 描述 | 生成点 | 面积 |
 |-----|-------------|--------------|------|
-| Town01 | Small town, T-junctions | 252 | ~1 km² |
-| Town02 | Residential area | ~100 | ~0.5 km² |
-| Town03 | Urban downtown, highway ramp | 265 | ~2 km² |
-| Town04 | Highway with small town | ~300 | ~5 km² |
-| Town05 | Urban grid with multi-lane roads | 302 | ~3 km² |
-| Town10HD | HD downtown with detailed buildings | 155 | ~1.5 km² |
+| Town01 | 小镇，T 字路口 | 252 | ~1 km² |
+| Town02 | 居住区 | ~100 | ~0.5 km² |
+| Town03 | 城市中心区，高速公路匝道 | 265 | ~2 km² |
+| Town04 | 高速公路旁的小镇 | ~300 | ~5 km² |
+| Town05 | 城市网格，多车道道路 | 302 | ~3 km² |
+| Town10HD | 高清市中心，建筑细节丰富 | 155 | ~1.5 km² |
 
-Each map includes:
-- **OpenDRIVE** (.xodr): Complete road network definition with lane geometry, junctions, signals
-- **Navigation mesh**: Recast-generated pedestrian walkable areas
-- **Traffic infrastructure**: Traffic lights (with timing), stop signs, speed limits
-- **Environment objects**: Buildings, vegetation, street furniture (13000+ objects in Town10HD)
+每张地图包含：
+
+- **OpenDRIVE** (.xodr): 完整的道路网络定义，包括车道几何形状、交叉口和信号灯。
+
+- **导航网格**: 重新生成的行人步行区域
+
+- **交通基础设施**: 交通信号灯（带定时）、停车标志、限速标志
+
+- **环境对象**: 建筑物、植被、街道设施（Town10HD 中包含 13000 多个对象）
 
 ---
 
@@ -462,18 +471,18 @@ Each map includes:
 
 ### 7.1 参与者蓝图库
 
-| Category | Count | Examples |
+| 类别 | 数量 | 例子 |
 |----------|-------|---------|
-| Vehicles | 41 | Tesla Model 3, BMW Gran Tourer, Audi A2, Bus, Truck, Motorcycle, Bicycle |
-| Walkers | 52 | Male/female adults, children, with diverse clothing and body types |
-| Sensors | 25 | All sensor types listed in Section 4 |
-| Props | 99 | Barriers, containers, trash cans, vendor stalls, benches |
-| Other | 3 | Controller types |
+| 载具 | 41 | 特斯拉 Model 3、宝马 Gran Tourer、奥迪 A2、巴士、卡车、摩托车、自行车 |
+| 行人 | 52 | 男女成年人、儿童，穿着各式各样的服装和体型 |
+| 传感器 | 25 | 第 4 节中列出的所有传感器类型 |
+| 道具 | 99 | 围栏、集装箱、垃圾桶、摊位、长椅 |
+| 其他 | 3 | 控制器类型 |
 | **Total** | **220** | |
 
 ### 7.2 参与者生成管线
 
-```
+```cpp
 Python: world.spawn_actor(blueprint, transform)
   → RPC: carla::rpc::Command::SpawnActor
     → FCarlaServer::FPimpl (game thread)
@@ -487,11 +496,15 @@ Python: world.spawn_actor(blueprint, transform)
 
 ### 7.3 行人 AI 导航
 
-Walkers use UE4's **Recast navigation mesh** for pathfinding:
-- Navigation mesh is pre-built from map geometry
-- `AWalkerAIController` provides the Python API interface
-- `controller.go_to_location(target)` triggers A* pathfinding on the navmesh
-- `controller.set_max_speed(speed)` controls movement speed
+行人使用 UE4 的 **Recast 导航网格**进行寻路
+
+- 导航网格由地图几何体预先构建
+
+- `AWalkerAIController` 提供 Python API 接口
+
+- `controller.go_to_location(target)` 触发导航网格上的 A* 寻路算法
+
+- `controller.set_max_speed(speed)` 控制移动速度
 
 ---
 
@@ -499,19 +512,19 @@ Walkers use UE4's **Recast navigation mesh** for pathfinding:
 
 ### 8.1 自动驾驶
 
-- Full ego-vehicle sensor suite (RGB, depth, segmentation, LiDAR, radar, IMU, GNSS)
-- Traffic Manager with per-vehicle behavioral parameters
-- Ackermann steering model with PID controller
-- 41 vehicle types across 6+ maps with OpenDRIVE road networks
-- Deterministic simulation mode for reproducible experiments
+- 完整的自车传感器套件（RGB、深度、分割、激光雷达、雷达、IMU、GNSS）
+- 具备车辆行为参数的交通管理器
+- 配备 PID 控制器的阿克曼转向模型
+- 涵盖 6 张以上地图的 41 种车辆类型，并采用 OpenDRIVE 路网
+- 用于可复现实验的确定性仿真模式
 
 ### 8.2 无人机导航与控制
 
-- 6-DOF flight control: position, velocity, body-frame velocity, yaw rate, path following
-- Physics-based dynamics at 333 Hz with wind and aerodynamic drag
-- Multi-camera aerial sensing (5 mount points per drone)
-- Configurable flight controllers (SimpleFlight, PX4, ArduPilot)
-- Sensor noise models (IMU, GPS, barometer, magnetometer) for realistic perception
+- 六自由度飞行控制：位置、速度、机体坐标系速度、偏航率、路径跟踪
+- 基于物理的动力学模型，频率为 333 Hz，考虑风阻和空气动力阻力
+- 多摄像头空中感知（每架无人机 5 个安装点）
+- 可配置的飞行控制器（SimpleFlight、PX4、ArduPilot）
+- 传感器噪声模型（IMU、GPS、气压计、磁力计），实现逼真的感知
 
 ### 8.3 空地协同系统 (新颖)
 
@@ -533,28 +546,28 @@ Walkers use UE4's **Recast navigation mesh** for pathfinding:
 
 ### 8.5 多模态数据集生成
 
-SimWorld enables generating datasets with **unprecedented modality coverage**:
+SimWorld 能够生成具有**前所未有的模态覆盖范围**的数据集：
 
-| Modality | Source | Format | Resolution |
+| 模态 | 源 | 格式 | 分辨率 |
 |----------|--------|--------|------------|
-| Ground RGB | CARLA camera | PNG/JPG | Configurable (up to 4K) |
-| Ground Depth | CARLA depth camera | float32 NPY (meters) | Same as RGB |
-| Ground Segmentation | CARLA seg camera | uint8 NPY (20+ classes) | Same as RGB |
-| Ground Instance Seg | CARLA instance camera | RGB (per-instance) | Same as RGB |
-| Ground LiDAR | CARLA ray-cast | float32 NPY (x,y,z,intensity) | 16-128 channels |
-| Ground Radar | CARLA radar | float32 (azimuth, depth, velocity) | Configurable |
-| Ground IMU | CARLA IMU | JSON (accel, gyro, compass) | 100+ Hz |
-| Ground GNSS | CARLA GNSS | JSON (lat, lon, alt) | 10+ Hz |
-| Aerial RGB | AirSim camera | PNG/NPY | 1280×960 (configurable) |
-| Aerial Depth | AirSim depth | float32 NPY (meters) | 1280×960 |
-| Aerial Segmentation | AirSim seg | PNG (label colors) | 1280×960 |
-| Aerial IMU | AirSim IMU | JSON (with noise) | 333 Hz |
-| Aerial GPS | AirSim GPS | JSON (with convergence) | Configurable |
-| Aerial Barometer | AirSim barometer | JSON (altitude, pressure) | Configurable |
-| Ego Vehicle Pose | CARLA transform | JSON (x,y,z,pitch,yaw,roll) | Per frame |
-| Drone Pose | AirSim kinematics | JSON (NED position, quaternion) | Per frame |
+| 地面 RGB | Carla 相机 | PNG/JPG | 可配置（最高可达 4K） |
+| 地面深度 | CARLA depth camera | float32 NPY (米) | 与 RGB 相同 |
+| 地面分隔 | CARLA seg camera | uint8 NPY (20 多个类) | 与 RGB 相同 |
+| 地面实例分割 | CARLA instance camera | RGB (每个实例) | 与 RGB 相同 |
+| 地面激光雷达 | CARLA ray-cast | float32 NPY (x,y,z,强度) | 16-128 个通道 |
+| 地面雷达 | CARLA radar | float32 (方位角、深度、速度) | 可配置 |
+| 地面 IMU | CARLA IMU | JSON (加速度计、陀螺仪、指南针) | 100+ Hz |
+| 地面 GNSS | CARLA GNSS | JSON (纬度、经度、海拔) | 10+ Hz |
+| 空中 RGB | AirSim camera | PNG/NPY | 1280×960 (可配置) |
+| 空中深度 | AirSim depth | float32 NPY (米) | 1280×960 |
+| 空中分隔 | AirSim seg | PNG (标签颜色) | 1280×960 |
+| 空中 IMU | AirSim IMU | JSON (带噪音) | 333 Hz |
+| 空中 GPS | AirSim GPS | JSON (with convergence) | 可配置 |
+| 空中气压计 | AirSim barometer | JSON (海拔高度，气压) | 可配置 |
+| 自车姿态 | CARLA transform | JSON (x,y,z,俯仰,偏航,横滚) | 每帧 |
+| 无人机姿态 | AirSim kinematics | JSON (NED 位置, 四元素) | 每帧 |
 
-All modalities are **synchronized to the same simulation frame** and share the same world state. The off-screen rendering mode (`-RenderOffScreen`) enables headless operation on GPU servers for large-scale data production.
+所有模态均**同步到同一仿真帧**并共享同一世界状态。离屏渲染模式（`-RenderOffScreen`）支持在 GPU 服务器上进行无头操作，以进行大规模数据处理。
 
 ---
 
@@ -642,34 +655,39 @@ ${UE4_ROOT}/Engine/Build/BatchFiles/Linux/Build.sh CarlaUE4Editor Linux Developm
 # 编译: ~800s (656 units), Cook: ~2h (13459 packages)
 ```
 
-### 11.3 Distribution
+### 11.3 发布
 
-Packaged build: **7.3 GB** compressed (excluding debug symbols), containing:
-- Shipping binary for Linux x86_64
-- 13 cooked maps + AirSim assets
-- 17 example Python scripts
-- CARLA PythonAPI source
-- AirSim configuration template
+打包后的版本：**7.3 GB**（压缩后，不含调试符号），包含：
+
+- 适用于 Linux x86_64 的二进制文件
+
+- 13 张已烘焙好的地图 + AirSim 资产
+
+- 17 个 Python 脚本示例
+
+- Carla PythonAPI 源代码
+
+- AirSim 配置模板
 
 ---
 
-## 12. Comparison with Related Work
+## 12. 与相关工作的比较
 
-| Feature | CARLA | AirSim | LGSVL | ISAAC Sim | **SimWorld** |
+| 特性 | Carla | AirSim | LGSVL | ISAAC Sim | **SimWorld** |
 |---------|-------|--------|-------|-----------|-------------|
-| Ground vehicles | ✅ 41 types | ✅ Limited | ✅ | ✅ | ✅ 41 types |
-| Pedestrians | ✅ 52 types | ❌ | ✅ | ✅ | ✅ 52 types |
-| Drones (physics-based) | ❌ | ✅ | ❌ | ❌ | ✅ |
-| Traffic Manager | ✅ | ❌ | ✅ | ❌ | ✅ |
-| OpenDRIVE road network | ✅ | ❌ | ✅ | ❌ | ✅ |
-| Weather system | ✅ 15 params | ✅ Basic | ✅ | ✅ | ✅ 15 params |
-| Ground sensors (10+) | ✅ | ❌ | ✅ | ✅ | ✅ |
-| Aerial sensors (6+) | ❌ | ✅ | ❌ | ❌ | ✅ |
-| Sensor noise models | Basic | ✅ Detailed | Basic | ✅ | ✅ Detailed |
-| ROS integration | ✅ | ✅ | ✅ | ✅ | ✅ Dual bridges |
-| Air-ground joint sim | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Single-process rendering | N/A | N/A | N/A | N/A | ✅ |
-| Open source | ✅ MIT | ✅ MIT | ❌ Discontinued | ❌ Proprietary | ✅ |
+| 地面车辆 | ✅ 41 类 | ✅ Limited | ✅ | ✅ | ✅ 41 类 |
+| 行人 | ✅ 52 类 | ❌ | ✅ | ✅ | ✅ 52 类 |
+| 无人机 (基于物理) | ❌ | ✅ | ❌ | ❌ | ✅ |
+| 交通管理器 | ✅ | ❌ | ✅ | ❌ | ✅ |
+| OpenDRIVE 路网 | ✅ | ❌ | ✅ | ❌ | ✅ |
+| 天气系统 | ✅ 15 个参数 | ✅ 静态 | ✅ | ✅ | ✅ 15 个参数 |
+| 地面传感器 (10+) | ✅ | ❌ | ✅ | ✅ | ✅ |
+| 空中传感器 (6+) | ❌ | ✅ | ❌ | ❌ | ✅ |
+| 传感器噪声模型 | 基本 | ✅ 详细 | 基本 | ✅ | ✅ 详细 |
+| ROS 整合 | ✅ | ✅ | ✅ | ✅ | ✅ 双桥 |
+| 空地联合仿真 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| 单进程渲染 | N/A | N/A | N/A | N/A | ✅ |
+| 开源 | ✅ MIT | ✅ MIT | ❌ 停止使用 | ❌ 专利 | ✅ |
 
 **主要区别**：SimWorld 是唯一一个在单一渲染过程中提供基于物理的无人机飞行、全面的地面交通管理以及多模态同步空地传感器数据的平台。
 
