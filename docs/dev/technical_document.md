@@ -20,20 +20,20 @@
 
 然而，这两个主流的开源模拟器服务于不同的领域：
 
-- **CARLA** (英特尔实验室，巴塞罗那自治大学CVC): 高保真自动驾驶模拟器，包含车辆、行人、交通管理、10多种传感器类型和 OpenDRIVE 道路网络——但**不支持原生无人机**。 
+- **Carla** (英特尔实验室，巴塞罗那自治大学CVC): 高保真自动驾驶模拟器，包含车辆、行人、交通管理、10多种传感器类型和 OpenDRIVE 道路网络——但**不支持原生无人机**。 
 - **AirSim** (微软): 无人机和汽车模拟，具备基于物理的飞行动力学、空中传感器和多种飞行控制器后端——但**不包含交通管理、行人AI或城市道路网络**。
 
 将它们作为**单独的进程**运行，并进行进程间同步是不切实际的：没有共享的物理引擎，没有共享的渲染引擎，没有坐标系对齐，而且由于复制了 UE4 渲染管线，会造成严重的性能开销。
 
 ### 1.2 解决方案
 
-该解决方案将 CARLA 0.9.16 和 AirSim 1.8.1 整合到**一个虚幻引擎进程**中，使得两个 Python API（`carla.Client` 位于 2000 端口，`airsim.MultirotorClient` 位于 41451 端口）能够同时在同一个模拟世界中运行。该系统**无需对面向用户的 Python API 进行任何修改**——现有的 CARLA 和 AirSim 脚本无需修改即可正常工作。
+该解决方案将 Carla 0.9.16 和 AirSim 1.8.1 整合到**一个虚幻引擎进程**中，使得两个 Python API（`carla.Client` 位于 2000 端口，`airsim.MultirotorClient` 位于 41451 端口）能够同时在同一个模拟世界中运行。该系统**无需对面向用户的 Python API 进行任何修改**——现有的 Carla 和 AirSim 脚本无需修改即可正常工作。
 
 ### 1.3 主要贡献
 
 1. **统一游戏模式(GameMode)架构**: 一种新颖的单继承+组合模式（`ASimWorldGameMode`），解决了UE4每个世界只能有一个游戏模式的基本限制。
-2. **双 API 服务器共存**: 两个独立的 RPC 服务器（CARLA rpclib + AirSim rpclib）在同一进程内运行于不同的端口。
-3. **观察者棋子(Spectator Pawn)解耦**: 一种在满足 CARLA 旁观者要求的同时保留 AirSim 棋子占有模型的技术
+2. **双 API 服务器共存**: 两个独立的 RPC 服务器（Carla rpclib + AirSim rpclib）在同一进程内运行于不同的端口。
+3. **观察者棋子(Spectator Pawn)解耦**: 一种在满足 Carla 观察者要求的同时保留 AirSim 棋子占有模型的技术
 4. **全面的空地联动功能**: 超过 220 个 actor 蓝图、超过 16 种传感器类型、14 种天气预设、13 张地图以及基于物理的无人机飞行——所有这些都可同时访问。
 5. **离屏数据集生成**: 结合地面和空中视角的无头多模态数据采集
 
@@ -45,7 +45,7 @@
 
 虚幻引擎 4 强制执行一项严格的架构限制：**每个世界（关卡）只能有一个游戏模式**。游戏模式控制着基本的模拟生命周期——玩家生成、游戏规则、比赛状态和初始化顺序。
 
-- CARLA 使用 `ACarlaGameModeBase` 作为其游戏模式，该模式初始化了Episode 系统、天气系统、交通灯管理器、Actor 工厂、记录器和 RPC 服务器。
+- Carla 使用 `ACarlaGameModeBase` 作为其游戏模式，该模式初始化了Episode 系统、天气系统、交通灯管理器、Actor 工厂、记录器和 RPC 服务器。
 - AirSim 使用 `AAirSimGameMode` 作为其游戏模式，该模式会初始化 SimHUD、读取 settings.json 文件并生成 SimMode 参与者。
 
 
@@ -56,7 +56,7 @@
 
 该解决方案利用了这两个系统之间的架构不对称性：
 
-- CARLA 的子系统（Episode、天气、交通管理器、Actor 工厂）通过继承和友元(`friend`)声明与 `ACarlaGameModeBase` **紧密耦合**。
+- Carla 的子系统（Episode、天气、交通管理器、Actor 工厂）通过继承和友元(`friend`)声明与 `ACarlaGameModeBase` **紧密耦合**。
 - AirSim 的模拟逻辑位于 `ASimModeBase` 中，它继承自 `AActor`（而非 `AGameModeBase`），因此可以作为常规世界 Actor 生成。
 
 这里使用统一的 `ASimWorldGameMode` 类：
@@ -66,7 +66,7 @@
                             |
                     AGameModeBase (UE4)
                             |
-                    ACarlaGameModeBase          ← 通过继承的 CARLA 子系统
+                    ACarlaGameModeBase          ← 通过继承的 Carla 子系统
                             |
                     ASimWorldGameMode           ← 占用游戏模式(GameMode)插槽
                             |
@@ -85,7 +85,7 @@
 ```
 
 !!! 关键思想
-    通过让 `ASimWorldGameMode` **继承**自 `ACarlaGameModeBase`，可以让所有 CARLA 子系统都经历标准的 UE4 生命周期（`InitGame` → `BeginPlay` → `Tick`）。在 CARLA 初始化完成后，AirSim 的 `ASimModeBase` 会在 `BeginPlay` 期间作为**普通 Actor 生成**到游戏世界中。这样就避免了任何插槽冲突，因为 `ASimModeBase` 不会与 GameMode 插槽竞争。
+    通过让 `ASimWorldGameMode` **继承**自 `ACarlaGameModeBase`，可以让所有 Carla 子系统都经历标准的 UE4 生命周期（`InitGame` → `BeginPlay` → `Tick`）。在 Carla 初始化完成后，AirSim 的 `ASimModeBase` 会在 `BeginPlay` 期间作为**普通 Actor 生成**到游戏世界中。这样就避免了任何插槽冲突，因为 `ASimModeBase` 不会与 GameMode 插槽竞争。
 
 ### 2.3 类层次结构
 
@@ -93,7 +93,7 @@
 // 统一游戏模式 GameMode（在 AirSim 插件模块中，依赖于 Carla 模块）
 UCLASS()
 class AIRSIM_API ASimWorldGameMode : public ACarlaGameModeBase {
-    // CARLA: 继承了 Episode, 天气Weather, 记录器Recorder, ActorFactories, 交通 Traffic
+    // Carla: 继承了 Episode, 天气Weather, 记录器Recorder, ActorFactories, 交通 Traffic
     // AirSim: 包含 SimMode, HUD 空间, 输入绑定
 private:
     UPROPERTY() ASimModeBase* SimMode_;        // AirSim 仿真 (生成参与者)
@@ -122,7 +122,7 @@ UE4 引擎开始
 │   ├── 使用 Episode 生成并注册所有 ActorFactories
 │   ├── 解析 OpenDRIVE 路网 (.xodr)
 │   ├── 根据道路拓扑结构生成生成点
-│   └── 初始化 CarlaGameInstance → FCarlaEngine → 开始 CARLA RPC (port 2000)
+│   └── 初始化 CarlaGameInstance → FCarlaEngine → 开始 Carla RPC (port 2000)
 │
 ├── ASimWorldGameMode::BeginPlay()
 │   ├── 阶段 1: ACarlaGameModeBase::BeginPlay()
@@ -387,8 +387,11 @@ $$
 地面锁定功能可防止飞机在着陆面上发生微小弹跳。
 
 **飞控**:
+
 - **SimpleFlight** (默认): 内置 PID 控制器，用于位置、速度和姿态控制。运行于AirLib库内，无外部依赖。
+
 - **PX4** (可选): 通过 MAVLink 与 PX4 自动驾驶仪实现软件在环集成
+
 - **ArduPilot** (可选): SITL集成
 
 ### 5.3 坐标系
@@ -410,7 +413,7 @@ $$
 
 ### 6.1 交通管理器
 
-CARLA 的流量管理器是一个运行在专用线程上的**客户端管线架构**：
+Carla 的流量管理器是一个运行在专用线程上的**客户端管线架构**：
 
 | 阶段 | 功能 |
 |-------|----------|
@@ -551,20 +554,20 @@ SimWorld 能够生成具有**前所未有的模态覆盖范围**的数据集：
 | 模态 | 源 | 格式 | 分辨率 |
 |----------|--------|--------|------------|
 | 地面 RGB | Carla 相机 | PNG/JPG | 可配置（最高可达 4K） |
-| 地面深度 | CARLA depth camera | float32 NPY (米) | 与 RGB 相同 |
-| 地面分隔 | CARLA seg camera | uint8 NPY (20 多个类) | 与 RGB 相同 |
-| 地面实例分割 | CARLA instance camera | RGB (每个实例) | 与 RGB 相同 |
-| 地面激光雷达 | CARLA ray-cast | float32 NPY (x,y,z,强度) | 16-128 个通道 |
-| 地面雷达 | CARLA radar | float32 (方位角、深度、速度) | 可配置 |
-| 地面 IMU | CARLA IMU | JSON (加速度计、陀螺仪、指南针) | 100+ Hz |
-| 地面 GNSS | CARLA GNSS | JSON (纬度、经度、海拔) | 10+ Hz |
+| 地面深度 | Carla 深度相机 | float32 NPY (米) | 与 RGB 相同 |
+| 地面分隔 | Carla 分割相机 | uint8 NPY (20 多个类) | 与 RGB 相同 |
+| 地面实例分割 | Carla 实例分割相机 | RGB (每个实例) | 与 RGB 相同 |
+| 地面激光雷达 | Carla ray-cast | float32 NPY (x,y,z,强度) | 16-128 个通道 |
+| 地面雷达 | Carla radar | float32 (方位角、深度、速度) | 可配置 |
+| 地面 IMU | Carla IMU | JSON (加速度计、陀螺仪、指南针) | 100+ Hz |
+| 地面 GNSS | Carla GNSS | JSON (纬度、经度、海拔) | 10+ Hz |
 | 空中 RGB | AirSim camera | PNG/NPY | 1280×960 (可配置) |
 | 空中深度 | AirSim depth | float32 NPY (米) | 1280×960 |
 | 空中分隔 | AirSim seg | PNG (标签颜色) | 1280×960 |
 | 空中 IMU | AirSim IMU | JSON (带噪音) | 333 Hz |
 | 空中 GPS | AirSim GPS | JSON (with convergence) | 可配置 |
 | 空中气压计 | AirSim barometer | JSON (海拔高度，气压) | 可配置 |
-| 自车姿态 | CARLA transform | JSON (x,y,z,俯仰,偏航,横滚) | 每帧 |
+| 自车姿态 | Carla transform | JSON (x,y,z,俯仰,偏航,横滚) | 每帧 |
 | 无人机姿态 | AirSim kinematics | JSON (NED 位置, 四元素) | 每帧 |
 
 所有模态均**同步到同一仿真帧**并共享同一世界状态。离屏渲染模式（`-RenderOffScreen`）支持在 GPU 服务器上进行无头操作，以进行大规模数据处理。
@@ -575,7 +578,7 @@ SimWorld 能够生成具有**前所未有的模态覆盖范围**的数据集：
 
 SimWorld 支持双 ROS2 桥接器，用于与机器人技术栈集成：
 
-### 9.1 CARLA ROS 桥
+### 9.1 Carla ROS 桥
 
 - 工作空间: `carla-ros-bridge` (ROS2 Humble)
 - 已发布的主题：`/carla/world_info`, `/carla/status`, `/clock`, 每个车的传感器主体
@@ -622,13 +625,13 @@ SimWorld 支持双 ROS2 桥接器，用于与机器人技术栈集成：
 |------|----------|--------|--------|--------|
 | 持续生成/销毁 + 无人机 | 3 小时 | 357 个 | 0 | 通过 |
 | 地图切换 (Town01→03→05) | ~15 min | 3 地图 | 0 | 通过 |
-| 包含 89 项的综合 API 测试 | ~5 分钟 | 89 项 | 0 | PASS |
+| 包含 89 项的综合 API 测试 | ~5 分钟 | 89 项 | 0 | 通过 |
 
 ### 10.4 已知局限性
 
 | 局限 | 原因 | 变通方案 |
 |-----------|-------|-----------|
-| 配备无人机时自动驾驶车辆 ≤ 10 辆 | AirSim 物理 ↔ CARLA 交通管理器四元数冲突 | 限制流量或禁用自动驾驶 |
+| 配备无人机时自动驾驶车辆 ≤ 10 辆 | AirSim 物理 ↔ Carla 交通管理器四元数冲突 | 限制流量或禁用自动驾驶 |
 | 地图切换延迟：2-5分钟 | Shipping 构建中的完全资产重新加载 | 使用 API 设置超时时间为 300 秒 |
 | 单无人机实例 | AirSim settings.json 限制 | 可配置用于多无人机 |
 
@@ -714,7 +717,7 @@ ${UE4_ROOT}/Engine/Build/BatchFiles/Linux/Build.sh CarlaUE4Editor Linux Developm
 
 ### 在顶级场合发表的类似作品
 
-- **CARLA**: "CARLA: An Open Urban Driving Simulator" (CoRL 2017)
+- **Carla**: "CARLA: An Open Urban Driving Simulator" (CoRL 2017)
 - **AirSim**: "AirSim: High-Fidelity Visual and Physical Simulation for Autonomous Vehicles" (FSR 2017)
 - **Habitat**: "Habitat: A Platform for Embodied AI Research" (ICCV 2019)
 - **ISAAC Sim**: "Isaac Sim: An Extensible Robotics Simulator" (ICRA 2022)
@@ -731,14 +734,14 @@ SimWorld 填补了驾驶模拟器和航空模拟器之间的空白，在自动�
 | 文件 | 描述 |
 |------|-------------|
 | `Plugins/AirSim/Source/SimWorldGameMode.h/.cpp` | 统一的游戏模式 (432 行) |
-| `Plugins/Carla/Source/Carla/Game/CarlaGameModeBase.h/.cpp` | CARLA base GameMode |
+| `Plugins/Carla/Source/Carla/Game/CarlaGameModeBase.h/.cpp` | Carla 基础游戏模式 GameMode |
 | `Plugins/Carla/Source/Carla/Game/CarlaEpisode.h/.cpp` | Episode 管理器 |
 | `Plugins/AirSim/Source/SimMode/SimModeBase.h/.cpp` | AirSim 仿真模式 |
 | `Plugins/AirSim/Source/AirSim.Build.cs` | 构建配置（Carla 依赖） |
 | `Config/DefaultEngine.ini` | 游戏模式注册 |
 | `Config/DefaultGame.ini` | 打包配置 |
 
-### CARLA 传感器文件
+### Carla 传感器文件
 
 | 文件 | 传感器 |
 |------|--------|
@@ -767,7 +770,7 @@ SimWorld 填补了驾驶模拟器和航空模拟器之间的空白，在自动�
 
 ## 附录 B：Python API 快速参考
 
-### CARLA API (端口 2000)
+### Carla API (端口 2000)
 ```python
 import carla
 client = carla.Client('localhost', 2000)
