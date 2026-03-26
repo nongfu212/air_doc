@@ -59,7 +59,7 @@ class AIRSIM_API ASimWorldGameMode : public ACarlaGameModeBase
 **路径**: `Unreal/CarlaUE4/Plugins/Carla/Source/Carla/Game/CarlaGameModeBase.h`
 **修改量**: 2 处，约 4 行
 
-**修改前** (在 `private:` 区域):
+**修改前** (在 `private:` 区域，注意，也在 public 里!):
 ```cpp
 private:
     UPROPERTY(EditAnywhere)
@@ -84,17 +84,18 @@ protected:
 ### 4. [修改] CarlaEpisode.h
 
 **路径**: `Unreal/CarlaUE4/Plugins/Carla/Source/Carla/Game/CarlaEpisode.h`
-**修改量**: 1 处，1 行
+**修改量**: 1 处，2 行
 
 **添加位置**: 类声明内部，约第 338 行
 
 ```cpp
+friend class ASimModeBase;
 friend class ASimWorldGameMode;
 ```
 
 **影响**: 允许 SimWorldGameMode 直接访问 Episode 的私有成员（主要是 `Spectator` 和 `ActorDispatcher`），用于注册手动创建的 SpectatorPawn。
 
-### 5. [修改] SimModeBase.cpp
+### 5. [修改] SimModeBase.cpp (位于 AirSim 插件中)
 
 **路径**: `Unreal/CarlaUE4/Plugins/AirSim/Source/SimMode/SimModeBase.cpp`
 **修改量**: 1 处，约 6 行
@@ -118,6 +119,9 @@ global_ned_transform_.reset(new NedTransform(player_start_transform,
 ```
 
 **影响**: 车辆不再穿过地面（z≈0.00 正常行驶），AirSim 无人机坐标系不受影响（NedTransform 仍然使用 PlayerStart 作为原点）。
+
+!!! 注意
+    请勿在此处调用 `SetNewWorldOrigin()`。在 CarlaAir（Carla + AirSim 集成）中，移动世界原点会破坏 Carla 的地形/道路碰撞检测，导致所有地面车辆穿过地图（约 30 米深）。`NedTransform` 方法使用原始的 `player_start_transform` 进行初始化，这样无需移动世界即可正确用作 AirSim 坐标转换的 NED 原点。
 
 ### 6. [修改] DefaultGame.ini
 
