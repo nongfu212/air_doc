@@ -1,14 +1,14 @@
 ## 统一空地仿真
 
-该模块是一个开源的空地联合仿真平台。它通过在底层 C++ 将全球领先的自动驾驶仿真器（CARLA）与机器人仿真器（AirSim）合并为单一的 `ASimWorldGameMode`，实现了真正的帧级传感器同步、统一的物理引擎，以及无缝的双 Python API 交互。
+该模块是一个开源的空地联合仿真平台。它通过在底层 C++ 将全球领先的自动驾驶仿真器（Carla）与机器人仿真器（AirSim）合并为单一的 `ASimWorldGameMode`，实现了真正的帧级传感器同步、统一的物理引擎，以及无缝的双 Python API 交互。
 
 ![](../images/dev/CarlaAir.gif)
 
 
 ## ✨ 核心亮点
 
-- 🚀 **单进程深度集成**：拒绝跨进程通信桥接（Bridge），无延迟损耗。CARLA 与 AirSim 共享同一个 UE4 世界、天气系统与物理引擎。
-- 🎯 **绝对坐标对齐**：彻底解决 CARLA（左手系）与 AirSim（NED）之间的坐标转换问题，误差精确控制在 `0.0000m`。
+- 🚀 **单进程深度集成**：拒绝跨进程通信桥接（Bridge），无延迟损耗。Carla 与 AirSim 共享同一个 UE4 世界、天气系统与物理引擎。
+- 🎯 **绝对坐标对齐**：彻底解决 Carla（左手系）与 AirSim（NED）之间的坐标转换问题，误差精确控制在 `0.0000m`。
 - 🚁 **内置 FPS 无人机控制**：无需编写任何代码，在仿真窗口内直接使用 `WASD` + 鼠标 即可像玩 FPS 游戏一样丝滑驾驶无人机。
 - 🚦 **开箱即用的城市交通**：启动器默认自动生成 30 辆背景车辆与 50 个行人，立即构建逼真城市场景。
 - 📸 **18路同步传感器**：支持在地面车辆和空中无人机上同时挂载 RGB、激光雷达、深度图、语义分割、IMU 和 GNSS，数据严格对齐。
@@ -129,9 +129,11 @@ python3 examples/recording/demo_director.py \    # 🎬 多轨迹回放 + 自由
 
 - [carla-air v0.1 Release 测试报告](./v0.1_release_test_report.md)
 
-- [CARLA + AirSim 集成开发进度记录](./dev_progress_log.md)
+- [Carla + AirSim 集成开发进度记录](./dev_progress_log.md)
 
-- [CARLA + AirSim 测试教程](./test_tutorial.md)
+- [Carla + AirSim 测试教程](./test_tutorial.md)
+
+- [录制 CarlaAir 演示视频的完整工具集](./recording.md)
 
 - [常见问题](FAQ.md)
 
@@ -141,12 +143,12 @@ python3 examples/recording/demo_director.py \    # 🎬 多轨迹回放 + 自由
 
 该项目是站在巨人的肩膀上。我们诚挚感谢以下开源项目的开发者：
 
-- [CARLA Simulator](https://github.com/carla-simulator/carla) (MIT License)
+- [Carla Simulator](https://github.com/carla-simulator/carla) (MIT License)
 
 - [Microsoft AirSim](https://github.com/microsoft/AirSim) (MIT License)
 
 - [Unreal Engine](https://www.unrealengine.com/)
 
 
-CARLA 相关的资产遵循 CC-BY 许可证。
+Carla 相关的资产遵循 CC-BY 许可证。
 其他相关资产（包括湖南工商大学大学场景、长沙中电软件园场景）和代码基于 **MIT 许可证** 开源。

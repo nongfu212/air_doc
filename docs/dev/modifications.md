@@ -1,6 +1,6 @@
 # CarlaAir 所有修改清单
 
-本文档列出了 CarlaAir 相对于原版 CARLA 0.9.16 和 AirSim 的所有代码修改，方便开发者精确了解改动范围。
+本文档列出了 CarlaAir 相对于原版 Carla 0.9.16 和 AirSim 的所有代码修改，方便开发者精确了解改动范围。
 
 ## 修改统计
 
@@ -13,7 +13,7 @@
 
 ## 详细修改
 
-### 1. [新建] SimWorldGameMode.h
+### 1. [新建] SimWorldGameMode.h  (位于 AirSim 插件中)
 
 **路径**: `Unreal/CarlaUE4/Plugins/AirSim/Source/SimWorldGameMode.h`
 **行数**: 75 行
@@ -34,7 +34,7 @@ class AIRSIM_API ASimWorldGameMode : public ACarlaGameModeBase
 - `ASimModeBase* SimMode_` — AirSim 模拟模式 Actor
 - `APIPCamera* SubwindowCameras_[3]` — 子窗口相机
 
-### 2. [新建] SimWorldGameMode.cpp
+### 2. [新建] SimWorldGameMode.cpp  (位于 AirSim 插件中)
 
 **路径**: `Unreal/CarlaUE4/Plugins/AirSim/Source/SimWorldGameMode.cpp`
 **行数**: 548 行
@@ -44,9 +44,9 @@ class AIRSIM_API ASimWorldGameMode : public ACarlaGameModeBase
 | 函数 | 行号 | 功能 |
 |------|------|------|
 | 构造函数 | 66-123 | DefaultPawnClass=nullptr, 加载BP_Weather, 注册8个Factory |
-| BeginPlay | 127-186 | CARLA初始化 → 创建SpectatorPawn → AirSim引导 |
-| Tick | 190-198 | CARLA Recorder + AirSim Widget更新 |
-| EndPlay | 202-224 | 停止API → 销毁Widget/SimMode → CARLA清理 |
+| BeginPlay | 127-186 | Carla 初始化 → 创建SpectatorPawn → AirSim引导 |
+| Tick | 190-198 | Carla Recorder + AirSim Widget更新 |
+| EndPlay | 202-224 | 停止API → 销毁Widget/SimMode → Carla 清理 |
 | InitializeAirSimSettings | 228-244 | 读取settings.json |
 | SetUnrealEngineSettings | 246-259 | 关闭MotionBlur, 启用CustomDepth |
 | CreateSimMode | 263-286 | 根据SimMode类型SpawnActor |
@@ -146,9 +146,9 @@ global_ned_transform_.reset(new NedTransform(player_start_transform,
 
 ## 未修改的关键文件（供参考）
 
-以下文件是原版 CARLA/AirSim 的，未做修改但对理解系统重要：
+以下文件是原版 Carla/AirSim 的，未做修改但对理解系统重要：
 
-- `CarlaGameModeBase.cpp` — CARLA GameMode 实现
+- `CarlaGameModeBase.cpp` — Carla GameMode 实现
 - `CarlaEpisode.cpp` — Episode 管理
 - `SimModeWorldMultiRotor.cpp` — 多旋翼飞行器模式
 - `SimpleFlight/SimpleFlightApi.cpp` — 简单飞行控制器
