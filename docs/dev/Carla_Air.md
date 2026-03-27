@@ -115,6 +115,8 @@ python3 examples/recording/demo_director.py \    # 🎬 多轨迹回放 + 自由
 
 **完整文档：**
 
+- [技术文档](technical_document.md)
+
 - [快速入门指南](quick_start.md)
 
 - [技术架构详解](architecture.md)
@@ -123,11 +125,13 @@ python3 examples/recording/demo_director.py \    # 🎬 多轨迹回放 + 自由
 
 - [上游代码修改清单](modifications.md)
 
-- [技术文档](technical_document.md)
+- [CarlaAir 安装与运行指南](./install.md)
 
-- [坐标系换算 (CARLA↔AirSim)](CarlaAir_Release/guide/COORDINATE_SYSTEMS.md) 
+- [carla-air v0.1 Release 测试报告](./v0.1_release_test_report.md)
 
-- [快速入门指南](CarlaAir_Release/guide/Quick-Start.md)
+- [CARLA + AirSim 集成开发进度记录](./dev_progress_log.md)
+
+- [CARLA + AirSim 测试教程](./test_tutorial.md)
 
 - [常见问题](FAQ.md)
 
