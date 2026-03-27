@@ -1,4 +1,4 @@
-## 统一空地仿真
+## 空地一体仿真
 
 该模块是一个开源的空地联合仿真平台。它通过在底层 C++ 将全球领先的自动驾驶仿真器（Carla）与机器人仿真器（AirSim）合并为单一的 `ASimWorldGameMode`，实现了真正的帧级传感器同步、统一的物理引擎，以及无缝的双 Python API 交互。
 
@@ -13,6 +13,8 @@
 - 🚦 **开箱即用的城市交通**：启动器默认自动生成 30 辆背景车辆与 50 个行人，立即构建逼真城市场景。
 - 📸 **18路同步传感器**：支持在地面车辆和空中无人机上同时挂载 RGB、激光雷达、深度图、语义分割、IMU 和 GNSS，数据严格对齐。
 - 🐍 **双 API 无缝协作**：在同一个 Python 脚本中，同时调用 `carla.Client`（端口 2000）和 `airsim.MultirotorClient`（端口 41451）。
+
+
 
 ---
 
@@ -123,19 +125,23 @@ python3 examples/recording/demo_director.py \    # 🎬 多轨迹回放 + 自由
 
 - [坐标系换算](coordinate_systems.md)
 
+- [录制 CarlaAir 演示视频的完整工具集](./recording.md)
+
+- [常见问题](FAQ.md)
+
+**开发**
+
 - [上游代码修改清单](modifications.md)
 
 - [CarlaAir 安装与运行指南](./install.md)
-
-- [carla-air v0.1 Release 测试报告](./v0.1_release_test_report.md)
 
 - [Carla + AirSim 集成开发进度记录](./dev_progress_log.md)
 
 - [Carla + AirSim 测试教程](./test_tutorial.md)
 
-- [录制 CarlaAir 演示视频的完整工具集](./recording.md)
+- [carla-air v0.1 Release 测试报告](./v0.1_release_test_report.md)
 
-- [常见问题](FAQ.md)
+- [v0.1.7 发布信息](./release_note.md)
 
 ---
 
