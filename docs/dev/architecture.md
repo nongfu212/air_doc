@@ -8,7 +8,7 @@
 │  ┌───────────────────────────────────────────────────────────┐  │
 │  │              ASimWorldGameMode (核心)                      │  │
 │  │  ┌─────────────────────┐  ┌────────────────────────────┐  │  │
-│  │  │  CARLA 子系统        │  │  AirSim 子系统              │  │  │
+│  │  │  Carla 子系统        │  │  AirSim 子系统              │  │  │
 │  │  │  (继承自父类)        │  │  (BeginPlay 中引导)         │  │  │
 │  │  │                     │  │                            │  │  │
 │  │  │  ■ CarlaEpisode     │  │  ■ ASimModeBase (Actor)    │  │  │
@@ -31,7 +31,7 @@
          │                              │
          ▼                              ▼
   ┌──────────────┐              ┌──────────────┐
-  │  CARLA Python │              │ AirSim Python │
+  │  Carla Python │              │ AirSim Python │
   │  Client API   │              │ Client API    │
   │  (port 2000)  │              │ (port 41451)  │
   └──────────────┘              └──────────────┘
@@ -40,50 +40,50 @@
 ## 初始化序列
 
 ```
-UE4 Engine Start
+UE4 引擎开始
   │
-  ├── 1. ASimWorldGameMode::Constructor()
-  │     ├── Super() → ACarlaGameModeBase 初始化 Episode, Recorder, Delegates
-  │     ├── DefaultPawnClass = nullptr
-  │     ├── 加载 BP_Weather → WeatherClass
-  │     ├── 注册 8 个 ActorFactory
-  │     ├── 初始化 AirSim 日志
-  │     └── 加载 AirSim HUD Widget 蓝图
+  ├── 1. ASimWorldGameMode 构造函数
+  │     ├── Super() → 父类 ACarlaGameModeBase 初始化轮次, 记录器, 标签代理(Delegates)
+  │     ├── 将默认棋子类(DefaultPawnClass)设置为空(nullptr)，防止虚幻引擎自动生成棋子（会打断无人机控制）
+  │     ├── 使用天气蓝图(BP_Weather)构建天气类(WeatherClass)
+  │     ├── 注册 8 个动作者工厂(ActorFactory)
+  │     ├── 初始化 AirSim 记录器
+  │     └── 加载 AirSim 头显小工具蓝图
   │
   ├── 2. ASimWorldGameMode::BeginPlay()
   │     ├── Super::BeginPlay()
-  │     │     ├── CARLA Episode 初始化
-  │     │     ├── Weather Actor 生成
-  │     │     ├── ActorFactory 实例化
-  │     │     ├── Traffic Manager 启动
-  │     │     └── CARLA RPC Server 启动 (port 2000)
+  │     │     ├── Carla 轮次(Episode)初始化
+  │     │     ├── 天气(Weather)动作者生成
+  │     │     ├── 动作者工厂(ActorFactory)实例化
+  │     │     ├── 交通管理器启动
+  │     │     └── Carla RPC 服务器启动 (port 2000)
   │     │
-  │     ├── 创建 SpectatorPawn（不 possess）
-  │     │     └── 注册到 Episode（可通过 CARLA API 移动 Spectator）
+  │     ├── 创建观察者棋子(SpectatorPawn, 不持有）
+  │     │     └── 注册到 Carla 轮次中的观察者（可通过 Carla API 移动观察者）
   │     │
   │     ├── AirSim 引导
-  │     │     ├── InitializeAirSimSettings() — 读取 settings.json
-  │     │     ├── SetUnrealEngineSettings() — 关闭 MotionBlur, 启用 CustomDepth
+  │     │     ├── InitializeAirSimSettings() — 读取 settings.json （地图由 Carla 加载，会忽略 AirSim 中的关卡名设置）
+  │     │     ├── SetUnrealEngineSettings() — 关闭运动模糊(MotionBlur), 启用自定义景深(CustomDepth)
   │     │     ├── CreateSimMode() — SpawnActor<ASimModeWorldMultiRotor>
   │     │     │     └── SimModeBase::BeginPlay()
   │     │     │           ├── 获取 PlayerStart Transform
-  │     │     │           ├── 初始化 NedTransform（不移动世界原点!）
+  │     │     │           ├── 初始化北东地变换 NedTransform（不移动世界原点!）
   │     │     │           ├── 创建 WorldSimApi
-  │     │     │           └── 创建无人机 Pawn
-  │     │     ├── CreateAirSimWidget() — HUD Widget 添加到 Viewport
+  │     │     │           └── 创建无人机棋子
+  │     │     ├── CreateAirSimWidget() — 头显小工具添加到视窗（比如传感器数据显示）
   │     │     ├── SetupAirSimInputBindings() — R/T/1/2/3/0 键绑定
   │     │     └── SimMode->startApiServer() — AirSim RPC Server 启动 (port 41451)
   │     │
   │     └── 完成！两个 API 服务器同时运行
   │
   ├── 3. Tick Loop (每帧)
-  │     ├── Super::Tick() — CARLA Recorder tick
+  │     ├── Super::Tick() — Carla Recorder tick
   │     └── AirSim Debug Report Widget 更新
   │
   └── 4. EndPlay()
         ├── SimMode->stopApiServer()
         ├── 销毁 Widget, SimMode
-        └── Super::EndPlay() — CARLA 清理
+        └── Super::EndPlay() — Carla 清理
 ```
 
 ## 关键数据流
@@ -91,7 +91,7 @@ UE4 Engine Start
 ### 车辆生成流程
 ```
 Python: world.spawn_actor(vehicle_bp, transform)
-  → CARLA RPC Server
+  → Carla RPC Server
     → CarlaEpisode::SpawnActor()
       → ActorDispatcher → VehicleFactory
         → UE4 World SpawnActor()
@@ -110,7 +110,7 @@ Python: client.moveToPositionAsync(x, y, z, speed)
 
 ### 传感器数据流
 ```
-CARLA 传感器:
+Carla 传感器:
   Camera/Lidar/Radar → SensorManager → Raw Data → RPC → Python numpy array
 
 AirSim 传感器:
@@ -182,7 +182,7 @@ global_ned_transform_.reset(new NedTransform(player_start_transform,
   X=-115             │                     X=110
 
   NED 原点在 PlayerStart (x≈0)
-  城市中心在 NED (80, 0, -30) = CARLA (80, 0, 30m高)
+  城市中心在 NED (80, 0, -30) = Carla (80, 0, 30m高)
 ```
 
 ## 已知限制和约束

@@ -143,6 +143,8 @@ python3 examples/recording/demo_director.py \    # 🎬 多轨迹回放 + 自由
 
 - [v0.1.7 发布信息](./release_note.md)
 
+- [编译问题记录](./build_faq.md)
+
 ---
 
 ## 📜 许可证与致谢

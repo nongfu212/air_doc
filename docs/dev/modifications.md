@@ -51,7 +51,7 @@ class AIRSIM_API ASimWorldGameMode : public ACarlaGameModeBase
 | SetUnrealEngineSettings | 246-259 | 关闭MotionBlur, 启用CustomDepth |
 | CreateSimMode | 263-286 | 根据SimMode类型SpawnActor |
 | CreateAirSimWidget | 290-327 | 创建并初始化HUD Widget |
-| SetupAirSimInputBindings | 362-375 | 绑定 R/;/F1/T/1/2/3/0 键 |
+| SetupAirSimInputBindings | 362-375 | 绑定 R/T/;/F1/1/2/3/0 键（F1表示弹出帮助信息，F10表示进行参数设置，0表示显示全部三个传感器数据，冒号表示显示物理、动力学、旋转等实时数据） |
 | GetSettingsText | 497-503 | 搜索settings.json (4个位置) |
 
 ### 3. [修改] CarlaGameModeBase.h
