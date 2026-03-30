@@ -64,6 +64,35 @@ Air 中的汽车
 
 ## 如何使用
 
+### 快捷键效果 <span id="shortcut"></span>
+
+按 F10 查看各种可用的天气效果选项。您还可以使用 [APIs](apis#weather-apis) 控制天气。按 F1 查看其他可用选项。
+
+![record screenshot](images/weather_menu.png)
+
+| 键                                                                                                                                                                      | 动作                               | 
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------| 
+| <font color="#f8805a">`F1`</font>                                                                                                                                       | 弹出帮助信息                               | 
+| <font color="#f8805a">`F10`</font>                                                                                                                                       | 参数设置                               | 
+| <font color="#f8805a">`F`</font>                                                                                                                                       | 切换到第一人称视角（FPV）                               | 
+| <font color="#f8805a">`B`</font>                                                                                                                                       | 切换到"跟随"视角                               | 
+| <font color="#f8805a">`\`</font>                                                                                                                                       | 切换到地面观察者视角（俯视）                               | 
+| <font color="#f8805a">`/`</font>                                                                                                                                       | 切换到“弹簧臂跟随”模式（相对于“跟随”视角更平）                               | 
+| <font color="#f8805a">`F3`</font>                                                                                                                                       | 按下F1时切换线框模式                               | 
+| <font color="#f8805a">`M`</font>                                                                                                                                       | 切换到手动相机控制                               | 
+| <font color="#f8805a">`Page Up/Down`</font>                                                                                                                                       | 向上/向下移动                               | 
+| <font color="#f8805a">`W, S`</font>                                                                                                                                       | 俯仰控制                               | 
+| <font color="#f8805a">`A, D`</font>                                                                                                                                       | 偏航控制                               | 
+| <font color="#f8805a">`R`</font>                                                                                                                                       | 切换记录                               | 
+| <font color="#f8805a">`;`</font>                                                                                                                                       | 切换调试报告（物理、动力学、旋转等实时数据）                               | 
+| <font color="#f8805a">`0`</font>                                                                                                                                       | 切换所有子窗口                               | 
+| <font color="#f8805a">`1`</font>                                                                                                                                       | 切换深度子窗口                               | 
+| <font color="#f8805a">`2`</font>                                                                                                                                       | 切换分割子窗口                               | 
+| <font color="#f8805a">`3`</font>                                                                                                                                       | 切换场景子窗口                               | 
+| <font color="#f8805a">`T`</font>                                                                                                                                       | 切换轨迹线                               | 
+| <font color="#f8805a">`Backspace`</font>                                                                                                                                       | 重置一切                               | 
+| <font color="#f8805a">`方向键 [汽车模式]`</font>                                                                                                                                       | 驾驶汽车                               | 
+
 ### 手动控制
 
 如果您拥有如下所示的遥控器 (Remote Control, RC)，则可以在模拟器中手动控制无人机。对于汽车，您可以使用箭头键手动驾驶。
@@ -101,11 +130,7 @@ AirSim 的另一种使用方式是所谓的“计算机视觉”模式。在此�
 
 [更多详细信息](image_apis.md)
 
-### 天气效果
 
-按 F10 查看各种可用的天气效果选项。您还可以使用 [APIs](apis#weather-apis) 控制天气。按 F1 查看其他可用选项。
-
-![record screenshot](images/weather_menu.png)
 
 ## 教程
 
@@ -180,7 +205,7 @@ AirSim 的另一种使用方式是所谓的“计算机视觉”模式。在此�
 
 ## 行为守则
 
-本项目已采用 [微软开源行为准则](https://opensource.microsoft.com/codeofconduct/) 。更多信息请参阅行为准则常见问题解答，或联系 [OpenHUTB@qq.com](mailto:OpenHUTB@qq.com) 提出其他问题或意见。
+本项目已采用 [微软开源行为准则](https://opensource.microsoft.com/codeofconduct/) 。更多信息请参阅行为准则常见问题解答，或联系 [open@hutb.edu.cn](mailto:open@hutb.edu.cn) 提出其他问题或意见。
 
 
 
