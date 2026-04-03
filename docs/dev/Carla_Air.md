@@ -7,12 +7,23 @@
 ![](../images/dev/CarlaAir.gif)
 
 
-## ✨ 核心亮点
+## 📌 目录
+
+- [✨ 核心亮点](#highlights)
+- [🏆 平台对比](#platform_comparison) — 15 款仿真器横向对比
+- [🎮 快速开始](#quick_start) — 4 步上手
+- [🐍 一个脚本，两个世界](#one_script) — 双 API 代码示例
+- [🔬 研究方向与工作流](#research_directions) — W1–W5 验证工作流
+- [⌨️ 飞行控制说明](#flight_controls)
+- [📚 文档与教程](#documentation) — 8 个渐进式教程
+- [📜 许可证与致谢](#license)
+
+## ✨ 核心亮点 <span id="highlights"></span>
 
 | | |
 |---|---|
 | 🏗️ **单进程组合式集成** | `CARLAAirGameMode` 继承 Carla 并组合 AirSim。仅修改上游 2 个文件（约 35 行）。无桥接，无延迟。 |
-| 🎯 **绝对坐标对齐** | Carla（左手系）与 AirSim（NED）坐标系之间精确 `0.0000 m` 误差。 |
+| 🎯 **绝对坐标对齐** | Carla（左手系）与 AirSim（北东地，NED）坐标系之间精确 `0.0000 m` 误差。 |
 | 📸 **多达 18 种传感器模态** | RGB、深度图、语义分割、实例分割、LiDAR、雷达、表面法线、IMU、GNSS、气压计 -- 空地传感器逐帧对齐。 |
 | 🔄 **零修改代码迁移** | 现有 Carla 和 AirSim Python 脚本及 ROS 2 节点可直接在 Carla-Air 上运行，无需任何代码改动。89/89 Carla API 测试全部通过。 |
 | ⚡ **联合负载约 20 FPS** | 中等联合配置（车辆 + 无人机 + 8 个传感器）稳定运行在 19.8 +/- 1.1 FPS。通信开销 < 0.5 ms（对比桥接联合仿真的 1--5 ms）。 |
@@ -26,7 +37,7 @@
 
 ---
 
-## 🏆 平台对比
+## 🏆 平台对比 <span id="platform_comparison"></span>
 
 CARLA-Air 与 14 个现有仿真平台的全面对比（基于[技术报告](https://arxiv.org/abs/2603.28032)表 1）。
 
@@ -142,7 +153,7 @@ CARLA-Air 与 14 个现有仿真平台的全面对比（基于[技术报告](htt
 
 ---
 
-## 🎮 快速开始
+## 🎮 快速开始 <span id="quick_start"></span>
 
 ### 选项 A：使用预编译版本（推荐）
 
@@ -172,7 +183,7 @@ python3 examples/quick_start_showcase.py
 
 ---
 
-## 🐍 一个脚本，两个世界
+## 🐍 一个脚本，两个世界 <span id="one_script"></span>
 
 两套 API 共享**同一个仿真世界** — 无桥接、无同步烦恼。
 
@@ -220,7 +231,7 @@ python3 examples/recording/demo_director.py \    # 🎬 多轨迹回放 + 自由
 
 ---
 
-## 🔬 研究方向与工作流
+## 🔬 研究方向与工作流 <span id="research_directions"></span>
 
 CARLA-Air 旨在支持空地一体具身智能的四大研究方向：
 
@@ -276,7 +287,7 @@ CARLA-Air 旨在支持空地一体具身智能的四大研究方向：
 
 ---
 
-## ⌨️ 飞行控制说明
+## ⌨️ 飞行控制说明 <span id="flight_controls"></span>
 
 仿真器运行时，点击窗口内部捕获鼠标：
 
@@ -294,7 +305,7 @@ CARLA-Air 旨在支持空地一体具身智能的四大研究方向：
 
 ---
 
-## 📚 文档与教程
+## 📚 文档与教程 <span id="documentation"></span>
 
 我们提供了 **6 个精选 Python 示例**，展示核心空地协同能力：
 
@@ -352,7 +363,7 @@ CARLA-Air 旨在支持空地一体具身智能的四大研究方向：
 
 ---
 
-## 📜 许可证与致谢
+## 📜 许可证与致谢  <span id="license"></span>
 
 该项目是站在巨人的肩膀上。我们诚挚感谢以下开源项目的开发者：
 
