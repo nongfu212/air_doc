@@ -5,6 +5,7 @@
 
 
 - [__飞行器__](#air)
+    - [定制开发](#custom)
     - [感知](#perception)
     - [规划](#planning)
     - [强化学习](#rl)
@@ -19,7 +20,6 @@
     - [地图](#map)
     - [比赛](#contest)
     - [研究](#research)
-    - [模拟器定制](#custom)
 - [__人__](#humanoid)
 - [__车__](#car)
 - [__机器人__](#robot)
@@ -27,6 +27,46 @@
 
 
 ## 飞行器 <span id="air"></span>
+
+### 模拟器定制  <span id="custom"></span>
+
+[进行了二次开发，打造了一款可以同时控制飞机和汽车模型的多人游戏](https://github.com/9woods123/Airsim_keyboard_control_car)
+
+[时空变化风支持所做的更改](https://github.com/CoRAL-OSU/AirSim_NRI)
+
+[Colosseum，AirSim的继任者](https://github.com/akhil22/Colosseum)
+
+[增加了一个宏，用于实现不同的sleep策略](https://github.com/Midas75/AirSim) - 以或多或少的计时精确性为代价，改进AirSim在多机（>20 in i7-12700）仿真下的性能表现。
+
+[张家界地图](https://github.com/microsoft/AirSim-Drone-Racing-Lab-Source/commit/4a03fd554534a946a27c4dd7c3067b8515f4fb70) 、[为所有地图添加F10](https://github.com/microsoft/AirSim-Drone-Racing-Lab-Source/commit/c8847d41871590b69636d9c371172f94096f3e78) 等
+
+[添加雷达传感器](https://github.com/Hak-Y/AirSim_Sensor/commits/main/)
+
+[添加/更新了集中式 linting 工作流程](https://github.com/spearuav/ninox-custom-airsim)
+
+[修改 AirSim 的分支以与定制的 Unity 模拟器配合使用](https://github.com/muellerlab/AIFS_AirSim_Release) - 可作为 AIFS 农用飞行模拟器的子模块使用
+
+[用于农业环境飞行的AIFS模拟器](https://github.com/muellerlab/agri-fly) - 基于HiPeRLab、Helios和AirSim的代码，旨在帮助测试在包含高保真农业特征的模拟环境中不同的自主飞行策略（基于Unity）
+
+[ROS2 humble 和 Ubuntu 22.04 兼容](https://github.com/Jois-Shreyank/AirSim-Execo)
+
+[classicvalues](https://github.com/microsoft/AirSim/compare/main...classicvalues:AirSim:master)
+
+[airsim_first](https://github.com/majrblais/airsim_first)
+
+[压缩图片](https://github.com/microsoft/AirSim/commit/e5f3a80c54efdd7a599e4486b22063394c9530e3)
+
+[Ubuntu-20.04 上的 Airsim](https://github.com/Syug0/airsim/commits/main/) - 势场、自己的场景
+
+[AirSim_PPO](https://github.com/qwertyBBeers/AirSim_PPO/commits/master/)
+
+[AirSimDevVerison](https://github.com/yigitserce/AirSimDevVerison/) - clang-12 error fixed
+
+[当 ClockSpeed 设置改变时，模拟速度也会随之改变](https://github.com/GimpelZhang/AirSim)
+
+[万向节跟踪器添加需要修复 pid 控制](https://github.com/AlexanderRex/airsim_ros2)
+
+[视觉逼真的水下机器人模拟器 UNav-Sim](https://github.com/open-airlab/UNav-Sim) - 基于虚幻5
 
 
 ### 感知 <span id="perception"></span>
@@ -397,46 +437,8 @@
 
 [资源感知分布式贪婪算法 (RAG)](https://github.com/UM-iRaL/Resource-Aware-Coordination-AirSim) - 一种用于机器人网状网络中分布式子模优化的高效通信和计算方法
 
+[OpenFly](https://github.com/SHAILAB-IPEC/OpenFly-Platform) - 提供高度自动化的数据采集工具链和大规模基准数据集，推进户外空中视觉语言导航（VLN）领域的研究。该平台包含10万条多样化的飞行轨迹、采用尖端渲染技术生成的高质量视觉数据，以及关键帧感知型VLN模型OpenFly-Agent
 
-### 模拟器定制  <span id="custom"></span>
-
-[进行了二次开发，打造了一款可以同时控制飞机和汽车模型的多人游戏](https://github.com/9woods123/Airsim_keyboard_control_car)
-
-[时空变化风支持所做的更改](https://github.com/CoRAL-OSU/AirSim_NRI)
-
-[Colosseum，AirSim的继任者](https://github.com/akhil22/Colosseum)
-
-[增加了一个宏，用于实现不同的sleep策略](https://github.com/Midas75/AirSim) - 以或多或少的计时精确性为代价，改进AirSim在多机（>20 in i7-12700）仿真下的性能表现。
-
-[张家界地图](https://github.com/microsoft/AirSim-Drone-Racing-Lab-Source/commit/4a03fd554534a946a27c4dd7c3067b8515f4fb70) 、[为所有地图添加F10](https://github.com/microsoft/AirSim-Drone-Racing-Lab-Source/commit/c8847d41871590b69636d9c371172f94096f3e78) 等
-
-[添加雷达传感器](https://github.com/Hak-Y/AirSim_Sensor/commits/main/)
-
-[添加/更新了集中式 linting 工作流程](https://github.com/spearuav/ninox-custom-airsim)
-
-[修改 AirSim 的分支以与定制的 Unity 模拟器配合使用](https://github.com/muellerlab/AIFS_AirSim_Release) - 可作为 AIFS 农用飞行模拟器的子模块使用
-
-[用于农业环境飞行的AIFS模拟器](https://github.com/muellerlab/agri-fly) - 基于HiPeRLab、Helios和AirSim的代码，旨在帮助测试在包含高保真农业特征的模拟环境中不同的自主飞行策略（基于Unity）
-
-[ROS2 humble 和 Ubuntu 22.04 兼容](https://github.com/Jois-Shreyank/AirSim-Execo)
-
-[classicvalues](https://github.com/microsoft/AirSim/compare/main...classicvalues:AirSim:master)
-
-[airsim_first](https://github.com/majrblais/airsim_first)
-
-[压缩图片](https://github.com/microsoft/AirSim/commit/e5f3a80c54efdd7a599e4486b22063394c9530e3)
-
-[Ubuntu-20.04 上的 Airsim](https://github.com/Syug0/airsim/commits/main/) - 势场、自己的场景
-
-[AirSim_PPO](https://github.com/qwertyBBeers/AirSim_PPO/commits/master/)
-
-[AirSimDevVerison](https://github.com/yigitserce/AirSimDevVerison/) - clang-12 error fixed
-
-[当 ClockSpeed 设置改变时，模拟速度也会随之改变](https://github.com/GimpelZhang/AirSim)
-
-[万向节跟踪器添加需要修复 pid 控制](https://github.com/AlexanderRex/airsim_ros2)
-
-[视觉逼真的水下机器人模拟器 UNav-Sim](https://github.com/open-airlab/UNav-Sim) - 基于虚幻5
 
 
 ## 人  <span id="humanoid"></span>
