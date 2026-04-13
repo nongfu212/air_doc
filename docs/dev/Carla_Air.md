@@ -1,7 +1,8 @@
 ## 空地一体仿真
 
 <!-- 更新至：
-https://github.com/louiszengCN/CarlaAir/commit/6f913ae9efc512b8ceff6bbd82f8c004931fc733
+Update README_CN.md
+https://github.com/louiszengCN/CarlaAir/commit/00d93b172ded2b9358347d20e9a02693a4556fee
 -->
 
 该模块是一个开源的空地联合仿真平台。它通过在底层 C++ 将全球领先的自动驾驶仿真器（Carla）与机器人仿真器（AirSim）合并为单一的 `ASimWorldGameMode`，实现了真正的帧级传感器同步、统一的物理引擎，以及无缝的双 Python API 交互。
@@ -346,6 +347,8 @@ CARLA-Air 旨在支持空地一体具身智能的四大研究方向：
 - [常见问题](FAQ.md)
 
 **开发**
+
+- [Windows下的编译](./windows_porting_handoff_CN.md)
 
 - [上游代码修改清单](modifications.md)
 
