@@ -2,6 +2,8 @@
 
 ## 在哪里执行
 
+下载 [网盘](https://pan.baidu.com/s/1n2fJvWff4pbtMe97GOqtvQ?pwd=hutb) 中的 software/air/CarlaAir-v0.1.7-Windows11-x86_64_release.zip 并解压。
+
 要在 **工程根目录** 执行，也就是和这些文件同级的目录：
 
 - `CarlaAir.ps1`
