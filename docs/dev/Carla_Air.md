@@ -350,6 +350,8 @@ CARLA-Air 旨在支持空地一体具身智能的四大研究方向：
 
 - [Windows下的编译](./windows_porting_handoff_CN.md)
 
+- [Windows 下启动打包好的场景](./startup_guide.md)
+
 - [上游代码修改清单](modifications.md)
 
 - [CarlaAir 安装与运行指南](./install.md)
