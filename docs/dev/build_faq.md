@@ -6,7 +6,10 @@
 ```
 There were no compatible vehicles created for current SimMode! Check your settings.json.
 ```
-在编辑器的`运行`下拉菜单中，选择`选中的视口`进行运行。
+
+[原因](https://github.com/microsoft/AirSim/issues/1237#issuecomment-950213919)：选择视口进行仿真(simulate)；
+
+解决：在编辑器的`运行`下拉菜单中，选择`选中的视口（selected viewpoint）`进行运行。
 
 
 
@@ -39,6 +42,8 @@ SUCCESS: The process with PID 32096 has been terminated.
 ```shell
 CarlaUE4.exe --carla-rpc-port=3654 --carla-streaming-port=0 -nosound
 python -m nose2 -v smoke.test_spawnpoints.TestSpawnpoints
+test_spawnpoints.py
+smoke.test_sync.TestSynchronousMode
 ```
 
 单独测试生成点测试报错：

@@ -24,10 +24,13 @@ AirSim 正在按以下顺序搜索设置定义。将使用第一个匹配项：
 5. 在 AirSim 子文件夹中查找名为`settings.json`的文件。在 Windows 系统中，AirSim 子文件夹位于`Documents\AirSim`；在 Linux 系统中，AirSim 子文件夹位于`~/Documents/AirSim`。
 
 
-该文件采用常见的 [json 格式](https://en.wikipedia.org/wiki/JSON)。首次启动时，AirSim 会在用户主文件夹中创建 `settings.json` 文件，该文件不包含任何设置。为避免出现问题，请始终使用 ASCII 格式保存 json 文件。  
+该文件采用常见的 [json 格式](https://en.wikipedia.org/wiki/JSON)。首次启动时，AirSim 会在用户主文件夹中创建 `settings.json` 文件，该文件不包含任何设置。为避免出现问题，请始终使用 ASCII 格式保存 json 文件。
+
+如果在 PIE 中运行模拟弹出选择框，可以通过在 `Documents\AirSim\settings.json` 中直接指定启动模式的方式跳过，在`hutb\Unreal\CarlaUE4\settings.json`中指定无效。
 
 
 ## 如何在汽车和多旋翼飞行器之间进行选择？
+
 默认使用多旋翼飞行器。要使用汽车，只需设置`"SimMode": "Car"`，如下所示： 
 
 ```
@@ -572,3 +575,6 @@ PX4 默认启用 **硬件在环** 设置。PX4 还有其他各种设置及其默
 速度单位标签，默认为 `m/s`。与 SpeedUnitFactor 配合使用。
 
 
+## 参考
+
+* [AirSim配置文件简介](https://zhaoxuhui.top/blog/2021/12/01/airsim-note3-settings.html)

@@ -37,6 +37,26 @@ Air 中的汽车
 
 [![AirSim Car Demo Video](images/car_demo_video.png)](https://youtu.be/gnz1X3UNM5Y)
 
+## 最新动态
+
+* [融合 Carla 与 AirSim](./dev/Carla_Air.md)
+* [模块分析](./module/modules_list.md)
+* [使用AirSim的项目](./third/used_by.md)
+* [中文文档](https://msdocs.cn/AirSim/)
+
+* [电影摄影机](https://github.com/microsoft/AirSim/pull/3949)
+* [ROS2 包装器](https://github.com/microsoft/AirSim/pull/3976)
+* [列出所有资产的 API](https://github.com/microsoft/AirSim/pull/3940)
+* [movetoGPS API](https://github.com/microsoft/AirSim/pull/3746)
+* [光流相机](https://github.com/microsoft/AirSim/pull/3938)
+* [simSetKinematics API](https://github.com/microsoft/AirSim/pull/4066)
+* [从现有的 UE 材质或纹理 PNG 动态设置对象纹理](https://github.com/microsoft/AirSim/pull/3992)
+* [能够生成/销毁灯光并控制灯光参数](https://github.com/microsoft/AirSim/pull/3991)
+* [Unity 支持多架无人机](https://github.com/microsoft/AirSim/pull/3128)
+* [通过键盘控制手动相机速度](https://github.com/microsoft/AirSim/pulls?page=6&q=is%3Apr+is%3Aclosed+sort%3Aupdated-desc#:~:text=1-,Control%20manual%20camera%20speed%20through%20the%20keyboard,-%233221%20by%20saihv) 
+
+如需查看完整的变更列表，请查看我们的 [变更日志](docs/CHANGELOG.md)
+
 
 ## 如何获取
 
@@ -178,26 +198,6 @@ AirSim 的另一种使用方式是所谓的“计算机视觉”模式。在此�
 加入我们的 [GitHub 讨论组](https://github.com/OpenHUTB/air/discussions) 以了解最新动态或提出任何问题。
 
 
-
-## 最新动态
-
-* [融合 Carla 与 AirSim](./dev/Carla_Air.md)
-* [模块分析](./module/modules_list.md)
-* [使用AirSim的项目](./third/used_by.md)
-* [中文文档](https://msdocs.cn/AirSim/)
-
-* [电影摄影机](https://github.com/microsoft/AirSim/pull/3949)
-* [ROS2 包装器](https://github.com/microsoft/AirSim/pull/3976)
-* [列出所有资产的 API](https://github.com/microsoft/AirSim/pull/3940)
-* [movetoGPS API](https://github.com/microsoft/AirSim/pull/3746)
-* [光流相机](https://github.com/microsoft/AirSim/pull/3938)
-* [simSetKinematics API](https://github.com/microsoft/AirSim/pull/4066)
-* [从现有的 UE 材质或纹理 PNG 动态设置对象纹理](https://github.com/microsoft/AirSim/pull/3992)
-* [能够生成/销毁灯光并控制灯光参数](https://github.com/microsoft/AirSim/pull/3991)
-* [Unity 支持多架无人机](https://github.com/microsoft/AirSim/pull/3128)
-* [通过键盘控制手动相机速度](https://github.com/microsoft/AirSim/pulls?page=6&q=is%3Apr+is%3Aclosed+sort%3Aupdated-desc#:~:text=1-,Control%20manual%20camera%20speed%20through%20the%20keyboard,-%233221%20by%20saihv) 
-
-如需查看完整的变更列表，请查看我们的 [变更日志](docs/CHANGELOG.md)
 
 ## 常问问题
 
