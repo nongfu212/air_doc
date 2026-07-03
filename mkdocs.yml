@@ -119,7 +119,7 @@ nav:
       - "MavLink MoCap": 'mavlinkcom_mocap.md'
     - "ArduPilot":
       - "ArduPilot 软件在环设置": "https://ardupilot.org/dev/docs/building-the-code.html"
-      - "AirSim & ArduPilot": "https://ardupilot.org/dev/docs/sitl-with-airsim.html"
+      - "AirSim & ArduPilot": 'ardupilot/sitl_with_airsim.md'
   - "升级":
     - "升级虚幻引擎": 'unreal_upgrade.md'
     - "升级 APIs": 'upgrade_apis.md'
