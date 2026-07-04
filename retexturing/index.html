@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
     
       <script>
         // Current page data
@@ -33,7 +34,7 @@
           <a href=".." class="icon icon-home"> 低空模拟器
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="搜索文档" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -71,7 +72,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../apis_cpp/">C++ APIs</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="../api_docs/html/index.html">API 参考文档</a>
+                  <li class="toctree-l1"><a class="" href="https://openhutb.github.io/doc/python_api/#airsim.client.MultirotorClient">无人机 API 参考文档</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../api_docs/_build/html/">原始 API 参考文档</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../wiki/">Wiki 文档</a>
                   </li>
@@ -189,7 +192,7 @@
     <ul>
                 <li class="toctree-l2"><a class="" href="https://ardupilot.org/dev/docs/building-the-code.html">ArduPilot 软件在环设置</a>
                 </li>
-                <li class="toctree-l2"><a class="" href="https://ardupilot.org/dev/docs/sitl-with-airsim.html">AirSim & ArduPilot</a>
+                <li class="toctree-l2"><a class="reference internal" href="../ardupilot/sitl_with_airsim/">AirSim & ArduPilot</a>
                 </li>
     </ul>
                   </li>
@@ -213,9 +216,9 @@
                   </li>
                   <li class="toctree-l1"><a class="" href="https://aka.ms/AutonomousDrivingCookbook">Azure 上的自动驾驶</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/hexacopter">构造六旋翼飞行器</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../wiki/hexacopter/">构造六旋翼飞行器</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/moveOnPath-demo">移动路径演示</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../wiki/moveOnPath-demo/">移动路径演示</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../point_clouds/">构建点云</a>
                   </li>
@@ -281,6 +284,7 @@
           <li class="breadcrumb-item">使用 AirSim</li>
       <li class="breadcrumb-item active">域随机化</li>
     <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/OpenHUTB/air_doc/edit/master/docs/retexturing.md" class="icon icon-github"> 在 GitHub 上编辑</a>
     </li>
   </ul>
   <hr/>
@@ -288,8 +292,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="_1">运行时纹理交换<a class="headerlink" href="#_1" title="Permanent link">#</a></h1>
-<h2 id="_2">如何让参与者可重新纹理化<a class="headerlink" href="#_2" title="Permanent link">#</a></h2>
+                <h1 id="_1">运行时纹理交换</h1>
+<h2 id="_2">如何让参与者可重新纹理化</h2>
 <p>要实现纹理可交换，Actor 必须从父类 TextureShuffleActor 派生。
 父类可以通过 Actor 蓝图中的“设置”选项卡进行设置。</p>
 <p><img alt="Parent Class" src="../images/tex_shuffle_actor.png" /></p>
@@ -300,7 +304,7 @@
 <p>在蓝图类中静态设置动态材质可能会导致渲染错误。在蓝图类中的所有 Actor 实例上设置该属性似乎效果更好。</p>
 </div>
 <p><img alt="TextureSwappableMaterial" src="../images/tex_swap_material.png" /></p>
-<h2 id="_3">如何定义可供选择的纹理集<a class="headerlink" href="#_3" title="Permanent link">#</a></h2>
+<h2 id="_3">如何定义可供选择的纹理集</h2>
 <p>通常，某些参与者子集会彼此共享一组纹理选项。（例如，属于同一建筑物的墙壁）</p>
 <p>使用虚幻引擎的群组编辑功能可以轻松设置这些分组。
 选择所有应具有相同纹理选择的实例，然后通过“详细信息”面板同时将纹理添加到所有实例。
@@ -308,7 +312,7 @@
 <p><img alt="Group Editing" src="../images/tex_swap_group_editing.png" /></p>
 <p>理想的做法是从较大的分组到较小的分组，只需取消选择参与者即可缩小分组范围，最后应用任何单个参与者的属性。</p>
 <p><img alt="Subset Editing" src="../images/tex_swap_subset.png" /></p>
-<h2 id="api">如何通过 API 交换纹理<a class="headerlink" href="#api" title="Permanent link">#</a></h2>
+<h2 id="api">如何通过 API 交换纹理</h2>
 <p>以下 API 适用于 C++ 和 Python。（此处显示 C++）</p>
 <div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span><span class="w"> </span><span class="n">simSwapTextures</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span><span class="w"> </span><span class="n">tags</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">tex_id</span><span class="p">);</span>
 </code></pre></div>
@@ -343,15 +347,15 @@ tex_id 为分配给每个进行交换的参与者的纹理数组提供索引。
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../gazebo_drone/" class="btn btn-neutral float-left" title="导入 Gazebo 模型"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../meshes/" class="btn btn-neutral float-right" title="网格顶点缓冲区">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../gazebo_drone/" class="btn btn-neutral float-left" title="导入 Gazebo 模型"><span class="icon icon-circle-arrow-left"></span> 前一页</a>
+        <a href="../meshes/" class="btn btn-neutral float-right" title="网格顶点缓冲区">后一页 <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
     <!-- Copyright etc -->
-      <p>OpenHUTB 版权所有 &copy; 2025</p>
+      <p>OpenHUTB 版权所有 &copy; 2026</p>
   </div>
 
 </footer>
@@ -366,11 +370,15 @@ tex_id 为分配给每个进行交换的参与者的纹理数组提供索引。
   <div class="rst-versions" role="note" aria-label="Versions">
   <span class="rst-current-version" data-toggle="rst-current-version">
     
+        <span>
+          <a href="https://github.com/OpenHUTB/air_doc" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
     
-      <span><a href="../gazebo_drone/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+      <span><a href="../gazebo_drone/" style="color: #fcfcfc">&laquo; 前一页</a></span>
     
     
-      <span><a href="../meshes/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../meshes/" style="color: #fcfcfc">后一页 &raquo;</a></span>
     
   </span>
 </div>
@@ -378,8 +386,13 @@ tex_id 为分配给每个进行交换的参与者的纹理数组提供索引。
     <script>var base_url = "..";</script>
     <script src="../js/theme_extra.js"></script>
     <script src="../js/theme.js"></script>
-      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script>
+      <script src="../js/umlconvert.js"></script>
       <script src="../search/main.js"></script>
     <script>
         jQuery(function () {

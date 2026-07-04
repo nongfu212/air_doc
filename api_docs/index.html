@@ -5,14 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Python API for AirSim - 低空模拟器</title>
+    <title>低空模拟器的 Python API - 低空模拟器</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Python API for AirSim";
+        var mkdocs_page_name = "\u4f4e\u7a7a\u6a21\u62df\u5668\u7684 Python API";
         var mkdocs_page_input_path = "api_docs/README.md";
         var mkdocs_page_url = null;
       </script>
@@ -33,7 +34,7 @@
           <a href=".." class="icon icon-home"> 低空模拟器
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="搜索文档" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -71,7 +72,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../apis_cpp/">C++ APIs</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="html/index.html">API 参考文档</a>
+                  <li class="toctree-l1"><a class="" href="https://openhutb.github.io/doc/python_api/#airsim.client.MultirotorClient">无人机 API 参考文档</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="_build/html/">原始 API 参考文档</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../wiki/">Wiki 文档</a>
                   </li>
@@ -181,7 +184,7 @@
     <ul>
                 <li class="toctree-l2"><a class="" href="https://ardupilot.org/dev/docs/building-the-code.html">ArduPilot 软件在环设置</a>
                 </li>
-                <li class="toctree-l2"><a class="" href="https://ardupilot.org/dev/docs/sitl-with-airsim.html">AirSim & ArduPilot</a>
+                <li class="toctree-l2"><a class="reference internal" href="../ardupilot/sitl_with_airsim/">AirSim & ArduPilot</a>
                 </li>
     </ul>
                   </li>
@@ -205,9 +208,9 @@
                   </li>
                   <li class="toctree-l1"><a class="" href="https://aka.ms/AutonomousDrivingCookbook">Azure 上的自动驾驶</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/hexacopter">构造六旋翼飞行器</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../wiki/hexacopter/">构造六旋翼飞行器</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/moveOnPath-demo">移动路径演示</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../wiki/moveOnPath-demo/">移动路径演示</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../point_clouds/">构建点云</a>
                   </li>
@@ -270,8 +273,9 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Python API for AirSim</li>
+      <li class="breadcrumb-item active">低空模拟器的 Python API</li>
     <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/OpenHUTB/air_doc/edit/master/docs/api_docs/README.md" class="icon icon-github"> 在 GitHub 上编辑</a>
     </li>
   </ul>
   <hr/>
@@ -279,18 +283,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="python-api-for-airsim">Python API for AirSim<a class="headerlink" href="#python-api-for-airsim" title="Permanent link">#</a></h1>
-<p>This package contains Python APIs for <a href="https://github.com/microsoft/airsim">AirSim</a>.</p>
-<h2 id="how-to-use">How to Use<a class="headerlink" href="#how-to-use" title="Permanent link">#</a></h2>
-<p>See examples at <a href="https://github.com/Microsoft/AirSim/blob/main/PythonClient/car/hello_car.py">car/hello_car.py</a> or <a href="https://github.com/microsoft/AirSim/blob/main/PythonClient/multirotor/hello_drone.py">multirotor/hello_drone.py</a>.</p>
-<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">#</a></h2>
-<p>This package depends on <code>msgpack</code> and would automatically install <code>msgpack-rpc-python</code> (this may need administrator/sudo prompt):
+                <h1 id="python-api">低空模拟器的 Python API</h1>
+<p>此软件包包含 <a href="https://github.com/OpenHUTB/air">air</a> 的 Python API。</p>
+<h2 id="_1">使用方式</h2>
+<p>请参阅 <a href="https://github.com/OpenHUTB/air/blob/main/PythonClient/car/hello_car.py">car/hello_car.py</a> 或 <a href="https://github.com/OpenHUTB/air/blob/main/PythonClient/multirotor/hello_drone.py">multirotor/hello_drone.py</a> 中的示例。</p>
+<h2 id="_2">依赖</h2>
+<p>此软件包依赖于序列化包 <code>msgpack</code>，并将自动安装 <code>msgpack-rpc-python</code>（该包是在 MessagePack（二进制序列化格式）之上实现的 RPC（远程过程调用）库。它把函数调用/返回值封装为 MessagePack 编码的消息，通过网络/套接字传输，实现进程间或主机间的远程方法调用。这可能需要管理员权限/sudo 命令提示符）：
 <div class="highlight"><pre><span></span><code>pip install msgpack-rpc-python
 </code></pre></div></p>
-<p>Some examples also requires opencv.</p>
-<h2 id="more-info">More Info<a class="headerlink" href="#more-info" title="Permanent link">#</a></h2>
-<p>More information on AirSim Python APIs can be found at:
-https://github.com/Microsoft/AirSim/blob/main/docs/python.md</p>
+<p>有些示例还需要 OpenCV。</p>
+<h2 id="_3">更多信息</h2>
+<p>有关低空模拟器 Python API 的更多信息，请访问 <a href="https://github.com/OpenHUTB/air_doc/blob/master/docs/apis.md">api.md</a></p>
               
             </div>
           </div><footer>
@@ -299,7 +302,7 @@ https://github.com/Microsoft/AirSim/blob/main/docs/python.md</p>
 
   <div role="contentinfo">
     <!-- Copyright etc -->
-      <p>OpenHUTB 版权所有 &copy; 2025</p>
+      <p>OpenHUTB 版权所有 &copy; 2026</p>
   </div>
 
 </footer>
@@ -314,6 +317,10 @@ https://github.com/Microsoft/AirSim/blob/main/docs/python.md</p>
   <div class="rst-versions" role="note" aria-label="Versions">
   <span class="rst-current-version" data-toggle="rst-current-version">
     
+        <span>
+          <a href="https://github.com/OpenHUTB/air_doc" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
     
     
   </span>
@@ -322,8 +329,13 @@ https://github.com/Microsoft/AirSim/blob/main/docs/python.md</p>
     <script>var base_url = "..";</script>
     <script src="../js/theme_extra.js"></script>
     <script src="../js/theme.js"></script>
-      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script>
+      <script src="../js/umlconvert.js"></script>
       <script src="../search/main.js"></script>
     <script>
         jQuery(function () {

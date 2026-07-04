@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
     
       <script>
         // Current page data
@@ -33,7 +34,7 @@
           <a href=".." class="icon icon-home"> 低空模拟器
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="搜索文档" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -85,7 +86,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../apis_cpp/">C++ APIs</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="../api_docs/html/index.html">API 参考文档</a>
+                  <li class="toctree-l1"><a class="" href="https://openhutb.github.io/doc/python_api/#airsim.client.MultirotorClient">无人机 API 参考文档</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../api_docs/_build/html/">原始 API 参考文档</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../wiki/">Wiki 文档</a>
                   </li>
@@ -195,7 +198,7 @@
     <ul>
                 <li class="toctree-l2"><a class="" href="https://ardupilot.org/dev/docs/building-the-code.html">ArduPilot 软件在环设置</a>
                 </li>
-                <li class="toctree-l2"><a class="" href="https://ardupilot.org/dev/docs/sitl-with-airsim.html">AirSim & ArduPilot</a>
+                <li class="toctree-l2"><a class="reference internal" href="../ardupilot/sitl_with_airsim/">AirSim & ArduPilot</a>
                 </li>
     </ul>
                   </li>
@@ -219,9 +222,9 @@
                   </li>
                   <li class="toctree-l1"><a class="" href="https://aka.ms/AutonomousDrivingCookbook">Azure 上的自动驾驶</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/hexacopter">构造六旋翼飞行器</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../wiki/hexacopter/">构造六旋翼飞行器</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/moveOnPath-demo">移动路径演示</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../wiki/moveOnPath-demo/">移动路径演示</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../point_clouds/">构建点云</a>
                   </li>
@@ -287,6 +290,7 @@
           <li class="breadcrumb-item">构建 AirSim</li>
       <li class="breadcrumb-item active">在 Windows 上构建</li>
     <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/OpenHUTB/air_doc/edit/master/docs/build_windows.md" class="icon icon-github"> 在 GitHub 上编辑</a>
     </li>
   </ul>
   <hr/>
@@ -294,8 +298,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="windows-airsim">在 Windows 上构建 AirSim<a class="headerlink" href="#windows-airsim" title="Permanent link">#</a></h1>
-<h2 id="_1">安装虚幻引擎<a class="headerlink" href="#_1" title="Permanent link">#</a></h2>
+                <h1 id="windows-airsim">在 Windows 上构建 AirSim</h1>
+<h2 id="_1">安装虚幻引擎</h2>
 <ol>
 <li><a href="https://www.unrealengine.com/download">下载</a> Epic Games 启动器。虽然虚幻引擎是开源的，可以免费下载，但仍然需要注册。 </li>
 <li>运行 Epic Games 启动器，在左侧窗格中打开 <code>Unreal Engine</code> 选项卡。点击右上角的<code>Install</code>按钮，此时会显示下载<strong>虚幻引擎 4.27 及以上版本的选项</strong>。选择适合您需求的安装位置，如下图所示。如果您安装了多个版本的虚幻引擎，请确<strong>保您使用的版本已设置为当前版本</strong>，方法是点击相应版本的“启动”按钮旁边的向下箭头。</li>
@@ -303,7 +307,7 @@
 <p><strong>注意</strong>: 如果您有 UE 4.16 或更早版本的项目，请参阅 <a href="../unreal_upgrade/">升级指南</a> 来升级您的项目。</p>
 <p><img alt="Unreal Engine Tab UI Screenshot" src="../images/ue_install.png" /></p>
 <p><img alt="Unreal Engine Install Location UI Screenshot" src="../images/ue_install_location.png" /></p>
-<h2 id="airsim">构建 AirSim<a class="headerlink" href="#airsim" title="Permanent link">#</a></h2>
+<h2 id="airsim">构建 AirSim</h2>
 <ul>
 <li>安装 Visual Studio 2022。<strong>确保</strong>选择使用 <strong>C++ 和 Windows 10 SDK 10.0.19041 进行桌面开发</strong>（默认选择），并在安装 VS 2022 时在“单个组件”选项卡下选择最新的 .NET Framework SDK。 </li>
 <li>启动 <code>Developer Command Prompt for VS 2022</code>.</li>
@@ -320,12 +324,12 @@
 <p class="admonition-title">笔记</p>
 <p>构建过程中会弹出<code>Select Unreal Engine Version</code>，选择 hutb 所对应的虚幻引擎，会为<code>AirSim\Unreal\Environments\Blocks.uproject</code>生成<code>Blocks.sln</code>文件，然后直接跳到下面的“如何使用 AirSim”。</p>
 </div>
-<h2 id="_2">构建虚幻引擎项目<a class="headerlink" href="#_2" title="Permanent link">#</a></h2>
+<h2 id="_2">构建虚幻引擎项目</h2>
 <p>最后，您需要一个虚幻引擎项目来托管您的车辆环境。如果您尚未关闭虚幻引擎和 Epic Games 启动器，请务必在构建您的第一个环境之前将其关闭并重新打开。重新启动 Epic Games 启动器后，它会要求您将项目文件扩展名与虚幻引擎关联，点击“立即修复”即可修复。AirSim 自带内置的“Blocks 环境”，您可以使用它，也可以创建自己的环境。请参阅 <a href="../unreal_proj/">设置虚幻环境</a> 。</p>
-<h2 id="_3">设置遥控器（仅限多旋翼飞行器）<a class="headerlink" href="#_3" title="Permanent link">#</a></h2>
+<h2 id="_3">设置遥控器（仅限多旋翼飞行器）</h2>
 <p>如需手动飞行，则需要遥控器。更多详情，请参阅 <a href="../remote_control/">遥控器设置</a> 。</p>
 <p>或者，您可以使用 <a href="../apis/">APIs</a> 进行编程控制，或者使用所谓的 <a href="../image_apis/">计算机视觉模式</a> 通过键盘移动。</p>
-<h2 id="airsim_1">如何使用 AirSim<a class="headerlink" href="#airsim_1" title="Permanent link">#</a></h2>
+<h2 id="airsim_1">如何使用 AirSim</h2>
 <p>按照上述步骤设置 AirSim 后，您可以</p>
 <ol>
 <li>
@@ -346,7 +350,7 @@
 <p>转到“编辑-&gt;编辑器偏好设置”，在“搜索”框中输入“CPU”，并确保未选中“在后台时使用较少的 CPU”(Use Less CPU when in Background)。</p>
 </div>
 <p>请参阅 <a href="../apis/">使用 API</a>  和 <a href="../settings/">settings.json</a>  了解各种可用选项。</p>
-<h2 id="_4">文档构建<a class="headerlink" href="#_4" title="Permanent link">#</a></h2>
+<h2 id="_4">文档构建</h2>
 <p>安装依赖：
 <div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>sphinx-rtd-theme
 pip<span class="w"> </span>install<span class="w"> </span>msgpack-rpc-python
@@ -361,21 +365,19 @@ make.bat<span class="w"> </span>html
 <p class="admonition-title">注意</p>
 <p>python 3.7 和 3.9 安装 airsim 包时会报错：<code>ModuleNotFoundError: No module named 'numpy'</code>，</p>
 </div>
-<h1 id="unity-airsim">Unity 上的 AirSim (实验性)<a class="headerlink" href="#unity-airsim" title="Permanent link">#</a></h1>
-<p><a href="https://unity3d.com/">Unity</a> 是另一个优秀的游戏引擎平台，我们目前已将 <a href="Unity.md">AirSim 与 Unity</a>  集成，并进行了<strong>实验性</strong>测试。请注意，该集成工作仍在进行中，部分功能可能尚未完全实现。</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../use_precompiled/" class="btn btn-neutral float-left" title="下载二进制文件"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../build_linux/" class="btn btn-neutral float-right" title="在 Linux 上构建">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../use_precompiled/" class="btn btn-neutral float-left" title="下载二进制文件"><span class="icon icon-circle-arrow-left"></span> 前一页</a>
+        <a href="../build_linux/" class="btn btn-neutral float-right" title="在 Linux 上构建">后一页 <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
     <!-- Copyright etc -->
-      <p>OpenHUTB 版权所有 &copy; 2025</p>
+      <p>OpenHUTB 版权所有 &copy; 2026</p>
   </div>
 
 </footer>
@@ -390,11 +392,15 @@ make.bat<span class="w"> </span>html
   <div class="rst-versions" role="note" aria-label="Versions">
   <span class="rst-current-version" data-toggle="rst-current-version">
     
+        <span>
+          <a href="https://github.com/OpenHUTB/air_doc" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
     
-      <span><a href="../use_precompiled/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+      <span><a href="../use_precompiled/" style="color: #fcfcfc">&laquo; 前一页</a></span>
     
     
-      <span><a href="../build_linux/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../build_linux/" style="color: #fcfcfc">后一页 &raquo;</a></span>
     
   </span>
 </div>
@@ -402,8 +408,13 @@ make.bat<span class="w"> </span>html
     <script>var base_url = "..";</script>
     <script src="../js/theme_extra.js"></script>
     <script src="../js/theme.js"></script>
-      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script>
+      <script src="../js/umlconvert.js"></script>
       <script src="../search/main.js"></script>
     <script>
         jQuery(function () {

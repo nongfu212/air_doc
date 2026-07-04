@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
     
       <script>
         // Current page data
@@ -33,7 +34,7 @@
           <a href=".." class="icon icon-home"> 低空模拟器
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="搜索文档" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -71,7 +72,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../apis_cpp/">C++ APIs</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="../api_docs/html/index.html">API 参考文档</a>
+                  <li class="toctree-l1"><a class="" href="https://openhutb.github.io/doc/python_api/#airsim.client.MultirotorClient">无人机 API 参考文档</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../api_docs/_build/html/">原始 API 参考文档</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../wiki/">Wiki 文档</a>
                   </li>
@@ -102,6 +105,8 @@
                 <li class="toctree-l2"><a class="reference internal" href="../distance_sensor/">距离传感器</a>
                 </li>
                 <li class="toctree-l2 current"><a class="reference internal current" href="#">红外相机</a>
+    <ul class="current">
+    </ul>
                 </li>
     </ul>
                   </li>
@@ -181,7 +186,7 @@
     <ul>
                 <li class="toctree-l2"><a class="" href="https://ardupilot.org/dev/docs/building-the-code.html">ArduPilot 软件在环设置</a>
                 </li>
-                <li class="toctree-l2"><a class="" href="https://ardupilot.org/dev/docs/sitl-with-airsim.html">AirSim & ArduPilot</a>
+                <li class="toctree-l2"><a class="reference internal" href="../ardupilot/sitl_with_airsim/">AirSim & ArduPilot</a>
                 </li>
     </ul>
                   </li>
@@ -205,9 +210,9 @@
                   </li>
                   <li class="toctree-l1"><a class="" href="https://aka.ms/AutonomousDrivingCookbook">Azure 上的自动驾驶</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/hexacopter">构造六旋翼飞行器</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../wiki/hexacopter/">构造六旋翼飞行器</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/moveOnPath-demo">移动路径演示</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../wiki/moveOnPath-demo/">移动路径演示</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../point_clouds/">构建点云</a>
                   </li>
@@ -274,6 +279,7 @@
           <li class="breadcrumb-item">传感器</li>
       <li class="breadcrumb-item active">红外相机</li>
     <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/OpenHUTB/air_doc/edit/master/docs/InfraredCamera.md" class="icon icon-github"> 在 GitHub 上编辑</a>
     </li>
   </ul>
   <hr/>
@@ -281,14 +287,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <p>This is a tutorial for generating simulated thermal infrared (IR) images using AirSim and the AirSim Africa environment. </p>
-<p>Pre-compiled Africa Environment can be downloaded from the Releases tab of this Github repo: 
+                <h1 id="_1">热红外图像</h1>
+<p>本教程将介绍如何使用 AirSim 和 AirSim Africa 环境生成模拟热红外 (infrared, IR) 图像。</p>
+<p>预编译的非洲环境可以从此 Github 仓库的“发布”选项卡下载：
 <a href="https://github.com/OpenHUTB/air/releases">Windows 预编译二进制包</a></p>
-<p>To generate your own data, you may use two python files: <a href="https://github.com/Microsoft/AirSim/tree/main/PythonClient//computer_vision/create_ir_segmentation_map.py">create_ir_segmentation_map.py</a> and 
-<a href="https://github.com/Microsoft/AirSim/tree/main/PythonClient//computer_vision/capture_ir_segmentation.py">capture_ir_segmentation.py</a>.</p>
-<p><a href="https://github.com/Microsoft/AirSim/tree/main/PythonClient//computer_vision/create_ir_segmentation_map.py">create_ir_segmentation_map.py</a> uses temperature, emissivity, and camera response information to estimate the thermal digital count that could be expected for the objects in the environment, and then reassigns the segmentation IDs in AirSim to match these digital counts. It should be run before starting to capture thermal IR data. Otherwise, digital counts in the IR images will be incorrect. The camera response, temperature, and emissivity data are all included for the Africa environment.</p>
-<p><a href="https://github.com/Microsoft/AirSim/tree/main/PythonClient//computer_vision/capture_ir_segmentation.py">capture_ir_segmentation.py</a> is run after the segmentation IDs have been reassigned. It tracks objects of interest and records the infrared and scene images from the multirotor. It uses Computer Vision mode.</p>
-<p>Finally, the details about how temperatures were estimated for plants and animals in the Africa environment, etc. can be found in this paper:</p>
+<p>要生成您自己的数据，您可以使用 2 个 python 文件： <a href="https://github.com/OpenHUTB/air/tree/main/PythonClient//computer_vision/create_ir_segmentation_map.py">create_ir_segmentation_map.py</a> 和 
+<a href="https://github.com/OpenHUTB/air/tree/main/PythonClient//computer_vision/capture_ir_segmentation.py">capture_ir_segmentation.py</a>.</p>
+<p><a href="https://github.com/OpenHUTB/air/tree/main/PythonClient//computer_vision/create_ir_segmentation_map.py">create_ir_segmentation_map.py</a> 使用温度、发射率和相机响应信息来估算环境中物体的热数字计数，然后重新分配 AirSim 中的分割 ID 以匹配这些数字计数。它应该在开始采集热红外数据之前运行。否则，红外图像中的数字计数将不正确。相机响应、温度和发射率数据均已包含在内，适用于非洲环境。</p>
+<p><a href="https://github.com/OpenHUTB/air/tree/main/PythonClient//computer_vision/capture_ir_segmentation.py">capture_ir_segmentation.py</a> 在分割 ID 重新分配后运行。它跟踪感兴趣的目标，并记录多旋翼飞行器拍摄的红外图像和场景图像。它使用计算机视觉(Computer Vision)模式。</p>
+<p>最后，关于如何估算非洲环境中动植物温度等细节，请参阅这篇论文：</p>
 <pre><code>@inproceedings{bondi2018airsim,
   title={AirSim-W: A Simulation Environment for Wildlife Conservation with UAVs},
   author={Bondi, Elizabeth and Dey, Debadeepta and Kapoor, Ashish and Piavis, Jim and Shah, Shital and Fang, Fei and Dilkina, Bistra and Hannaford, Robert and Iyer, Arvind and Joppa, Lucas and others},
@@ -298,20 +305,19 @@
   organization={ACM}
 }
 </code></pre>
-<p>nb</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../distance_sensor/" class="btn btn-neutral float-left" title="距离传感器"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../airsim_ros_pkgs/" class="btn btn-neutral float-right" title="ROS: AirSim ROS 包装器">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../distance_sensor/" class="btn btn-neutral float-left" title="距离传感器"><span class="icon icon-circle-arrow-left"></span> 前一页</a>
+        <a href="../airsim_ros_pkgs/" class="btn btn-neutral float-right" title="ROS: AirSim ROS 包装器">后一页 <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
     <!-- Copyright etc -->
-      <p>OpenHUTB 版权所有 &copy; 2025</p>
+      <p>OpenHUTB 版权所有 &copy; 2026</p>
   </div>
 
 </footer>
@@ -326,11 +332,15 @@
   <div class="rst-versions" role="note" aria-label="Versions">
   <span class="rst-current-version" data-toggle="rst-current-version">
     
+        <span>
+          <a href="https://github.com/OpenHUTB/air_doc" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
     
-      <span><a href="../distance_sensor/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+      <span><a href="../distance_sensor/" style="color: #fcfcfc">&laquo; 前一页</a></span>
     
     
-      <span><a href="../airsim_ros_pkgs/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../airsim_ros_pkgs/" style="color: #fcfcfc">后一页 &raquo;</a></span>
     
   </span>
 </div>
@@ -338,8 +348,13 @@
     <script>var base_url = "..";</script>
     <script src="../js/theme_extra.js"></script>
     <script src="../js/theme.js"></script>
-      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script>
+      <script src="../js/umlconvert.js"></script>
       <script src="../search/main.js"></script>
     <script>
         jQuery(function () {

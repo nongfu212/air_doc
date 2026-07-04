@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
     
       <script>
         // Current page data
@@ -33,7 +34,7 @@
           <a href=".." class="icon icon-home"> 低空模拟器
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="搜索文档" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -71,7 +72,9 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../apis_cpp/">C++ APIs</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="../api_docs/html/index.html">API 参考文档</a>
+                  <li class="toctree-l1"><a class="" href="https://openhutb.github.io/doc/python_api/#airsim.client.MultirotorClient">无人机 API 参考文档</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../api_docs/_build/html/">原始 API 参考文档</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../wiki/">Wiki 文档</a>
                   </li>
@@ -197,7 +200,7 @@
     <ul>
                 <li class="toctree-l2"><a class="" href="https://ardupilot.org/dev/docs/building-the-code.html">ArduPilot 软件在环设置</a>
                 </li>
-                <li class="toctree-l2"><a class="" href="https://ardupilot.org/dev/docs/sitl-with-airsim.html">AirSim & ArduPilot</a>
+                <li class="toctree-l2"><a class="reference internal" href="../ardupilot/sitl_with_airsim/">AirSim & ArduPilot</a>
                 </li>
     </ul>
                   </li>
@@ -221,9 +224,9 @@
                   </li>
                   <li class="toctree-l1"><a class="" href="https://aka.ms/AutonomousDrivingCookbook">Azure 上的自动驾驶</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/hexacopter">构造六旋翼飞行器</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../wiki/hexacopter/">构造六旋翼飞行器</a>
                   </li>
-                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/moveOnPath-demo">移动路径演示</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../wiki/moveOnPath-demo/">移动路径演示</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../point_clouds/">构建点云</a>
                   </li>
@@ -290,6 +293,7 @@
           <li class="breadcrumb-item">MavLink 和 PX4</li>
       <li class="breadcrumb-item active">构建 PX4</li>
     <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/OpenHUTB/air_doc/edit/master/docs/px4_build.md" class="icon icon-github"> 在 GitHub 上编辑</a>
     </li>
   </ul>
   <hr/>
@@ -297,8 +301,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="px4">构建 PX4<a class="headerlink" href="#px4" title="Permanent link">#</a></h1>
-<h2 id="_1">源代码<a class="headerlink" href="#_1" title="Permanent link">#</a></h2>
+                <h1 id="px4">构建 PX4</h1>
+<h2 id="_1">源代码</h2>
 <p>Getting the PX4 source code is easy:
 <div class="highlight"><pre><span></span><code>sudo apt-get install git
 git clone https://github.com/PX4/PX4-Autopilot.git --recursive
@@ -306,13 +310,13 @@ bash ./PX4-Autopilot/Tools/setup/ubuntu.sh --no-sim-tools
 cd PX4-Autopilot
 </code></pre></div></p>
 <p>Now to build it you will need the right tools.</p>
-<h2 id="px4_1">PX4 构建工具<a class="headerlink" href="#px4_1" title="Permanent link">#</a></h2>
+<h2 id="px4_1">PX4 构建工具</h2>
 <p>The full instructions are available on the <a href="https://docs.px4.io/master/en/dev_setup/building_px4.html">dev.px4.io</a> website,
 but we've copied the relevant subset of those instructions here for your convenience.</p>
 <p>(Note that <a href="https://msdn.microsoft.com/en-us/commandline/wsl/install_guide">BashOnWindows</a>) can be used to build
 the PX4 firmware, just follow the BashOnWindows instructions at the bottom of this page) then proceed with the 
 Ubuntu setup for PX4.</p>
-<h2 id="sitl">构建 SITL 版本<a class="headerlink" href="#sitl" title="Permanent link">#</a></h2>
+<h2 id="sitl">构建 SITL 版本</h2>
 <p>Now you can make the SITL version that runs in posix, from the Firmware folder you created above:
 <div class="highlight"><pre><span></span><code>make px4_sitl_default none_iris
 </code></pre></div></p>
@@ -360,7 +364,7 @@ INFO  [dataman] Unkown restart, data manager file &#39;rootfs/fs/microsd/dataman
 This app is also an interactive console where you can type commands. Type 'help' to see what they
 are and just type ctrl-C to kill it. You can do that and restart it any time, that's a great way to
 reset any wonky state if you need to (it's equivalent to a Pixhawk hardware reboot).</p>
-<h2 id="arm">ARM 嵌入式工具<a class="headerlink" href="#arm" title="Permanent link">#</a></h2>
+<h2 id="arm">ARM 嵌入式工具</h2>
 <p>If you plan to build the PX4 firmware for real Pixhawk hardware then you will need the gcc
 cross-compiler for ARM Cortex-M4 chipset. You can get this compiler by PX4 DevGuide, specifically
 this is in their <code>ubuntu_sim_nuttx.sh</code> setup script.</p>
@@ -370,7 +374,7 @@ Copyright (C) 2017 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 </code></pre></div>
-<h2 id="arm-px4">为 ARM 硬件构建 PX4<a class="headerlink" href="#arm-px4" title="Permanent link">#</a></h2>
+<h2 id="arm-px4">为 ARM 硬件构建 PX4</h2>
 <p>Now  you  can build the PX4 firmware for running on real pixhawk hardware:</p>
 <div class="highlight"><pre><span></span><code>make px4_fmu-v4
 </code></pre></div>
@@ -379,7 +383,7 @@ all the drivers for the sensors in the Pixhawk flight controller, and more.  It 
 in super size-squeezing mode so it can fit all that in a 1 megabyte ROM !!</p>
 <p>One nice tid bit is you can plug in your pixhawk USB, and type <code>make px4fmu-v2_default upload</code> to flash the
 hardware with these brand new bits, so you don't need to use QGroundControl for that.</p>
-<h2 id="_2">一些有用的参数<a class="headerlink" href="#_2" title="Permanent link">#</a></h2>
+<h2 id="_2">一些有用的参数</h2>
 <p>PX4 has many customizable parameters (over 700 of them, in fact) and to get best results with AirSim we have
 found the following parameters are handy:</p>
 <div class="highlight"><pre><span></span><code>// be sure to enable the new position estimator module:
@@ -399,21 +403,21 @@ param NAV_RCL_ACT 0
 // enable new syslogger to get more information from PX4 logs
 param set SYS_LOGGER 1
 </code></pre></div>
-<h2 id="windows-bash">在 Windows 上使用 Bash<a class="headerlink" href="#windows-bash" title="Permanent link">#</a></h2>
+<h2 id="windows-bash">在 Windows 上使用 Bash</h2>
 <p>See <a href="https://dev.px4.io/en/setup/dev_env_windows_bash_on_win.html">Bash on Windows Toolchain</a>.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../px4_multi_vehicle/" class="btn btn-neutral float-left" title="软件在环中的 PX4 多车辆"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../px4_logging/" class="btn btn-neutral float-right" title="PX4/MavLink 日志记录">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../px4_multi_vehicle/" class="btn btn-neutral float-left" title="软件在环中的 PX4 多车辆"><span class="icon icon-circle-arrow-left"></span> 前一页</a>
+        <a href="../px4_logging/" class="btn btn-neutral float-right" title="PX4/MavLink 日志记录">后一页 <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
     <!-- Copyright etc -->
-      <p>OpenHUTB 版权所有 &copy; 2025</p>
+      <p>OpenHUTB 版权所有 &copy; 2026</p>
   </div>
 
 </footer>
@@ -428,11 +432,15 @@ param set SYS_LOGGER 1
   <div class="rst-versions" role="note" aria-label="Versions">
   <span class="rst-current-version" data-toggle="rst-current-version">
     
+        <span>
+          <a href="https://github.com/OpenHUTB/air_doc" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
     
-      <span><a href="../px4_multi_vehicle/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+      <span><a href="../px4_multi_vehicle/" style="color: #fcfcfc">&laquo; 前一页</a></span>
     
     
-      <span><a href="../px4_logging/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../px4_logging/" style="color: #fcfcfc">后一页 &raquo;</a></span>
     
   </span>
 </div>
@@ -440,8 +448,13 @@ param set SYS_LOGGER 1
     <script>var base_url = "..";</script>
     <script src="../js/theme_extra.js"></script>
     <script src="../js/theme.js"></script>
-      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="https://cdn.rawgit.com/knsv/mermaid/6.0.0/dist/mermaid.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sequence-diagrams/1.0.6/sequence-diagram-min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowchart/1.6.5/flowchart.min.js"></script>
+      <script src="../js/umlconvert.js"></script>
       <script src="../search/main.js"></script>
     <script>
         jQuery(function () {
